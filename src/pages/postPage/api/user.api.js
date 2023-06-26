@@ -1,4 +1,4 @@
-import api from "../../api";
+import api from "../../../api";
 
 export default class userApi {
   // GET All users
@@ -7,7 +7,7 @@ export default class userApi {
   }
 
   //   GET user by Id
-  static async getUserById(userId) {
-    return await api.get(`/users/${userId}`);
+  static async getUserById(id) {
+    return await api.get(`/users/${id}`);
   }
 }

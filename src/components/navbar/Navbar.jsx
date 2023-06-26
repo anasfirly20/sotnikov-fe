@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 // Miscellaneous
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
@@ -6,6 +6,8 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 const Navbar = () => {
   const navigate = useNavigate();
   const [windowY, setWindowY] = useState(0);
+  const lastScrollTop = useRef(0);
+  const [visible, setVisible] = useState(true);
 
   const navItems = [
     {
@@ -50,7 +52,7 @@ const Navbar = () => {
   return (
     <nav
       className={`z-20 sticky top-0 p-shorter4 px-longer bg-custom-dim-gray/10
-     ${windowY > 0 && "bg-custom-blue-1/60 backdrop-blur-sm"}
+     ${windowY > 0 && "bg-custom-blue-1/60 backdrop-blur-sm shadow-md"}
     `}
     >
       <section className="flex justify-between items-center">

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 // Api
-import postApi from "./post.api";
-import userApi from "./user.api";
+import postApi from "./api/post.api";
+import userApi from "./api/user.api";
 
 // Miscellaneous
 import { Icon } from "@iconify/react";
@@ -44,10 +44,9 @@ const PostPage = () => {
             <div className="space-y-3 px-normal md:px-shorter2 lg:px-shorter3">
               <div className="flex text-custom-blue-1 justify-between">
                 <h2>{e?.user?.username}</h2>
-                <Icon
-                  icon="ri:more-line"
-                  fontSize={30}
-                  className="text-black"
+                <input
+                  type="checkbox"
+                  className="accent-custom-cream w-6 rounded-md"
                 />
               </div>
               <h3 className="tracking-wider text-custom-blue-">{e?.title}</h3>
