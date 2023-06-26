@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 // Miscellaneous
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const [windowY, setWindowY] = useState(0);
 
   const navItems = [
     {
@@ -21,8 +22,37 @@ const Navbar = () => {
     },
   ];
 
+  useEffect(() => {
+    function handleWindowResize() {
+      setWindowY(window.scrollY);
+    }
+    window.addEventListener("scroll", handleWindowResize);
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        let { scrollY } = window;
+        if (scrollY > lastScrollTop.current) {
+          setVisible(false);
+        } else if (scrollY < lastScrollTop.current) {
+          setVisible(true);
+        }
+        lastScrollTop.current = scrollY <= 0 ? 0 : scrollY;
+      },
+      { passive: true }
+    );
+
+    return () => {
+      window.removeEventListener("scroll", handleWindowResize);
+    };
+  }, []);
+
   return (
-    <nav className="p-shorter4 px-longer bg-custom-dim-gray/10">
+    <nav
+      className={`z-20 sticky top-0 p-shorter4 px-longer bg-custom-dim-gray/10
+     ${windowY > 0 && "bg-custom-blue-1/60 backdrop-blur-sm"}
+    `}
+    >
       <section className="flex justify-between items-center">
         <h2
           className="text-custom-lavender cursor-pointer"
