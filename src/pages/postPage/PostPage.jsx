@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 // Api
 import postApi from "./api/post.api";
 import userApi from "./api/user.api";
+import commentApi from "./api/comment.api";
 
 // Miscellaneous
 import { Icon } from "@iconify/react";
@@ -13,6 +14,11 @@ import { socialActions } from "./constants";
 const PostPage = () => {
   const [data, setData] = useState([]);
 
+  // Comments
+  const [isCommentActive, setIsCommentActive] = useState(false);
+  const [comments, setComments] = useState([]);
+
+  // GET all posts
   const getAllPosts = async () => {
     try {
       const responsePost = await postApi.getAllPost();
@@ -29,6 +35,16 @@ const PostPage = () => {
     }
   };
 
+  // Get comment by PostId
+  const getCommentByPostId = async (postId) => {
+    try {
+      const res = await commentApi.getCommentByPostId(postId);
+      console.log(">>>>>>", res?.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     getAllPosts();
   }, []);
@@ -36,26 +52,35 @@ const PostPage = () => {
   return (
     <section className="px-longer py-shorter2">
       <div className="grid aspect-square md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {data?.slice(0, 10)?.map((e) => (
+        {data?.slice(0, 10)?.map((dataInfo) => (
           <div
-            key={e?.id}
+            key={dataInfo?.id}
             className="pt-shorter2 lg:pt-shorter3 flex flex-col justify-between gap-y-2 rounded-t-md bg-custom-blue-3 text-custom-black shadow-lg hover:-translate-y-2 animate300"
           >
             <div className="space-y-3 px-normal md:px-shorter2 lg:px-shorter3">
               <div className="flex text-custom-blue-1 justify-between">
-                <h2>{e?.user?.username}</h2>
+                <h2>{dataInfo?.user?.username}</h2>
                 <input
                   type="checkbox"
                   className="accent-custom-cream w-6 rounded-md"
                 />
               </div>
-              <h3 className="tracking-wider text-custom-blue-">{e?.title}</h3>
-              <p className="pSmaller2">{e?.body}</p>
+              <h3 className="tracking-wider text-custom-blue-">
+                {dataInfo?.title}
+              </h3>
+              <p className="pSmaller2">{dataInfo?.body}</p>
             </div>
             <div className="mt-shorter4 px-shorter4 bg-gray-400 flex justify-evenly gap-3 p-3 w-full">
-              {socialActions.map((e, i) => (
-                <button key={i} className="flex gap-1 items-center">
-                  <Icon icon={e.icon} className="pBigger" />
+              {socialActions.map((social, i) => (
+                <button
+                  key={i}
+                  className="flex gap-1 items-center"
+                  onClick={() => {
+                    getCommentByPostId(dataInfo?.id);
+                    setIsCommentActive(!isCommentActive);
+                  }}
+                >
+                  <Icon icon={social.icon} className="pBigger" />
                 </button>
               ))}
             </div>
