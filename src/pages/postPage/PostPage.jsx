@@ -210,8 +210,10 @@ const PostPage = () => {
                                 );
                                 editPost(dataInfo?.id, dataEdit);
                                 setDataEdit(post);
-                                setIsEdit(!isEdit);
+                                setIsEdit(false);
                               }
+                            } else {
+                              setIsEdit(false);
                             }
                           }}
                         />
