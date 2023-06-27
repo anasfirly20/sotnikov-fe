@@ -33,6 +33,7 @@ const PostPage = () => {
   // Comment Button Active
   const [isCommentActive, setIsCommentActive] = useState(false);
   const [comments, setComments] = useState([]);
+
   // Handleclick Comment
   const handleClickComment = (postId) => {
     if (selected === postId) {
@@ -74,6 +75,26 @@ const PostPage = () => {
   useEffect(() => {
     getAllPosts();
   }, []);
+
+  // EDIT POSTS
+  const [isEdit, setIsEdit] = useState(false);
+
+  const editPost = async (id, body) => {
+    try {
+      const res = await editPost(id, body);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleClickEdit = (postId) => {
+    if (selected === postId) {
+      setIsEdit(!isEdit);
+    } else {
+      setSelected(postId);
+      setIsEdit(true);
+    }
+  };
 
   return (
     <section className="px-longer py-shorter2 ">
@@ -126,17 +147,21 @@ const PostPage = () => {
                     </div>
                   )}
                 </div>
-                <div className="flex text-custom-blue-1 justify-between">
-                  <h2>{dataInfo?.title}</h2>
-                </div>
-                <p className="pSmaller">
-                  Made by:{" "}
-                  <span className="text-gray-700 font-semibold pSmaller2">
-                    {capitalizeFirstLetter(dataInfo?.user?.name)}
-                  </span>
-                </p>
+                {selected === dataInfo?.id && isEdit ? (
+                  "ISEDDIT"
+                ) : (
+                  <>
+                    <h2 className="text-custom-blue-1">{dataInfo?.title}</h2>
+                    <p className="pSmaller">
+                      Made by:{" "}
+                      <span className="text-gray-700 font-semibold pSmaller2">
+                        {capitalizeFirstLetter(dataInfo?.user?.name)}
+                      </span>
+                    </p>
+                    <p className="pSmaller">{dataInfo?.body}</p>
+                  </>
+                )}
               </div>
-              <p className="pSmaller">{dataInfo?.body}</p>
             </div>
             <div className="">
               <div className="mt-shorter4 px-shorter4 bg-gray-400 flex justify-evenly gap-3 p-3 border border-gray-500">
@@ -147,6 +172,7 @@ const PostPage = () => {
                     onClick={() => {
                       social.name === "Comment" &&
                         handleClickComment(dataInfo?.id);
+                      social.name === "Edit" && handleClickEdit(dataInfo?.id);
                     }}
                   >
                     <Icon icon={social.icon} className="pBigger" />

@@ -7,7 +7,12 @@ export default class postApi {
   }
 
   // GET post by Id
-  static async getPostById(Id) {
-    return await api.get(`/posts/${Id}`);
+  static async getPostById(id) {
+    return await api.get(`/posts/${id}`);
+  }
+
+  // Edit Post by Id
+  static async EditPostById(id, body) {
+    return await api.put(`posts/${(id, body)}`);
   }
 }
