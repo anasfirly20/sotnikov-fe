@@ -9,7 +9,7 @@ import commentApi from "./api/comment.api";
 import { Icon } from "@iconify/react";
 
 // Constants
-import { socialActions } from "./constants";
+import { commentEditIcons, delFavIcons } from "./constants";
 
 // Utils
 import { capitalizeFirstLetter, getPostAmount } from "../../../utils";
@@ -103,17 +103,29 @@ const PostPage = () => {
           >
             <div className="space-y-3 px-normal md:px-shorter2 lg:px-shorter3 col-">
               <div className="flex flex-col gap-2">
-                <input
-                  type="checkbox"
-                  checked={isChecked[i]}
-                  className="accent-custom-cream w-5 h-5 rounded-md"
-                  onChange={(e) => {
-                    setIsChecked({
-                      ...isChecked,
-                      [i]: e.target.checked,
-                    });
-                  }}
-                />
+                <div className="flex justify-between">
+                  <input
+                    type="checkbox"
+                    checked={isChecked[i]}
+                    className="accent-custom-cream w-5 h-5 rounded-md"
+                    onChange={(e) => {
+                      setIsChecked({
+                        ...isChecked,
+                        [i]: e.target.checked,
+                      });
+                    }}
+                  />
+                  {isChecked[i] && (
+                    <div className="flex gap-3">
+                      {delFavIcons.map((e) => (
+                        <button key={i} className="flex gap-1 items-center">
+                          {" "}
+                          <Icon icon={e.icon} className="pBigger" />
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
                 <div className="flex text-custom-blue-1 justify-between">
                   <h2>{dataInfo?.title}</h2>
                 </div>
@@ -128,7 +140,7 @@ const PostPage = () => {
             </div>
             <div className="">
               <div className="mt-shorter4 px-shorter4 bg-gray-400 flex justify-evenly gap-3 p-3 border border-gray-500">
-                {socialActions.map((social, i) => (
+                {commentEditIcons.map((social, i) => (
                   <button
                     key={i}
                     className="flex gap-1 items-center"

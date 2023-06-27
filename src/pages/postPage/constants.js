@@ -1,4 +1,4 @@
-export const socialActions = [
+export const commentEditIcons = [
   {
     name: "Comment",
     icon: "majesticons:comment",
@@ -7,6 +7,9 @@ export const socialActions = [
     name: "Edit",
     icon: "bxs:edit",
   },
+];
+
+export const delFavIcons = [
   {
     name: "Delete",
     icon: "material-symbols:delete",
