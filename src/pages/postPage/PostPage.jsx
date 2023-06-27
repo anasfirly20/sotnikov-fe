@@ -17,7 +17,11 @@ import {
 } from "./constants";
 
 // Utils
-import { capitalizeFirstLetter, getPostAmount } from "../../../utils";
+import {
+  capitalizeFirstLetter,
+  getPostAmount,
+  getFavorites,
+} from "../../../utils";
 
 // Components
 import CustomInput from "../../components/CustomInput";
@@ -151,6 +155,8 @@ const PostPage = () => {
     const updatedData = data.map((post) => {
       if (post.id === postId) {
         const updatedPost = { ...post, isFavorite: !post.isFavorite };
+        localStorage.setItem(`post-${postId}`, JSON.stringify(updatedPost));
+        getFavorites(postId);
         if (updatedPost.isFavorite) {
           setFavoritePosts((prev) => [...prev, postId]); // add post ID to favoritePosts array
         } else {
@@ -162,6 +168,11 @@ const PostPage = () => {
     });
     setData(updatedData);
   };
+
+  useEffect(() => {
+    console.log("CALLED");
+    getFavorites(selected);
+  }, [selected]);
 
   return (
     <section className="px-longer py-shorter2 ">
@@ -194,9 +205,7 @@ const PostPage = () => {
             className={`pt-shorter2 lg:pt-shorter3 flex flex-col justify-between gap-y-2 rounded-t-md bg-custom-blue-3 text-custom-black shadow-lg hover:-translate-y-1 animate300 ${
               selected === dataInfo?.id && isCommentActive && "row-span-2"
             }
-            ${
-              favoritePosts.includes(dataInfo.id) && "bg-red-400" // check if post is a favorite
-            }
+            ${dataInfo?.isFavorite && "bg-red-400"}
             `}
           >
             <div className="space-y-3 px-normal md:px-shorter2 lg:px-shorter3 col-">
@@ -225,7 +234,6 @@ const PostPage = () => {
                               selected === dataInfo?.id
                             ) {
                               setSelected(dataInfo?.id);
-                              console.log("EEE>>>", dataInfo?.isFavorite);
                               handleClickFavorite(dataInfo?.id);
                             }
                           }}

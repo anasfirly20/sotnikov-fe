@@ -5,6 +5,7 @@ export const getPostAmount = () => {
 };
 
 export const getFavorites = (postId) => {
+  console.log("ORIGIN>>", postId);
   const favorite = localStorage.getItem(`post-${postId}`);
   if (!favorite) return;
   return JSON.parse(favorite);
