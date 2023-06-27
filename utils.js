@@ -4,6 +4,12 @@ export const getIdInstance = () => {
   return JSON.parse(idInstance);
 };
 
+export const getPostAmount = () => {
+  const postAmount = localStorage.getItem("amountOfPost");
+  if (!postAmount) return;
+  return JSON.parse(postAmount);
+};
+
 export const getApiTokenInstance = () => {
   const apiTokenInstance = localStorage.getItem("apiTokenInstance");
   if (!apiTokenInstance) return;

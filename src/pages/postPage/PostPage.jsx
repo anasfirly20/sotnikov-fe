@@ -12,20 +12,22 @@ import { Icon } from "@iconify/react";
 import { socialActions } from "./constants";
 
 // Utils
-import { capitalizeFirstLetter } from "../../../utils";
+import { capitalizeFirstLetter, getPostAmount } from "../../../utils";
 
 const PostPage = () => {
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState();
   const [isChecked, setIsChecked] = useState({});
+  const postAmountSelected = getPostAmount();
 
   // Posts
   const postAmount = [10, 20, 30, 40, 100];
-  const [selectedPostAmount, setSelectedPostAmount] = useState(10);
+  const [selectedPostAmount, setSelectedPostAmount] =
+    useState(postAmountSelected);
 
   const handleSelectChange = (e) => {
     setSelectedPostAmount(e.target.value);
-    console.log("SELECTED >>", e.target.value);
+    localStorage.setItem("amountOfPost", e.target.value);
   };
 
   // Comments
