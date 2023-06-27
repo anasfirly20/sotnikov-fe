@@ -18,9 +18,9 @@ const PostPage = () => {
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState();
   const [isChecked, setIsChecked] = useState({});
-  const postAmountSelected = getPostAmount();
 
-  // Posts
+  // Amount of Posts
+  const postAmountSelected = getPostAmount();
   const postAmount = [10, 20, 30, 40, 100];
   const [selectedPostAmount, setSelectedPostAmount] =
     useState(postAmountSelected);
@@ -30,9 +30,19 @@ const PostPage = () => {
     localStorage.setItem("amountOfPost", e.target.value);
   };
 
-  // Comments
+  // Comment Button Active
   const [isCommentActive, setIsCommentActive] = useState(false);
   const [comments, setComments] = useState([]);
+  // Handleclick Comment
+  const handleClickComment = (postId) => {
+    if (selected === postId) {
+      setIsCommentActive(!isCommentActive);
+    } else {
+      setSelected(postId);
+      setIsCommentActive(true);
+      getCommentByPostId(postId);
+    }
+  };
 
   // GET all posts
   const getAllPosts = async () => {
@@ -64,17 +74,6 @@ const PostPage = () => {
   useEffect(() => {
     getAllPosts();
   }, []);
-
-  // Handleclick Comment
-  const handleClickComment = (postId) => {
-    if (selected === postId) {
-      setIsCommentActive(!isCommentActive);
-    } else {
-      setSelected(postId);
-      setIsCommentActive(true);
-      getCommentByPostId(postId);
-    }
-  };
 
   return (
     <section className="px-longer py-shorter2 ">
