@@ -175,16 +175,31 @@ const PostPage = () => {
   }, [selected]);
 
   // DELETE post by Id
+  const [postIdToDelete, setPostIdToDelete] = useState(null);
+  const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
+
   const handleDeletePost = async (postId) => {
+    setPostIdToDelete(postId);
+    setDeleteConfirmationOpen(true);
+  };
+
+  const confirmDeletePost = async () => {
     try {
-      const res = await postApi.deletePostById(postId);
+      const res = await postApi.deletePostById(postIdToDelete);
       console.log("RES>>>>", res);
-      const updatedData = data.filter((post) => post.id !== postId);
+      const updatedData = data.filter((post) => post.id !== postIdToDelete);
       setData(updatedData);
       setSelectedPostAmount((prev) => prev - 1);
     } catch (err) {
       console.log(err);
     }
+    setPostIdToDelete(null);
+    setDeleteConfirmationOpen(false);
+  };
+
+  const cancelDeletePost = () => {
+    setPostIdToDelete(null);
+    setDeleteConfirmationOpen(false);
   };
 
   return (
@@ -206,12 +221,12 @@ const PostPage = () => {
       <div
         className={`mt-3 grid md:grid-cols-2 xl:grid-cols-3 gap-5 ${isCommentActive}`}
       >
-        {/* <CustomModal
-          onClose={closeModal}
-          onConfirm={addToFav}
-          show={isOpen}
+        <CustomModal
+          cancelDeletePost={cancelDeletePost}
+          confirmDeletePost={confirmDeletePost}
+          show={deleteConfirmationOpen}
           post={selected ? data.find((post) => post.id === selected) : null}
-        /> */}
+        />
         {data?.slice(0, selectedPostAmount)?.map((dataInfo, i) => (
           <div
             key={i}
