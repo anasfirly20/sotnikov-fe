@@ -96,6 +96,7 @@ const PostPage = () => {
     try {
       if (dataEdit) {
         const res = await postApi.editPostById(id, body);
+        // console.log(">>>>", res?.data);
         const updatedData = data.map((post) =>
           post.id === id ? { ...post, ...res.data } : post
         );
@@ -110,8 +111,8 @@ const PostPage = () => {
     if (selected === postId) {
       const post = data.find((p) => p.id === postId);
       setDataEdit(post);
-      setIsEdit(!isEdit);
       editPost(postId, dataEdit);
+      setIsEdit(!isEdit);
     } else {
       setSelected(postId);
       setIsEdit(true);
