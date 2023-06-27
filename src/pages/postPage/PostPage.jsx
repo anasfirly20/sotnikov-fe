@@ -14,6 +14,7 @@ import { socialActions } from "./constants";
 const PostPage = () => {
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState();
+  const [isChecked, setIsChecked] = useState({});
 
   // Comments
   const [isCommentActive, setIsCommentActive] = useState(false);
@@ -56,11 +57,11 @@ const PostPage = () => {
       <div
         className={`grid md:grid-cols-2 lg:grid-cols-3 gap-5 ${isCommentActive}`}
       >
-        {data?.slice(0, 10)?.map((dataInfo, i) => (
+        {data?.slice(0, 11)?.map((dataInfo, i) => (
           <div
             key={i}
             className={`pt-shorter2 lg:pt-shorter3 flex flex-col justify-between gap-y-2 rounded-t-md bg-custom-blue-3 text-custom-black shadow-lg hover:-translate-y-1 animate300 ${
-              selected === dataInfo?.id && "row-span-2"
+              selected === dataInfo?.id && isCommentActive && "row-span-2"
             }`}
           >
             <div className="space-y-3 px-normal md:px-shorter2 lg:px-shorter3 col-">
@@ -68,7 +69,14 @@ const PostPage = () => {
                 <h2>{dataInfo?.user?.username}</h2>
                 <input
                   type="checkbox"
+                  checked={isChecked[i]}
                   className="accent-custom-cream w-6 rounded-md"
+                  onChange={(e) => {
+                    setIsChecked({
+                      ...isChecked,
+                      [i]: e.target.checked,
+                    });
+                  }}
                 />
               </div>
               <h3 className="tracking-wider text-custom-blue-">
@@ -96,7 +104,7 @@ const PostPage = () => {
                   </button>
                 ))}
               </div>
-              {dataInfo?.id === selected && isCommentActive && (
+              {selected === dataInfo?.id && isCommentActive && (
                 <div className="bg-gray-400 overflow-y-scroll h-[30rem] hide-scrollbar space-y-5">
                   {comments?.map((comment, i) => (
                     <div
