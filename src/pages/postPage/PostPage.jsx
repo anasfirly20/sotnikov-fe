@@ -79,7 +79,7 @@ const PostPage = () => {
   return (
     <section className="px-longer py-shorter2 ">
       <div className="flex items-center">
-        <h3>Post displayed:</h3>
+        <h3 className="hover:underline">Post displayed:</h3>
         <select
           value={selectedPostAmount}
           onChange={handleSelectChange}
@@ -103,12 +103,11 @@ const PostPage = () => {
             }`}
           >
             <div className="space-y-3 px-normal md:px-shorter2 lg:px-shorter3 col-">
-              <div className="flex text-custom-blue-1 justify-between">
-                <h2>{dataInfo?.user?.username}</h2>
+              <div className="flex flex-col gap-2">
                 <input
                   type="checkbox"
                   checked={isChecked[i]}
-                  className="accent-custom-cream w-6 rounded-md"
+                  className="accent-custom-cream w-5 h-5 rounded-md"
                   onChange={(e) => {
                     setIsChecked({
                       ...isChecked,
@@ -116,9 +115,17 @@ const PostPage = () => {
                     });
                   }}
                 />
+                <div className="flex text-custom-blue-1 justify-between">
+                  <h2>{dataInfo?.title}</h2>
+                </div>
+                <p className="pSmaller">
+                  Made by:{" "}
+                  <span className="text-gray-700 font-semibold pSmaller2">
+                    {capitalizeFirstLetter(dataInfo?.user?.name)}
+                  </span>
+                </p>
               </div>
-              <h3 className="">{capitalizeFirstLetter(dataInfo?.title)}</h3>
-              <p className="pSmaller2">{dataInfo?.body}</p>
+              <p className="pSmaller">{dataInfo?.body}</p>
             </div>
             <div className="">
               <div className="mt-shorter4 px-shorter4 bg-gray-400 flex justify-evenly gap-3 p-3 border border-gray-500">
