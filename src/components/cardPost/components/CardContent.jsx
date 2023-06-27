@@ -48,15 +48,21 @@ const CardContent = ({
         />
         {isChecked[i] && (
           <div className="flex gap-3">
-            {FavoriteDeleteIcons.map((e) => (
+            {FavoriteDeleteIcons.map((e, index) => (
               <button
-                key={i}
+                key={index}
                 className="flex gap-1 items-center"
                 onClick={() => {
                   if (e.name === "Favorite") {
+                    // console.log("FAVORITE OPEN MODAL>>", dataEdit);
                     setSelected(dataInfo?.id);
+                    setDataEdit({
+                      ...dataInfo,
+                      isFavorite: !dataEdit?.isFavorite,
+                    });
+                    console.log("dataEDIT>", dataInfo);
+                    console.log("SELECTED>", dataInfo?.id);
                     openModal();
-                    console.log("FAVORITE OPEN MODAL");
                   }
                 }}
               >
@@ -92,9 +98,9 @@ const CardContent = ({
           />
           {/* CONFIRM EDIT / CANCEL BUTTONS START  */}
           <div className="flex gap-5 justify-center">
-            {ConfirmCancelEditIcons.map((e, i) => (
+            {ConfirmCancelEditIcons.map((e, index) => (
               <Icon
-                key={i}
+                key={index}
                 icon={e.icon}
                 className="text-4xl hover:cursor-pointer"
                 color={e.color}

@@ -1,19 +1,13 @@
-export const getIdInstance = () => {
-  const idInstance = localStorage.getItem("idInstance");
-  if (!idInstance) return;
-  return JSON.parse(idInstance);
-};
-
 export const getPostAmount = () => {
   const postAmount = localStorage.getItem("amountOfPost");
   if (!postAmount) return;
   return JSON.parse(postAmount);
 };
 
-export const getApiTokenInstance = () => {
-  const apiTokenInstance = localStorage.getItem("apiTokenInstance");
-  if (!apiTokenInstance) return;
-  return JSON.parse(apiTokenInstance);
+export const getFavorites = (postId) => {
+  const favorite = localStorage.getItem(`post-${postId}`);
+  if (!favorite) return;
+  return JSON.parse(favorite);
 };
 
 export const getTelephone = () => {

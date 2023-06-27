@@ -23,6 +23,7 @@ const CardPost = ({
   handleClickEdit,
   handleClickComment,
   comments,
+  className,
 }) => {
   return (
     <Fragment>
@@ -34,13 +35,14 @@ const CardPost = ({
         setSelected={setSelected}
         openModal={openModal}
         dataInfo={dataInfo}
-        dataEdit={dataEdit}
         handleEditPost={handleEditPost}
         isEdit={isEdit}
         setIsEdit={setIsEdit}
-        setDataEdit={setDataEdit}
         data={data}
         editPost={editPost}
+        className={className}
+        dataEdit={dataEdit}
+        setDataEdit={setDataEdit}
       />
 
       <CardCommentEdit

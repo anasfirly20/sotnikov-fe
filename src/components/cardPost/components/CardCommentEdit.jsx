@@ -18,9 +18,9 @@ const CardCommentEdit = ({
     <div>
       {/* COMMENT / EDIT BUTTONS START */}
       <div className=" mt-shorter4 px-shorter4 bg-gray-400 flex justify-evenly gap-3 p-3 border border-gray-500">
-        {CommentEditIcons.map((social, i) => (
+        {CommentEditIcons.map((social, index) => (
           <button
-            key={i}
+            key={index}
             className="flex gap-1 items-center"
             onClick={() => {
               social.name === "Comment" && handleClickComment(dataInfo?.id);
@@ -36,8 +36,8 @@ const CardCommentEdit = ({
       {/* ALL COMMENTS OF A POST START */}
       {selected === dataInfo?.id && isCommentActive && (
         <div className="bg-gray-400 overflow-y-scroll scrollbar-thumb-gray-500 h-[30rem] space-y-5 scrollbar-thin">
-          {comments?.map((comment, i) => (
-            <Fragment key={i}>
+          {comments?.map((comment, index) => (
+            <Fragment key={index}>
               <div
                 className={`flex flex-col md:px-shorter2 lg:px-shorter3 border-b border-gray-500 p-5 ${
                   i === comments.length - 1 && "border-b-0"
