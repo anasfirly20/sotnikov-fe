@@ -60,7 +60,6 @@ const PostPage = () => {
         return { ...post, user };
       });
       setData(postData);
-      setDataEdit(data);
     } catch (err) {
       console.log(err);
     }
@@ -86,8 +85,11 @@ const PostPage = () => {
 
   const editPost = async (id, body) => {
     try {
-      const res = await postApi.editPostById(id, body);
-      console.log("RES >>", res);
+      if (dataEdit) {
+        const res = await postApi.editPostById(id, body);
+        setDataEdit(res?.data);
+        console.log("dataEDIT >>>", dataEdit);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -98,9 +100,7 @@ const PostPage = () => {
       const post = data.find((p) => p.id === postId);
       setDataEdit(post);
       setIsEdit(!isEdit);
-      if (dataEdit) {
-        editPost(postId, dataEdit);
-      }
+      editPost(postId, dataEdit);
       // console.log("DATA EDIT>>>", dataEdit);
     } else {
       setSelected(postId);
