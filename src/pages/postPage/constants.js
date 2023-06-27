@@ -1,4 +1,4 @@
-export const commentEditIcons = [
+export const CommentEditIcons = [
   {
     name: "Comment",
     icon: "majesticons:comment",
@@ -9,7 +9,7 @@ export const commentEditIcons = [
   },
 ];
 
-export const delFavIcons = [
+export const FavoriteDeleteIcons = [
   {
     name: "Delete",
     icon: "material-symbols:delete",
@@ -20,7 +20,7 @@ export const delFavIcons = [
   },
 ];
 
-export const confirmEditIcons = [
+export const ConfirmCancelEditIcons = [
   {
     name: "Confirm",
     icon: "line-md:confirm-circle",

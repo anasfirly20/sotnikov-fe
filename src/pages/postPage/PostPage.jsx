@@ -9,7 +9,11 @@ import commentApi from "./api/comment.api";
 import { Icon } from "@iconify/react";
 
 // Constants
-import { commentEditIcons, delFavIcons, confirmEditIcons } from "./constants";
+import {
+  CommentEditIcons,
+  FavoriteDelete,
+  ConfirmCancelEditIcons,
+} from "./constants";
 
 // Utils
 import { capitalizeFirstLetter, getPostAmount } from "../../../utils";
@@ -169,7 +173,7 @@ const PostPage = () => {
                   />
                   {isChecked[i] && (
                     <div className="flex gap-3">
-                      {delFavIcons.map((e) => (
+                      {FavoriteDelete.map((e) => (
                         <button key={i} className="flex gap-1 items-center">
                           {" "}
                           <Icon icon={e.icon} className="pBigger" />
@@ -203,7 +207,7 @@ const PostPage = () => {
                       />
                       {/* CONFIRM EDIT / CANCEL BUTTONS START  */}
                       <div className="flex gap-5 justify-center">
-                        {confirmEditIcons.map((e, i) => (
+                        {ConfirmCancelEditIcons.map((e, i) => (
                           <Icon
                             key={i}
                             icon={e.icon}
@@ -232,7 +236,9 @@ const PostPage = () => {
                   </>
                 ) : (
                   <>
-                    <h2 className="text-custom-blue-1">{dataInfo?.title}</h2>
+                    <h2 className="text-custom-blue-1">
+                      {capitalizeFirstLetter(dataInfo?.title)}
+                    </h2>
                     <p className="pSmaller">
                       Made by:{" "}
                       <span className="text-gray-700 font-semibold pSmaller2">
@@ -248,7 +254,7 @@ const PostPage = () => {
             {/* COMMENT EDIT BUTTONS START */}
             <div className="">
               <div className="mt-shorter4 px-shorter4 bg-gray-400 flex justify-evenly gap-3 p-3 border border-gray-500">
-                {commentEditIcons.map((social, i) => (
+                {CommentEditIcons.map((social, i) => (
                   <button
                     key={i}
                     className="flex gap-1 items-center"
