@@ -198,7 +198,7 @@ const PostPage = () => {
             <div className="space-y-3 px-normal md:px-shorter2 lg:px-shorter3 col-">
               <div className="flex flex-col gap-2">
                 <div className="flex justify-between">
-                  <input
+                  <CustomInput
                     type="checkbox"
                     checked={isChecked[i]}
                     className="accent-custom-cream w-5 h-5 rounded-md"

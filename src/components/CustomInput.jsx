@@ -1,6 +1,14 @@
 import React from "react";
 
-const CustomInput = ({ label, className, onChange, value, name }) => {
+const CustomInput = ({
+  label,
+  className,
+  onChange,
+  value,
+  name,
+  checked,
+  type,
+}) => {
   return label === "Post" ? (
     <div className="flex flex-col">
       <label className="">{label}:</label>
@@ -15,13 +23,14 @@ const CustomInput = ({ label, className, onChange, value, name }) => {
     </div>
   ) : (
     <div className="flex flex-col">
-      <label className="">{label}:</label>
+      <label className="">{label}</label>
       <input
         className={`text-gray-700  bg-transparent border-b outline-none focus:border-b-2 border-black ${className}`}
         value={value}
         onChange={onChange}
         name={name}
-        type="text"
+        type={type}
+        checked={checked}
       />
     </div>
   );
