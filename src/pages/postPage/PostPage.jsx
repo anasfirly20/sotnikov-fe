@@ -161,7 +161,7 @@ const PostPage = () => {
                   <div className="space-y-5">
                     <CustomInput
                       label="Title"
-                      value={dataEdit?.title}
+                      value={dataInfo?.title}
                       name="title"
                       onChange={handleEditPost}
                     />
