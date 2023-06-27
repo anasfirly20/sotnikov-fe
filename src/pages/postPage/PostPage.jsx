@@ -150,7 +150,10 @@ const PostPage = () => {
     <section className="px-longer py-shorter2 ">
       {/* FAVORITES START */}
       <section className="mb-10 ">
-        <h2 className="">Favorites</h2>
+        <h2 className="flex gap-1 items-center">
+          Favorites
+          <span className="pSmaller2">({favorites?.length})</span>
+        </h2>
         <div
           className={`mt-3 grid md:grid-cols-2 xl:grid-cols-3 gap-5 ${isCommentActive}`}
         >
@@ -192,13 +195,13 @@ const PostPage = () => {
       <div className="flex items-center">
         <h3 className="hover:underline">Post displayed:</h3>
         <select
-          value={selectedPostAmount}
+          value={selectedPostAmount - favorites?.length}
           onChange={handleSelectChange}
           className="w-fit px-3 bg-transparent outline-none"
         >
           {postAmount.map((e, i) => (
             <option key={i} value={e}>
-              {e}
+              {e - favorites?.length}
             </option>
           ))}
         </select>
@@ -213,35 +216,37 @@ const PostPage = () => {
           post={selected ? data.find((post) => post.id === selected) : null}
           addToFavorites={addToFavorites}
         />
-        {data?.slice(0, selectedPostAmount)?.map((dataInfo, i) => (
-          <div
-            key={i}
-            className={`pt-shorter2 lg:pt-shorter3 flex flex-col justify-between gap-y-2 rounded-t-md bg-custom-blue-3 text-custom-black shadow-lg hover:-translate-y-1 animate300 ${
-              selected === dataInfo?.id && isCommentActive && "row-span-2"
-            }`}
-          >
-            <CardPost
-              i={i}
-              isChecked={isChecked}
-              setIsChecked={setIsChecked}
-              selected={selected}
-              setSelected={setSelected}
-              openModal={openModal}
-              dataInfo={dataInfo}
-              dataEdit={dataEdit}
-              handleEditPost={handleEditPost}
-              isEdit={isEdit}
-              setIsEdit={setIsEdit}
-              setDataEdit={setDataEdit}
-              data={data}
-              editPost={editPost}
-              isCommentActive={isCommentActive}
-              handleClickEdit={handleClickEdit}
-              handleClickComment={handleClickComment}
-              comments={comments}
-            />
-          </div>
-        ))}
+        {data
+          ?.slice(0, selectedPostAmount - favorites?.length)
+          ?.map((dataInfo, i) => (
+            <div
+              key={i}
+              className={`pt-shorter2 lg:pt-shorter3 flex flex-col justify-between gap-y-2 rounded-t-md bg-custom-blue-3 text-custom-black shadow-lg hover:-translate-y-1 animate300 ${
+                selected === dataInfo?.id && isCommentActive && "row-span-2"
+              }`}
+            >
+              <CardPost
+                i={i}
+                isChecked={isChecked}
+                setIsChecked={setIsChecked}
+                selected={selected}
+                setSelected={setSelected}
+                openModal={openModal}
+                dataInfo={dataInfo}
+                dataEdit={dataEdit}
+                handleEditPost={handleEditPost}
+                isEdit={isEdit}
+                setIsEdit={setIsEdit}
+                setDataEdit={setDataEdit}
+                data={data}
+                editPost={editPost}
+                isCommentActive={isCommentActive}
+                handleClickEdit={handleClickEdit}
+                handleClickComment={handleClickComment}
+                comments={comments}
+              />
+            </div>
+          ))}
       </div>
     </section>
   );
