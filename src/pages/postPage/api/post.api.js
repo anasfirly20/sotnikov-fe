@@ -12,7 +12,7 @@ export default class postApi {
   }
 
   // Edit Post by Id
-  static async EditPostById(id, body) {
-    return await api.put(`posts/${(id, body)}`);
+  static async editPostById(id, body) {
+    return await api.put(`/posts/${id}`, body);
   }
 }

@@ -60,6 +60,7 @@ const PostPage = () => {
         return { ...post, user };
       });
       setData(postData);
+      setDataEdit(data);
     } catch (err) {
       console.log(err);
     }
@@ -85,7 +86,8 @@ const PostPage = () => {
 
   const editPost = async (id, body) => {
     try {
-      const res = await editPost(id, body);
+      const res = await postApi.editPostById(id, body);
+      console.log("RES >>", res);
     } catch (err) {
       console.log(err);
     }
@@ -93,17 +95,34 @@ const PostPage = () => {
 
   const handleClickEdit = (postId) => {
     if (selected === postId) {
+      const post = data.find((p) => p.id === postId);
+      setDataEdit(post);
       setIsEdit(!isEdit);
+      if (dataEdit) {
+        editPost(postId, dataEdit);
+      }
+      // console.log("DATA EDIT>>>", dataEdit);
     } else {
       setSelected(postId);
       setIsEdit(true);
     }
   };
 
+  // const handleClickEdit = (postId) => {
+  //   const post = data.find((p) => p.id === postId);
+  //   setDataEdit(post);
+  //   setSelected(postId);
+  //   setIsEdit(!isEdit);
+  // };
+
   const handleEditPost = (e) => {
     const { name, value } = e.target;
-
-    setDataEdit({ ...dataEdit, [name]: value });
+    if (name === "name") {
+      setDataEdit({ ...dataEdit, user: { ...dataEdit?.user, [name]: value } });
+    } else {
+      setDataEdit({ ...dataEdit, [name]: value });
+    }
+    // setData((prevState) => ({ ...prevState, [name]: value }));
   };
 
   return (
@@ -123,7 +142,7 @@ const PostPage = () => {
         </select>
       </div>
       <div
-        className={`mt-3 grid md:grid-cols-2 lg:grid-cols-3 gap-5 ${isCommentActive}`}
+        className={`mt-3 grid md:grid-cols-2 xl:grid-cols-3 gap-5 ${isCommentActive}`}
       >
         {data?.slice(0, selectedPostAmount)?.map((dataInfo, i) => (
           <div
@@ -161,19 +180,19 @@ const PostPage = () => {
                   <div className="space-y-5">
                     <CustomInput
                       label="Title"
-                      value={dataInfo?.title}
+                      value={dataEdit?.title}
                       name="title"
                       onChange={handleEditPost}
                     />
                     <CustomInput
                       label="Made by"
-                      value={dataInfo?.user?.name}
+                      value={dataEdit?.user?.name}
                       name="name"
                       onChange={handleEditPost}
                     />
                     <CustomInput
                       label="Post"
-                      value={dataInfo?.body}
+                      value={dataEdit?.body}
                       name="body"
                       onChange={handleEditPost}
                     />
