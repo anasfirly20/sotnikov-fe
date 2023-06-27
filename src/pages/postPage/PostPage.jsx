@@ -13,6 +13,7 @@ import { socialActions } from "./constants";
 
 const PostPage = () => {
   const [data, setData] = useState([]);
+  const [selected, setSelected] = useState();
 
   // Comments
   const [isCommentActive, setIsCommentActive] = useState(false);
@@ -39,7 +40,8 @@ const PostPage = () => {
   const getCommentByPostId = async (postId) => {
     try {
       const res = await commentApi.getCommentByPostId(postId);
-      console.log(">>>>>>", res?.data);
+      setComments(res?.data);
+      console.log("COMMENT >", res?.data);
     } catch (err) {
       console.log(err);
     }
@@ -51,11 +53,13 @@ const PostPage = () => {
 
   return (
     <section className="px-longer py-shorter2">
-      <div className="grid aspect-square md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div
+        className={`grid aspect-square md:grid-cols-2 lg:grid-cols-3 gap-5 ${isCommentActive}`}
+      >
         {data?.slice(0, 10)?.map((dataInfo) => (
           <div
             key={dataInfo?.id}
-            className="pt-shorter2 lg:pt-shorter3 flex flex-col justify-between gap-y-2 rounded-t-md bg-custom-blue-3 text-custom-black shadow-lg hover:-translate-y-2 animate300"
+            className="pt-shorter2 lg:pt-shorter3 flex flex-col justify-between gap-y-2 rounded-t-md bg-custom-blue-3 text-custom-black shadow-lg hover:-translate-y-1 animate300"
           >
             <div className="space-y-3 px-normal md:px-shorter2 lg:px-shorter3">
               <div className="flex text-custom-blue-1 justify-between">
@@ -76,14 +80,26 @@ const PostPage = () => {
                   key={i}
                   className="flex gap-1 items-center"
                   onClick={() => {
-                    getCommentByPostId(dataInfo?.id);
-                    setIsCommentActive(!isCommentActive);
+                    if (social.name === "Comment") {
+                      getCommentByPostId(dataInfo?.id);
+                      setSelected(dataInfo?.id);
+                      if (selected === dataInfo?.id) {
+                        setIsCommentActive(!isCommentActive);
+                      }
+                    }
                   }}
                 >
                   <Icon icon={social.icon} className="pBigger" />
                 </button>
               ))}
             </div>
+            {dataInfo?.id === selected && isCommentActive && (
+              <div className="bg-gray-400 px-normal md:px-shorter2 lg:px-shorter3">
+                {comments?.map((e) => (
+                  <p className="pSmaller">{e?.email}</p>
+                ))}
+              </div>
+            )}
           </div>
         ))}
       </div>
