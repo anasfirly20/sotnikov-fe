@@ -14,6 +14,9 @@ import { commentEditIcons, delFavIcons } from "./constants";
 // Utils
 import { capitalizeFirstLetter, getPostAmount } from "../../../utils";
 
+// Components
+import CustomInput from "../../components/CustomInput";
+
 const PostPage = () => {
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState();
@@ -78,6 +81,7 @@ const PostPage = () => {
 
   // EDIT POSTS
   const [isEdit, setIsEdit] = useState(false);
+  const [dataEdit, setDataEdit] = useState({});
 
   const editPost = async (id, body) => {
     try {
@@ -94,6 +98,12 @@ const PostPage = () => {
       setSelected(postId);
       setIsEdit(true);
     }
+  };
+
+  const handleEditPost = (e) => {
+    const { name, value } = e.target;
+
+    setDataEdit({ ...dataEdit, [name]: value });
   };
 
   return (
@@ -148,7 +158,26 @@ const PostPage = () => {
                   )}
                 </div>
                 {selected === dataInfo?.id && isEdit ? (
-                  "ISEDDIT"
+                  <div className="space-y-5">
+                    <CustomInput
+                      label="Title"
+                      value={dataEdit?.title}
+                      name="title"
+                      onChange={handleEditPost}
+                    />
+                    <CustomInput
+                      label="Made by"
+                      value={dataInfo?.user?.name}
+                      name="name"
+                      onChange={handleEditPost}
+                    />
+                    <CustomInput
+                      label="Post"
+                      value={dataInfo?.body}
+                      name="body"
+                      onChange={handleEditPost}
+                    />
+                  </div>
                 ) : (
                   <>
                     <h2 className="text-custom-blue-1">{dataInfo?.title}</h2>
