@@ -19,3 +19,16 @@ export const delFavIcons = [
     icon: "material-symbols:favorite",
   },
 ];
+
+export const confirmEditIcons = [
+  {
+    name: "Confirm",
+    icon: "line-md:confirm-circle",
+    color: "green",
+  },
+  {
+    name: "Cancel",
+    icon: "ic:outline-cancel",
+    color: "red",
+  },
+];

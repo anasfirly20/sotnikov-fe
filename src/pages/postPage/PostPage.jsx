@@ -9,7 +9,7 @@ import commentApi from "./api/comment.api";
 import { Icon } from "@iconify/react";
 
 // Constants
-import { commentEditIcons, delFavIcons } from "./constants";
+import { commentEditIcons, delFavIcons, confirmEditIcons } from "./constants";
 
 // Utils
 import { capitalizeFirstLetter, getPostAmount } from "../../../utils";
@@ -83,12 +83,23 @@ const PostPage = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [dataEdit, setDataEdit] = useState({});
 
+  const handleEditPost = (e) => {
+    const { name, value } = e.target;
+    if (name === "name") {
+      setDataEdit({ ...dataEdit, user: { ...dataEdit?.user, [name]: value } });
+    } else {
+      setDataEdit({ ...dataEdit, [name]: value });
+    }
+  };
+
   const editPost = async (id, body) => {
     try {
       if (dataEdit) {
         const res = await postApi.editPostById(id, body);
-        setDataEdit(res?.data);
-        console.log("dataEDIT >>>", dataEdit);
+        const updatedData = data.map((post) =>
+          post.id === id ? { ...post, ...res.data } : post
+        );
+        setData(updatedData);
       }
     } catch (err) {
       console.log(err);
@@ -101,28 +112,10 @@ const PostPage = () => {
       setDataEdit(post);
       setIsEdit(!isEdit);
       editPost(postId, dataEdit);
-      // console.log("DATA EDIT>>>", dataEdit);
     } else {
       setSelected(postId);
       setIsEdit(true);
     }
-  };
-
-  // const handleClickEdit = (postId) => {
-  //   const post = data.find((p) => p.id === postId);
-  //   setDataEdit(post);
-  //   setSelected(postId);
-  //   setIsEdit(!isEdit);
-  // };
-
-  const handleEditPost = (e) => {
-    const { name, value } = e.target;
-    if (name === "name") {
-      setDataEdit({ ...dataEdit, user: { ...dataEdit?.user, [name]: value } });
-    } else {
-      setDataEdit({ ...dataEdit, [name]: value });
-    }
-    // setData((prevState) => ({ ...prevState, [name]: value }));
   };
 
   return (
@@ -196,6 +189,28 @@ const PostPage = () => {
                       name="body"
                       onChange={handleEditPost}
                     />
+                    <div className="flex gap-5 justify-center">
+                      {confirmEditIcons.map((e, i) => (
+                        <Icon
+                          key={i}
+                          icon={e.icon}
+                          className="text-4xl hover:cursor-pointer"
+                          color={e.color}
+                          onClick={() => {
+                            if (e.name === "Confirm") {
+                              if (selected === dataInfo?.id) {
+                                const post = data.find(
+                                  (p) => p.id === dataInfo?.id
+                                );
+                                editPost(dataInfo?.id, dataEdit);
+                                setDataEdit(post);
+                                setIsEdit(!isEdit);
+                              }
+                            }
+                          }}
+                        />
+                      ))}
+                    </div>
                   </div>
                 ) : (
                   <>
