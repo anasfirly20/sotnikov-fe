@@ -7,7 +7,6 @@ import commentApi from "./api/comment.api";
 
 // Miscellaneous
 import { Icon } from "@iconify/react";
-import { Dialog, Transition } from "@headlessui/react";
 
 // Constants
 import {
@@ -25,7 +24,6 @@ import {
 
 // Components
 import CustomInput from "../../components/CustomInput";
-import Favorites from "./components/Favorites";
 import CustomModal from "../../components/CustomModal";
 
 const PostPage = () => {
@@ -161,6 +159,7 @@ const PostPage = () => {
           setFavoritePosts((prev) => [...prev, postId]); // add post ID to favoritePosts array
         } else {
           setFavoritePosts((prev) => prev.filter((id) => id !== postId)); // remove post ID from favoritePosts array
+          setIsChecked({});
         }
         return updatedPost;
       }
@@ -178,7 +177,7 @@ const PostPage = () => {
   const [postIdToDelete, setPostIdToDelete] = useState(null);
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
 
-  const handleDeletePost = async (postId) => {
+  const handleDeletePost = (postId) => {
     setPostIdToDelete(postId);
     setDeleteConfirmationOpen(true);
   };
