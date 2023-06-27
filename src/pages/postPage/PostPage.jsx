@@ -25,6 +25,7 @@ import {
 // Components
 import CustomInput from "../../components/CustomInput";
 import CustomModal from "../../components/CustomModal";
+import CustomFilter from "../../components/CustomFilter";
 
 const PostPage = () => {
   const [data, setData] = useState([]);
@@ -137,16 +138,6 @@ const PostPage = () => {
   }, [selected, data]);
 
   // FAVORITES
-  const [isOpen, setIsOpen] = useState(false);
-
-  function closeModal() {
-    setIsOpen(false);
-  }
-
-  function openModal() {
-    setIsOpen(true);
-  }
-
   const [favoritePosts, setFavoritePosts] = useState([]);
 
   const handleClickFavorite = (postId) => {
@@ -168,18 +159,13 @@ const PostPage = () => {
     setData(updatedData);
   };
 
-  useEffect(() => {
-    console.log("CALLED");
-    getFavorites(selected);
-  }, [selected]);
-
   // DELETE post by Id
   const [postIdToDelete, setPostIdToDelete] = useState(null);
-  const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
+  const [deleteModalConfirmation, setDeleteModalConfirmation] = useState(false);
 
   const handleDeletePost = (postId) => {
     setPostIdToDelete(postId);
-    setDeleteConfirmationOpen(true);
+    setDeleteModalConfirmation(true);
   };
 
   const confirmDeletePost = async () => {
@@ -193,16 +179,17 @@ const PostPage = () => {
       console.log(err);
     }
     setPostIdToDelete(null);
-    setDeleteConfirmationOpen(false);
+    setDeleteModalConfirmation(false);
   };
 
   const cancelDeletePost = () => {
     setPostIdToDelete(null);
-    setDeleteConfirmationOpen(false);
+    setDeleteModalConfirmation(false);
   };
 
   return (
     <section className="px-longer py-shorter2 ">
+      <CustomFilter />
       <div className="flex items-center">
         <h3 className="hover:underline">Post displayed:</h3>
         <select
@@ -223,7 +210,7 @@ const PostPage = () => {
         <CustomModal
           cancelDeletePost={cancelDeletePost}
           confirmDeletePost={confirmDeletePost}
-          show={deleteConfirmationOpen}
+          show={deleteModalConfirmation}
           post={selected ? data.find((post) => post.id === selected) : null}
         />
         {data?.slice(0, selectedPostAmount)?.map((dataInfo, i) => (
