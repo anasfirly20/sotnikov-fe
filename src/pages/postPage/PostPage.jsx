@@ -5,33 +5,18 @@ import postApi from "./api/post.api";
 import userApi from "./api/user.api";
 import commentApi from "./api/comment.api";
 
-// Miscellaneous
-import { Icon } from "@iconify/react";
-import { Dialog, Transition } from "@headlessui/react";
-
-// Constants
-import {
-  CommentEditIcons,
-  FavoriteDeleteIcons,
-  ConfirmCancelEditIcons,
-} from "./constants";
-
 // Utils
 import { capitalizeFirstLetter, getPostAmount } from "../../../utils";
 
 // Components
-import CustomInput from "../../components/CustomInput";
-import Favorites from "./components/Favorites";
 import CustomModal from "../../components/CustomModal";
 import CardPost from "../../components/cardPost/CardPost";
-import CardContent from "../../components/cardPost/components/CardContent";
-import CardCommentEdit from "../../components/cardPost/components/CardCommentEdit";
 
 const PostPage = () => {
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState();
   const [isChecked, setIsChecked] = useState({});
-  const [favorites, setFavorites] = useState(["asd"]);
+  const [favorites, setFavorites] = useState([]);
 
   // Amount of Posts
   const postAmountSelected = getPostAmount();
@@ -148,23 +133,59 @@ const PostPage = () => {
   }
 
   function addToFav() {
+    addToFavorites(data.find((post) => post.id === selected));
     setIsOpen(false);
+    setIsChecked(false);
   }
+
+  const addToFavorites = (post) => {
+    // Check if the post is already in the favorites array
+    if (!favorites.some((favorite) => favorite.id === post.id)) {
+      setFavorites([...favorites, post]);
+      setData(data.filter((item) => item.id !== post.id));
+    }
+  };
 
   return (
     <section className="px-longer py-shorter2 ">
       {/* FAVORITES START */}
       <section className="mb-10 ">
         <h2 className="">Favorites</h2>
-        {favorites.length > 0 ? (
-          <div className="mt-3 grid md:grid-cols-2 xl:grid-cols-3 gap-5">
-            <div className="pt-shorter2 lg:pt-shorter3 flex flex-col justify-between gap-y-2 rounded-t-md bg-custom-blue-3 text-custom-black shadow-lg hover:-translate-y-1 animate300">
-              asd
-            </div>
-          </div>
-        ) : (
-          "Empty Favorites"
-        )}
+        <div
+          className={`mt-3 grid md:grid-cols-2 xl:grid-cols-3 gap-5 ${isCommentActive}`}
+        >
+          {favorites.length > 0
+            ? favorites.map((dataInfo, i) => (
+                <div
+                  key={i}
+                  className={`pt-shorter2 lg:pt-shorter3 flex flex-col justify-between gap-y-2 rounded-t-md bg-custom-blue-3 text-custom-black shadow-lg hover:-translate-y-1 animate300 ${
+                    selected === dataInfo?.id && isCommentActive && "row-span-2"
+                  }`}
+                >
+                  <CardPost
+                    i={i}
+                    isChecked={isChecked}
+                    setIsChecked={setIsChecked}
+                    selected={selected}
+                    setSelected={setSelected}
+                    openModal={openModal}
+                    dataInfo={dataInfo}
+                    dataEdit={dataEdit}
+                    handleEditPost={handleEditPost}
+                    isEdit={isEdit}
+                    setIsEdit={setIsEdit}
+                    setDataEdit={setDataEdit}
+                    data={data}
+                    editPost={editPost}
+                    isCommentActive={isCommentActive}
+                    handleClickEdit={handleClickEdit}
+                    handleClickComment={handleClickComment}
+                    comments={comments}
+                  />
+                </div>
+              ))
+            : "Empty Favorites"}
+        </div>
       </section>
       {/* FAVORITES END */}
 
@@ -187,9 +208,10 @@ const PostPage = () => {
       >
         <CustomModal
           onClose={closeModal}
-          onConfirm={addToFav}
+          onConfirm={() => addToFav()}
           show={isOpen}
           post={selected ? data.find((post) => post.id === selected) : null}
+          addToFavorites={addToFavorites}
         />
         {data?.slice(0, selectedPostAmount)?.map((dataInfo, i) => (
           <div

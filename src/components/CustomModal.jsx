@@ -43,12 +43,6 @@ const CustomModal = ({ onConfirm, onClose, show, post }) => {
                     </span>{" "}
                     to Favorites?
                   </Dialog.Title>
-                  {/* <div className="mt-2">
-                    <p className="text-sm text-gray-500">
-                      The Following post will be added to your favorite section
-                    </p>
-                  </div> */}
-
                   <div className="mt-4">
                     <button
                       type="button"
