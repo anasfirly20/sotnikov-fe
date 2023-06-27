@@ -23,6 +23,8 @@ import { capitalizeFirstLetter, getPostAmount } from "../../../utils";
 import CustomInput from "../../components/CustomInput";
 import Favorites from "./components/Favorites";
 import CustomModal from "../../components/CustomModal";
+import CardPost from "../../components/cardPost/CardPost";
+import CardContent from "../../components/cardPost/components/CardContent";
 
 const PostPage = () => {
   const [data, setData] = useState([]);
@@ -195,113 +197,26 @@ const PostPage = () => {
               selected === dataInfo?.id && isCommentActive && "row-span-2"
             }`}
           >
-            <div className="space-y-3 px-normal md:px-shorter2 lg:px-shorter3 col-">
-              <div className="flex flex-col gap-2">
-                <div className="flex justify-between">
-                  <CustomInput
-                    type="checkbox"
-                    checked={isChecked[i]}
-                    className="accent-custom-cream w-5 h-5 rounded-md"
-                    onChange={(e) => {
-                      setIsChecked({
-                        ...isChecked,
-                        [i]: e.target.checked,
-                      });
-                    }}
-                  />
-                  {isChecked[i] && (
-                    <div className="flex gap-3">
-                      {FavoriteDeleteIcons.map((e) => (
-                        <button
-                          key={i}
-                          className="flex gap-1 items-center"
-                          onClick={() => {
-                            if (e.name === "Favorite") {
-                              setSelected(dataInfo?.id);
-                              openModal();
-                              console.log("FAVORITE OPEN MODAL");
-                            }
-                          }}
-                        >
-                          {" "}
-                          <Icon icon={e.icon} className="pBigger" />
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
+            <CardContent
+              i={i}
+              isChecked={isChecked}
+              setIsChecked={setIsChecked}
+              selected={selected}
+              setSelected={setSelected}
+              openModal={openModal}
+              dataInfo={dataInfo}
+              dataEdit={dataEdit}
+              handleEditPost={handleEditPost}
+              isEdit={isEdit}
+              setIsEdit={setIsEdit}
+              setDataEdit={setDataEdit}
+              data={data}
+              editPost={editPost}
+            />
 
-                {selected === dataInfo?.id && isEdit ? (
-                  <>
-                    {/* EDIT INPUT POST START */}
-                    <div className="space-y-5">
-                      <CustomInput
-                        label="Title"
-                        value={dataEdit?.title}
-                        name="title"
-                        onChange={handleEditPost}
-                      />
-                      <CustomInput
-                        label="Made by"
-                        value={dataEdit?.user?.name}
-                        name="name"
-                        onChange={handleEditPost}
-                      />
-                      <CustomInput
-                        label="Post"
-                        value={dataEdit?.body}
-                        name="body"
-                        onChange={handleEditPost}
-                      />
-                      {/* CONFIRM EDIT / CANCEL BUTTONS START  */}
-                      <div className="flex gap-5 justify-center">
-                        {ConfirmCancelEditIcons.map((e, i) => (
-                          <Icon
-                            key={i}
-                            icon={e.icon}
-                            className="text-4xl hover:cursor-pointer"
-                            color={e.color}
-                            onClick={() => {
-                              if (e.name === "Confirm") {
-                                if (selected === dataInfo?.id) {
-                                  const post = data.find(
-                                    (p) => p.id === dataInfo?.id
-                                  );
-                                  editPost(dataInfo?.id, dataEdit);
-                                  setDataEdit(post);
-                                  setIsEdit(false);
-                                }
-                              } else {
-                                setIsEdit(false);
-                              }
-                            }}
-                          />
-                        ))}
-                      </div>
-                      {/* CONFIRM EDIT / CANCEL BUTTONS END  */}
-                    </div>
-                    {/* EDIT INPUT POST END */}
-                  </>
-                ) : (
-                  <>
-                    <h2 className="text-custom-blue-1">
-                      {capitalizeFirstLetter(dataInfo?.title)}
-                    </h2>
-                    <p className="pSmaller">
-                      Made by:{" "}
-                      <span className="text-gray-700 font-semibold pSmaller2">
-                        {capitalizeFirstLetter(dataInfo?.user?.name)}
-                      </span>
-                    </p>
-                    <p className="pSmaller">{dataInfo?.body}</p>
-                  </>
-                )}
-              </div>
-            </div>
-
-            {/* COMMENT EDIT BUTTONS START */}
-            <div className="">
-              <div className="mt-shorter4 px-shorter4 bg-gray-400 flex justify-evenly gap-3 p-3 border border-gray-500">
+            {/* COMMENT / EDIT BUTTONS START */}
+            <div>
+              <div className=" mt-shorter4 px-shorter4 bg-gray-400 flex justify-evenly gap-3 p-3 border border-gray-500">
                 {CommentEditIcons.map((social, i) => (
                   <button
                     key={i}
@@ -316,13 +231,13 @@ const PostPage = () => {
                   </button>
                 ))}
               </div>
-              {/* COMMENT EDIT BUTTONS END */}
+              {/* COMMENT / EDIT BUTTONS END */}
 
               {/* ALL COMMENTS OF A POST START */}
               {selected === dataInfo?.id && isCommentActive && (
                 <div className="bg-gray-400 overflow-y-scroll scrollbar-thumb-gray-500 h-[30rem] space-y-5 scrollbar-thin">
                   {comments?.map((comment, i) => (
-                    <React.Fragment key={i}>
+                    <Fragment key={i}>
                       <div
                         className={`flex flex-col md:px-shorter2 lg:px-shorter3 border-b border-gray-500 p-5 ${
                           i === comments.length - 1 && "border-b-0"
@@ -334,7 +249,7 @@ const PostPage = () => {
                         <p className="pSmaller">{comment?.email}</p>
                         <p className="pSmaller2">{comment?.body}</p>
                       </div>
-                    </React.Fragment>
+                    </Fragment>
                   ))}
                 </div>
               )}
