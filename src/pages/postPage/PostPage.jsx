@@ -52,16 +52,18 @@ const PostPage = () => {
   }, []);
 
   return (
-    <section className="px-longer py-shorter2">
+    <section className="px-longer py-shorter2 ">
       <div
-        className={`grid aspect-square md:grid-cols-2 lg:grid-cols-3 gap-5 ${isCommentActive}`}
+        className={`grid md:grid-cols-2 lg:grid-cols-3 gap-5 ${isCommentActive}`}
       >
-        {data?.slice(0, 10)?.map((dataInfo) => (
+        {data?.slice(0, 10)?.map((dataInfo, i) => (
           <div
-            key={dataInfo?.id}
-            className="pt-shorter2 lg:pt-shorter3 flex flex-col justify-between gap-y-2 rounded-t-md bg-custom-blue-3 text-custom-black shadow-lg hover:-translate-y-1 animate300"
+            key={i}
+            className={`pt-shorter2 lg:pt-shorter3 flex flex-col justify-between gap-y-2 rounded-t-md bg-custom-blue-3 text-custom-black shadow-lg hover:-translate-y-1 animate300 ${
+              selected === dataInfo?.id && "row-span-2"
+            }`}
           >
-            <div className="space-y-3 px-normal md:px-shorter2 lg:px-shorter3">
+            <div className="space-y-3 px-normal md:px-shorter2 lg:px-shorter3 col-">
               <div className="flex text-custom-blue-1 justify-between">
                 <h2>{dataInfo?.user?.username}</h2>
                 <input
@@ -74,32 +76,44 @@ const PostPage = () => {
               </h3>
               <p className="pSmaller2">{dataInfo?.body}</p>
             </div>
-            <div className="mt-shorter4 px-shorter4 bg-gray-400 flex justify-evenly gap-3 p-3 w-full">
-              {socialActions.map((social, i) => (
-                <button
-                  key={i}
-                  className="flex gap-1 items-center"
-                  onClick={() => {
-                    if (social.name === "Comment") {
-                      getCommentByPostId(dataInfo?.id);
-                      setSelected(dataInfo?.id);
-                      if (selected === dataInfo?.id) {
-                        setIsCommentActive(!isCommentActive);
+            <div className="">
+              <div className="mt-shorter4 px-shorter4 bg-gray-400 flex justify-evenly gap-3 p-3 border border-gray-500">
+                {socialActions.map((social, i) => (
+                  <button
+                    key={i}
+                    className="flex gap-1 items-center"
+                    onClick={() => {
+                      if (social.name === "Comment") {
+                        getCommentByPostId(dataInfo?.id);
+                        setSelected(dataInfo?.id);
+                        if (selected === dataInfo?.id) {
+                          setIsCommentActive(!isCommentActive);
+                        }
                       }
-                    }
-                  }}
-                >
-                  <Icon icon={social.icon} className="pBigger" />
-                </button>
-              ))}
-            </div>
-            {dataInfo?.id === selected && isCommentActive && (
-              <div className="bg-gray-400 px-normal md:px-shorter2 lg:px-shorter3">
-                {comments?.map((e) => (
-                  <p className="pSmaller">{e?.email}</p>
+                    }}
+                  >
+                    <Icon icon={social.icon} className="pBigger" />
+                  </button>
                 ))}
               </div>
-            )}
+              {dataInfo?.id === selected && isCommentActive && (
+                <div className="bg-gray-400 overflow-y-scroll h-[30rem] hide-scrollbar space-y-5">
+                  {comments?.map((comment, i) => (
+                    <div
+                      className={`flex flex-col md:px-shorter2 lg:px-shorter3 border-b border-gray-500 p-5 ${
+                        i === comments.length - 1 && "border-b-0"
+                      }`}
+                    >
+                      <p className="font-semibold">
+                        {comment?.name?.substring(0, 5)}
+                      </p>
+                      <p className="pSmaller">{comment?.email}</p>
+                      <p className="pSmaller2">{comment?.body}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         ))}
       </div>
