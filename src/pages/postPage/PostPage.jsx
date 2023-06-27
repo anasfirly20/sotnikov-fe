@@ -25,6 +25,7 @@ import Favorites from "./components/Favorites";
 import CustomModal from "../../components/CustomModal";
 import CardPost from "../../components/cardPost/CardPost";
 import CardContent from "../../components/cardPost/components/CardContent";
+import CardCommentEdit from "../../components/cardPost/components/CardCommentEdit";
 
 const PostPage = () => {
   const [data, setData] = useState([]);
@@ -197,7 +198,7 @@ const PostPage = () => {
               selected === dataInfo?.id && isCommentActive && "row-span-2"
             }`}
           >
-            <CardContent
+            <CardPost
               i={i}
               isChecked={isChecked}
               setIsChecked={setIsChecked}
@@ -212,49 +213,11 @@ const PostPage = () => {
               setDataEdit={setDataEdit}
               data={data}
               editPost={editPost}
+              isCommentActive={isCommentActive}
+              handleClickEdit={handleClickEdit}
+              handleClickComment={handleClickComment}
+              comments={comments}
             />
-
-            {/* COMMENT / EDIT BUTTONS START */}
-            <div>
-              <div className=" mt-shorter4 px-shorter4 bg-gray-400 flex justify-evenly gap-3 p-3 border border-gray-500">
-                {CommentEditIcons.map((social, i) => (
-                  <button
-                    key={i}
-                    className="flex gap-1 items-center"
-                    onClick={() => {
-                      social.name === "Comment" &&
-                        handleClickComment(dataInfo?.id);
-                      social.name === "Edit" && handleClickEdit(dataInfo?.id);
-                    }}
-                  >
-                    <Icon icon={social.icon} className="pBigger" />
-                  </button>
-                ))}
-              </div>
-              {/* COMMENT / EDIT BUTTONS END */}
-
-              {/* ALL COMMENTS OF A POST START */}
-              {selected === dataInfo?.id && isCommentActive && (
-                <div className="bg-gray-400 overflow-y-scroll scrollbar-thumb-gray-500 h-[30rem] space-y-5 scrollbar-thin">
-                  {comments?.map((comment, i) => (
-                    <Fragment key={i}>
-                      <div
-                        className={`flex flex-col md:px-shorter2 lg:px-shorter3 border-b border-gray-500 p-5 ${
-                          i === comments.length - 1 && "border-b-0"
-                        }`}
-                      >
-                        <p className="font-semibold">
-                          {comment?.name?.substring(0, 5)}
-                        </p>
-                        <p className="pSmaller">{comment?.email}</p>
-                        <p className="pSmaller2">{comment?.body}</p>
-                      </div>
-                    </Fragment>
-                  ))}
-                </div>
-              )}
-              {/* ALL COMMENTS OF A POST END */}
-            </div>
           </div>
         ))}
       </div>
