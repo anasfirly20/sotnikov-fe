@@ -42,7 +42,7 @@ const PostPage = () => {
     try {
       const res = await commentApi.getCommentByPostId(postId);
       setComments(res?.data);
-      console.log("COMMENT >", res?.data);
+      // console.log("COMMENT >", res?.data);
     } catch (err) {
       console.log(err);
     }
@@ -91,12 +91,12 @@ const PostPage = () => {
                     key={i}
                     className="flex gap-1 items-center"
                     onClick={() => {
-                      if (social.name === "Comment") {
-                        getCommentByPostId(dataInfo?.id);
+                      if (selected === dataInfo?.id) {
+                        setIsCommentActive(!isCommentActive);
+                      } else {
                         setSelected(dataInfo?.id);
-                        if (selected === dataInfo?.id) {
-                          setIsCommentActive(!isCommentActive);
-                        }
+                        setIsCommentActive(true);
+                        getCommentByPostId(dataInfo?.id);
                       }
                     }}
                   >
