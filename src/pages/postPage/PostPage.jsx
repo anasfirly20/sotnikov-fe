@@ -118,6 +118,12 @@ const PostPage = () => {
     }
   };
 
+  // display values immediately on input once edit button is clicked
+  useEffect(() => {
+    const post = data.find((p) => p.id === selected);
+    setDataEdit(post);
+  }, [selected, data]);
+
   return (
     <section className="px-longer py-shorter2 ">
       <div className="flex items-center">
