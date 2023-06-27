@@ -11,6 +11,9 @@ import { Icon } from "@iconify/react";
 // Constants
 import { socialActions } from "./constants";
 
+// Utils
+import { capitalizeFirstLetter } from "../../../utils";
+
 const PostPage = () => {
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState();
@@ -42,7 +45,6 @@ const PostPage = () => {
     try {
       const res = await commentApi.getCommentByPostId(postId);
       setComments(res?.data);
-      // console.log("COMMENT >", res?.data);
     } catch (err) {
       console.log(err);
     }
@@ -51,6 +53,17 @@ const PostPage = () => {
   useEffect(() => {
     getAllPosts();
   }, []);
+
+  // Handleclick Comment
+  const handleClickComment = (postId) => {
+    if (selected === postId) {
+      setIsCommentActive(!isCommentActive);
+    } else {
+      setSelected(postId);
+      setIsCommentActive(true);
+      getCommentByPostId(postId);
+    }
+  };
 
   return (
     <section className="px-longer py-shorter2 ">
@@ -79,9 +92,7 @@ const PostPage = () => {
                   }}
                 />
               </div>
-              <h3 className="tracking-wider text-custom-blue-">
-                {dataInfo?.title}
-              </h3>
+              <h3 className="">{capitalizeFirstLetter(dataInfo?.title)}</h3>
               <p className="pSmaller2">{dataInfo?.body}</p>
             </div>
             <div className="">
@@ -91,13 +102,8 @@ const PostPage = () => {
                     key={i}
                     className="flex gap-1 items-center"
                     onClick={() => {
-                      if (selected === dataInfo?.id) {
-                        setIsCommentActive(!isCommentActive);
-                      } else {
-                        setSelected(dataInfo?.id);
-                        setIsCommentActive(true);
-                        getCommentByPostId(dataInfo?.id);
-                      }
+                      social.name === "Comment" &&
+                        handleClickComment(dataInfo?.id);
                     }}
                   >
                     <Icon icon={social.icon} className="pBigger" />
@@ -105,19 +111,21 @@ const PostPage = () => {
                 ))}
               </div>
               {selected === dataInfo?.id && isCommentActive && (
-                <div className="bg-gray-400 overflow-y-scroll h-[30rem] hide-scrollbar space-y-5">
+                <div className="bg-gray-400 overflow-y-scroll scrollbar-thumb-gray-500 h-[30rem] space-y-5 scrollbar-thin">
                   {comments?.map((comment, i) => (
-                    <div
-                      className={`flex flex-col md:px-shorter2 lg:px-shorter3 border-b border-gray-500 p-5 ${
-                        i === comments.length - 1 && "border-b-0"
-                      }`}
-                    >
-                      <p className="font-semibold">
-                        {comment?.name?.substring(0, 5)}
-                      </p>
-                      <p className="pSmaller">{comment?.email}</p>
-                      <p className="pSmaller2">{comment?.body}</p>
-                    </div>
+                    <React.Fragment key={i}>
+                      <div
+                        className={`flex flex-col md:px-shorter2 lg:px-shorter3 border-b border-gray-500 p-5 ${
+                          i === comments.length - 1 && "border-b-0"
+                        }`}
+                      >
+                        <p className="font-semibold">
+                          {comment?.name?.substring(0, 5)}
+                        </p>
+                        <p className="pSmaller">{comment?.email}</p>
+                        <p className="pSmaller2">{comment?.body}</p>
+                      </div>
+                    </React.Fragment>
                   ))}
                 </div>
               )}
