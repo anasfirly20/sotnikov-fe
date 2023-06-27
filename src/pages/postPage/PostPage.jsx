@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 
 // Api
 import postApi from "./api/post.api";
@@ -7,11 +7,12 @@ import commentApi from "./api/comment.api";
 
 // Miscellaneous
 import { Icon } from "@iconify/react";
+import { Dialog, Transition } from "@headlessui/react";
 
 // Constants
 import {
   CommentEditIcons,
-  FavoriteDelete,
+  FavoriteDeleteIcons,
   ConfirmCancelEditIcons,
 } from "./constants";
 
@@ -21,6 +22,7 @@ import { capitalizeFirstLetter, getPostAmount } from "../../../utils";
 // Components
 import CustomInput from "../../components/CustomInput";
 import Favorites from "./components/Favorites";
+import CustomModal from "../../components/CustomModal";
 
 const PostPage = () => {
   const [data, setData] = useState([]);
@@ -130,9 +132,26 @@ const PostPage = () => {
     setDataEdit(post);
   }, [selected, data]);
 
+  // FAVORITES
+  const [isOpen, setIsOpen] = useState(false);
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
   return (
     <section className="px-longer py-shorter2 ">
-      <Favorites />
+      {/* FAVORITES START */}
+      <section className="">
+        <h2 className="">Favorites</h2>
+        {/* <CustomModal onClick={closeModal} onClose={closeModal} show={isOpen} /> */}
+      </section>
+      {/* FAVORITES END */}
+
       <div className="flex items-center">
         <h3 className="hover:underline">Post displayed:</h3>
         <select
@@ -157,6 +176,12 @@ const PostPage = () => {
               selected === dataInfo?.id && isCommentActive && "row-span-2"
             }`}
           >
+            <CustomModal
+              onClick={closeModal}
+              onClose={closeModal}
+              show={isOpen}
+              post={selected ? data.find((post) => post.id === selected) : null}
+            />
             <div className="space-y-3 px-normal md:px-shorter2 lg:px-shorter3 col-">
               <div className="flex flex-col gap-2">
                 <div className="flex justify-between">
@@ -173,8 +198,18 @@ const PostPage = () => {
                   />
                   {isChecked[i] && (
                     <div className="flex gap-3">
-                      {FavoriteDelete.map((e) => (
-                        <button key={i} className="flex gap-1 items-center">
+                      {FavoriteDeleteIcons.map((e) => (
+                        <button
+                          key={i}
+                          className="flex gap-1 items-center"
+                          onClick={() => {
+                            if (e.name === "Favorite") {
+                              setSelected(dataInfo?.id);
+                              openModal();
+                              console.log("FAVORITE");
+                            }
+                          }}
+                        >
                           {" "}
                           <Icon icon={e.icon} className="pBigger" />
                         </button>
