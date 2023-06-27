@@ -174,6 +174,19 @@ const PostPage = () => {
     getFavorites(selected);
   }, [selected]);
 
+  // DELETE post by Id
+  const handleDeletePost = async (postId) => {
+    try {
+      const res = await postApi.deletePostById(postId);
+      console.log("RES>>>>", res);
+      const updatedData = data.filter((post) => post.id !== postId);
+      setData(updatedData);
+      setSelectedPostAmount((prev) => prev - 1);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <section className="px-longer py-shorter2 ">
       <div className="flex items-center">
@@ -224,31 +237,36 @@ const PostPage = () => {
                   />
                   {isChecked[i] && (
                     <div className="flex gap-3">
-                      {FavoriteDeleteIcons.map((e, i) => (
-                        <button
-                          key={i}
-                          className="flex gap-1 items-center"
-                          onClick={() => {
-                            if (
-                              e.name === "Favorite" ||
-                              selected === dataInfo?.id
-                            ) {
+                      {FavoriteDeleteIcons.map((e, i) =>
+                        e?.name === "Favorite" ? (
+                          <button
+                            key={i}
+                            className="flex gap-1 items-center"
+                            onClick={() => {
                               setSelected(dataInfo?.id);
                               handleClickFavorite(dataInfo?.id);
-                            }
-                          }}
-                        >
-                          {" "}
-                          <Icon
-                            icon={e.icon}
-                            className={`pBigger animate300 ${
-                              e.name === "Favorite" && dataInfo?.isFavorite
-                                ? "text-red-500 scale-150"
-                                : ""
-                            }`}
-                          />
-                        </button>
-                      ))}
+                            }}
+                          >
+                            {" "}
+                            <Icon
+                              icon={e.icon}
+                              className={`pBigger animate300 ${
+                                dataInfo?.isFavorite && "text-red-500 scale-150"
+                              }`}
+                            />
+                          </button>
+                        ) : (
+                          <button
+                            key={i}
+                            className="flex gap-1 items-center"
+                            onClick={() => {
+                              handleDeletePost(dataInfo?.id);
+                            }}
+                          >
+                            <Icon icon={e.icon} className={`pBigger`} />
+                          </button>
+                        )
+                      )}
                     </div>
                   )}
                 </div>

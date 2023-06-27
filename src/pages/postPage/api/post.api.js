@@ -15,4 +15,10 @@ export default class postApi {
   static async editPostById(id, body) {
     return await api.put(`/posts/${id}`, body);
   }
+
+  // Delete Post by Id
+  static async deletePostById(id) {
+    console.log("DELETED>>>", id);
+    return await api.delete(`/posts/${id}`);
+  }
 }
