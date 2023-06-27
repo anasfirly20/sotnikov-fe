@@ -16,6 +16,7 @@ import { capitalizeFirstLetter, getPostAmount } from "../../../utils";
 
 // Components
 import CustomInput from "../../components/CustomInput";
+import Favorites from "./components/Favorites";
 
 const PostPage = () => {
   const [data, setData] = useState([]);
@@ -127,6 +128,7 @@ const PostPage = () => {
 
   return (
     <section className="px-longer py-shorter2 ">
+      <Favorites />
       <div className="flex items-center">
         <h3 className="hover:underline">Post displayed:</h3>
         <select
@@ -176,51 +178,58 @@ const PostPage = () => {
                     </div>
                   )}
                 </div>
+
                 {selected === dataInfo?.id && isEdit ? (
-                  <div className="space-y-5">
-                    <CustomInput
-                      label="Title"
-                      value={dataEdit?.title}
-                      name="title"
-                      onChange={handleEditPost}
-                    />
-                    <CustomInput
-                      label="Made by"
-                      value={dataEdit?.user?.name}
-                      name="name"
-                      onChange={handleEditPost}
-                    />
-                    <CustomInput
-                      label="Post"
-                      value={dataEdit?.body}
-                      name="body"
-                      onChange={handleEditPost}
-                    />
-                    <div className="flex gap-5 justify-center">
-                      {confirmEditIcons.map((e, i) => (
-                        <Icon
-                          key={i}
-                          icon={e.icon}
-                          className="text-4xl hover:cursor-pointer"
-                          color={e.color}
-                          onClick={() => {
-                            if (e.name === "Confirm") {
-                              if (selected === dataInfo?.id) {
-                                const post = data.find(
-                                  (p) => p.id === dataInfo?.id
-                                );
-                                editPost(dataInfo?.id, dataEdit);
-                                setDataEdit(post);
+                  <>
+                    {/* EDIT INPUT POST START */}
+                    <div className="space-y-5">
+                      <CustomInput
+                        label="Title"
+                        value={dataEdit?.title}
+                        name="title"
+                        onChange={handleEditPost}
+                      />
+                      <CustomInput
+                        label="Made by"
+                        value={dataEdit?.user?.name}
+                        name="name"
+                        onChange={handleEditPost}
+                      />
+                      <CustomInput
+                        label="Post"
+                        value={dataEdit?.body}
+                        name="body"
+                        onChange={handleEditPost}
+                      />
+                      {/* CONFIRM EDIT / CANCEL BUTTONS START  */}
+                      <div className="flex gap-5 justify-center">
+                        {confirmEditIcons.map((e, i) => (
+                          <Icon
+                            key={i}
+                            icon={e.icon}
+                            className="text-4xl hover:cursor-pointer"
+                            color={e.color}
+                            onClick={() => {
+                              if (e.name === "Confirm") {
+                                if (selected === dataInfo?.id) {
+                                  const post = data.find(
+                                    (p) => p.id === dataInfo?.id
+                                  );
+                                  editPost(dataInfo?.id, dataEdit);
+                                  setDataEdit(post);
+                                  setIsEdit(false);
+                                }
+                              } else {
                                 setIsEdit(false);
                               }
-                            } else {
-                              setIsEdit(false);
-                            }
-                          }}
-                        />
-                      ))}
+                            }}
+                          />
+                        ))}
+                      </div>
+                      {/* CONFIRM EDIT / CANCEL BUTTONS END  */}
                     </div>
-                  </div>
+                    {/* EDIT INPUT POST END */}
+                  </>
                 ) : (
                   <>
                     <h2 className="text-custom-blue-1">{dataInfo?.title}</h2>
@@ -235,6 +244,8 @@ const PostPage = () => {
                 )}
               </div>
             </div>
+
+            {/* COMMENT EDIT BUTTONS START */}
             <div className="">
               <div className="mt-shorter4 px-shorter4 bg-gray-400 flex justify-evenly gap-3 p-3 border border-gray-500">
                 {commentEditIcons.map((social, i) => (
@@ -251,6 +262,9 @@ const PostPage = () => {
                   </button>
                 ))}
               </div>
+              {/* COMMENT EDIT BUTTONS END */}
+
+              {/* ALL COMMENTS OF A POST START */}
               {selected === dataInfo?.id && isCommentActive && (
                 <div className="bg-gray-400 overflow-y-scroll scrollbar-thumb-gray-500 h-[30rem] space-y-5 scrollbar-thin">
                   {comments?.map((comment, i) => (
@@ -270,6 +284,7 @@ const PostPage = () => {
                   ))}
                 </div>
               )}
+              {/* ALL COMMENTS OF A POST END */}
             </div>
           </div>
         ))}
