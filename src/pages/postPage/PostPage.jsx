@@ -28,6 +28,7 @@ const PostPage = () => {
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState();
   const [isChecked, setIsChecked] = useState({});
+  const [favorites, setFavorites] = useState(["asd"]);
 
   // Amount of Posts
   const postAmountSelected = getPostAmount();
@@ -143,12 +144,24 @@ const PostPage = () => {
     setIsOpen(true);
   }
 
+  function addToFav() {
+    setIsOpen(false);
+  }
+
   return (
     <section className="px-longer py-shorter2 ">
       {/* FAVORITES START */}
-      <section className="">
+      <section className="mb-10 ">
         <h2 className="">Favorites</h2>
-        {/* <CustomModal onClick={closeModal} onClose={closeModal} show={isOpen} /> */}
+        {favorites.length > 0 ? (
+          <div className="mt-3 grid md:grid-cols-2 xl:grid-cols-3 gap-5">
+            <div className="pt-shorter2 lg:pt-shorter3 flex flex-col justify-between gap-y-2 rounded-t-md bg-custom-blue-3 text-custom-black shadow-lg hover:-translate-y-1 animate300">
+              asd
+            </div>
+          </div>
+        ) : (
+          "Empty Favorites"
+        )}
       </section>
       {/* FAVORITES END */}
 
@@ -169,6 +182,12 @@ const PostPage = () => {
       <div
         className={`mt-3 grid md:grid-cols-2 xl:grid-cols-3 gap-5 ${isCommentActive}`}
       >
+        <CustomModal
+          onClose={closeModal}
+          onConfirm={addToFav}
+          show={isOpen}
+          post={selected ? data.find((post) => post.id === selected) : null}
+        />
         {data?.slice(0, selectedPostAmount)?.map((dataInfo, i) => (
           <div
             key={i}
@@ -176,12 +195,6 @@ const PostPage = () => {
               selected === dataInfo?.id && isCommentActive && "row-span-2"
             }`}
           >
-            <CustomModal
-              onClick={closeModal}
-              onClose={closeModal}
-              show={isOpen}
-              post={selected ? data.find((post) => post.id === selected) : null}
-            />
             <div className="space-y-3 px-normal md:px-shorter2 lg:px-shorter3 col-">
               <div className="flex flex-col gap-2">
                 <div className="flex justify-between">
@@ -206,7 +219,7 @@ const PostPage = () => {
                             if (e.name === "Favorite") {
                               setSelected(dataInfo?.id);
                               openModal();
-                              console.log("FAVORITE");
+                              console.log("FAVORITE OPEN MODAL");
                             }
                           }}
                         >
