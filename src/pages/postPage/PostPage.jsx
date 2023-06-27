@@ -19,6 +19,15 @@ const PostPage = () => {
   const [selected, setSelected] = useState();
   const [isChecked, setIsChecked] = useState({});
 
+  // Posts
+  const postAmount = [10, 20, 30, 40, 100];
+  const [selectedPostAmount, setSelectedPostAmount] = useState(10);
+
+  const handleSelectChange = (e) => {
+    setSelectedPostAmount(e.target.value);
+    console.log("SELECTED >>", e.target.value);
+  };
+
   // Comments
   const [isCommentActive, setIsCommentActive] = useState(false);
   const [comments, setComments] = useState([]);
@@ -67,10 +76,24 @@ const PostPage = () => {
 
   return (
     <section className="px-longer py-shorter2 ">
+      <div className="flex items-center">
+        <h3>Post displayed:</h3>
+        <select
+          value={selectedPostAmount}
+          onChange={handleSelectChange}
+          className="w-fit px-3 bg-transparent outline-none"
+        >
+          {postAmount.map((e, i) => (
+            <option key={i} value={e}>
+              {e}
+            </option>
+          ))}
+        </select>
+      </div>
       <div
-        className={`grid md:grid-cols-2 lg:grid-cols-3 gap-5 ${isCommentActive}`}
+        className={`mt-3 grid md:grid-cols-2 lg:grid-cols-3 gap-5 ${isCommentActive}`}
       >
-        {data?.slice(0, 11)?.map((dataInfo, i) => (
+        {data?.slice(0, selectedPostAmount)?.map((dataInfo, i) => (
           <div
             key={i}
             className={`pt-shorter2 lg:pt-shorter3 flex flex-col justify-between gap-y-2 rounded-t-md bg-custom-blue-3 text-custom-black shadow-lg hover:-translate-y-1 animate300 ${
