@@ -205,7 +205,7 @@ const PostPage = () => {
             className={`pt-shorter2 lg:pt-shorter3 flex flex-col justify-between gap-y-2 rounded-t-md bg-custom-blue-3 text-custom-black shadow-lg hover:-translate-y-1 animate300 ${
               selected === dataInfo?.id && isCommentActive && "row-span-2"
             }
-            ${dataInfo?.isFavorite && "bg-red-400"}
+            ${dataInfo?.isFavorite && "bg-blue-400 shadow-[3px_3px_18px_gray]"}
             `}
           >
             <div className="space-y-3 px-normal md:px-shorter2 lg:px-shorter3 col-">
@@ -239,7 +239,14 @@ const PostPage = () => {
                           }}
                         >
                           {" "}
-                          <Icon icon={e.icon} className="pBigger" />
+                          <Icon
+                            icon={e.icon}
+                            className={`pBigger animate300 ${
+                              e.name === "Favorite" && dataInfo?.isFavorite
+                                ? "text-red-500 scale-150"
+                                : ""
+                            }`}
+                          />
                         </button>
                       ))}
                     </div>
