@@ -17,6 +17,7 @@ import { getAlbumDisplayed, capitalizeFirstLetter } from "../../../utils";
 // Components
 import CustomSelect from "../../components/CustomSelect";
 import CustomModal from "../../components/CustomModal";
+import CustomInput from "../../components/CustomInput";
 
 const PhotoPage = () => {
   const [selected, setSelected] = useState();
@@ -71,7 +72,6 @@ const PhotoPage = () => {
       return album;
     });
     setData(updatedData);
-    setIsMenuOpen(!isMenuOpen);
   };
 
   // DELETE
@@ -94,6 +94,9 @@ const PhotoPage = () => {
       setData(updatedData);
       setSelectedAlbumAmount((prev) => prev - 1);
       setDeleteAlbumAmount((prev) => prev + 1);
+      if (isEdit) {
+        // setIsEdit(false);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -102,8 +105,44 @@ const PhotoPage = () => {
   };
 
   const cancelDeleteAlbum = () => {
-    setPostIdToDelete(null);
     setDeleteModalConfirmation(false);
+  };
+
+  // EDIT ALBUMS
+  const [isEdit, setIsEdit] = useState(false);
+  const [dataEdit, setDataEdit] = useState({});
+
+  const handleChangeEditPost = (e) => {
+    const { name, value } = e.target;
+    if (name === "name") {
+      setDataEdit({ ...dataEdit, user: { ...dataEdit?.user, [name]: value } });
+    } else {
+      setDataEdit({ ...dataEdit, [name]: value });
+    }
+  };
+
+  useEffect(() => {
+    console.log("DATA EDIT>>>", dataEdit);
+  }, [dataEdit]);
+
+  const editAlbum = async (id, body) => {
+    try {
+      if (dataEdit) {
+        const res = await albumApi.editAlbumById(id, body);
+        console.log("editAlbum FUNC >>", res?.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleClickEdit = (albumId) => {
+    console.log("albumId >>", albumId);
+    if (selected === albumId) {
+      setIsEdit(!isEdit);
+    } else {
+      setIsEdit(!isEdit);
+    }
   };
 
   return (
@@ -138,29 +177,41 @@ const PhotoPage = () => {
                 icon="material-symbols:favorite"
                 className="absolute text-red-500 text-3xl cursor-pointer z-10 right-5 top-5 hover:scale-150 animate500 active:scale-0"
                 onClick={() => {
-                  setSelected(dataInfo?.id);
                   handleClickFavorite(dataInfo?.id);
                 }}
               />
             )}
             <div className="p-shorter4">
               <div className="flex justify-between">
-                <h3 className="pBigger">
-                  {capitalizeFirstLetter(dataInfo?.title)}
-                </h3>
+                {selected === i && isEdit ? (
+                  <CustomInput
+                    name="title"
+                    value={dataEdit?.title}
+                    onChange={handleChangeEditPost}
+                  />
+                ) : (
+                  <h3 className="pBigger">
+                    {capitalizeFirstLetter(dataInfo?.title)}
+                  </h3>
+                )}
                 <div className="relative">
+                  {/* MORE BUTTON START */}
                   <Icon
                     icon="ri:more-fill"
                     className="text-4xl rounded-full border border-black p-1 hover:cursor-pointer hover:opacity-50"
                     onClick={() => {
                       if (selected === i) {
+                        console.log("TRIGGERED IF");
                         setIsMenuOpen(!isMenuOpen);
-                      } else {
                         setSelected(i);
+                      } else {
+                        console.log("TRIGGERED ELSE");
                         setIsMenuOpen(true);
+                        setSelected(i);
                       }
                     }}
                   />
+                  {/* MORE BUTTON END */}
                   {selected === i && isMenuOpen && (
                     <div className="absolute flex flex-col bg-custom-black/50 top-[100%] left-[50%] translate-x-[-50%] translate-y-[2%] divide-y-2 divide-custom-cream rounded-b-xl z-30">
                       {menuItems.map((e) => (
@@ -169,9 +220,21 @@ const PhotoPage = () => {
                           onClick={() => {
                             if (e?.name === "Favorite") {
                               handleClickFavorite(dataInfo?.id);
+                              setIsMenuOpen(!isMenuOpen);
                             } else if (e?.name === "Delete") {
                               handleDeleteAlbum(dataInfo?.id);
                               setIsMenuOpen(!isMenuOpen);
+                            } else if (e?.name === "Edit") {
+                              if (selected === i) {
+                                console.log("TRIGGER HE");
+                                handleClickEdit(i);
+                                setIsMenuOpen(false);
+                              } else {
+                                setIsMenuOpen(false);
+                              }
+                              // setSelected(i);
+                              // console.log("dataInfo>>>", dataInfo?.id);
+                              // console.log("index>>>", i);
                             }
                           }}
                         >
@@ -188,9 +251,18 @@ const PhotoPage = () => {
                   )}
                 </div>
               </div>
-              <p className="text-gray-600 pSmaller cursor-pointer">
-                By {capitalizeFirstLetter(dataInfo?.user?.name)}
-              </p>
+              {selected === i && isEdit ? (
+                <CustomInput
+                  name="name"
+                  value={dataEdit?.user?.name}
+                  onChange={handleChangeEditPost}
+                  className="w-fit"
+                />
+              ) : (
+                <p className="text-gray-600 pSmaller cursor-pointer">
+                  By {capitalizeFirstLetter(dataInfo?.user?.name)}
+                </p>
+              )}
             </div>
           </div>
         ))}
