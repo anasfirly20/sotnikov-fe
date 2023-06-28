@@ -74,7 +74,7 @@ const PhotoPage = () => {
         {data?.slice(0, selectedAlbumAmount)?.map((dataInfo, i) => (
           <div
             key={i}
-            className={`flex flex-col aspect-square gap-y-2 text-custom-black shadow-lg animate300 bg-transparent rounded-t-xl hover:shadow-[2px_2px_16px_gray] ${
+            className={`relative flex flex-col aspect-square gap-y-2 text-custom-black shadow-lg animate300 bg-transparent rounded-t-xl hover:shadow-[2px_2px_16px_gray] ${
               selected === dataInfo?.id && isCommentActive && "row-span-2"
             }
             ${
@@ -88,6 +88,12 @@ const PhotoPage = () => {
               alt="New York Image"
               className="bg-cover w-full h-full rounded-t-xl"
             />
+            {!dataInfo?.isFavorite && (
+              <Icon
+                icon="material-symbols:favorite"
+                className="absolute text-red-500 text-3xl z-10 right-5 top-5"
+              />
+            )}
             <div className="p-shorter4">
               <div className="flex justify-between">
                 <h3 className="pBigger">

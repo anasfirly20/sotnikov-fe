@@ -37,15 +37,15 @@ export const ConfirmCancelEditIcons = [
 
 export const menuItems = [
   {
-    name: "Add",
-    icon: "material-symbols:add",
-  },
-  {
     name: "Edit",
     icon: "bxs:edit",
   },
   {
     name: "Delete",
     icon: "material-symbols:delete",
+  },
+  {
+    name: "Favorite",
+    icon: "material-symbols:favorite",
   },
 ];
