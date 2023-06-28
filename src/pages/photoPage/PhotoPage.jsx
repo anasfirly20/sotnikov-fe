@@ -74,9 +74,7 @@ const PhotoPage = () => {
         {data?.slice(0, selectedAlbumAmount)?.map((dataInfo, i) => (
           <div
             key={i}
-            className={`relative flex flex-col aspect-square gap-y-2 text-custom-black shadow-lg animate300 bg-transparent rounded-t-xl hover:shadow-[2px_2px_16px_gray] ${
-              selected === dataInfo?.id && isCommentActive && "row-span-2"
-            }
+            className={`relative flex flex-col aspect-square gap-y-2 text-custom-black shadow-lg animate300 bg-transparent rounded-t-xl hover:shadow-[2px_2px_16px_gray]
             ${
               dataInfo?.isFavorite &&
               "bg-blue-400 shadow-[3px_3px_18px_gray] -translate-y-3"
@@ -86,12 +84,12 @@ const PhotoPage = () => {
             <img
               src={imageNy}
               alt="New York Image"
-              className="bg-cover w-full h-full rounded-t-xl"
+              className="bg-cover w-full h-full rounded-t-xl -z-10"
             />
-            {!dataInfo?.isFavorite && (
+            {dataInfo?.isFavorite && (
               <Icon
                 icon="material-symbols:favorite"
-                className="absolute text-red-500 text-3xl z-10 right-5 top-5"
+                className="absolute text-red-500 text-3xl -z-10 right-5 top-5"
               />
             )}
             <div className="p-shorter4">
@@ -103,10 +101,17 @@ const PhotoPage = () => {
                   <Icon
                     icon="ri:more-fill"
                     className="text-4xl rounded-full border border-black p-1 hover:cursor-pointer hover:opacity-50"
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    onClick={() => {
+                      if (selected === i) {
+                        setIsMenuOpen(!isMenuOpen);
+                      } else {
+                        setSelected(i);
+                        setIsMenuOpen(true);
+                      }
+                    }}
                   />
-                  {isMenuOpen && (
-                    <div className="absolute flex flex-col bg-custom-black/50 top-[100%] left-[50%] translate-x-[-50%] translate-y-[2%] divide-y-2 divide-custom-cream rounded-b-xl">
+                  {selected === i && isMenuOpen && (
+                    <div className="absolute flex flex-col bg-custom-black/50 top-[100%] left-[50%] translate-x-[-50%] translate-y-[2%] divide-y-2 divide-custom-cream rounded-b-xl z-10">
                       {menuItems.map((e) => (
                         <div
                           className="flex text-custom-cream items-center cursor-pointer gap-3 px-4 py-2 group"
