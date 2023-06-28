@@ -145,17 +145,6 @@ const AlbumPage = () => {
       setIsEdit(!isEdit);
     }
   };
-
-  // Get photos by albumId
-  const getPhotosByAlbumId = async (id) => {
-    try {
-      const res = await albumApi.getPhotosByAlbumId(id);
-      console.log("RES>>>", res?.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   return (
     <section className="px-longer py-shorter2">
       <CustomSelect
@@ -204,8 +193,7 @@ const AlbumPage = () => {
                   <h3
                     className="pBigger cursor-pointer hover:opacity-50 active:opacity-100"
                     onClick={() => {
-                      console.log("albumId >", dataInfo?.id);
-                      getPhotosByAlbumId(dataInfo?.id);
+                      navigate(`/album/${dataInfo?.id}`);
                     }}
                   >
                     {capitalizeFirstLetter(dataInfo?.title)}

@@ -30,7 +30,7 @@ function App() {
             <Route path="/" element={<PostPage />} />
             <Route path="/album" element={<AlbumPage />} />
             <Route path="/task" element={<TaskPage />} />
-            <Route path="/photo/:id" element={<PhotoPage />} />
+            <Route path="/album/:id" element={<PhotoPage />} />
           </Routes>
         </Suspense>
       </BrowserRouter>
