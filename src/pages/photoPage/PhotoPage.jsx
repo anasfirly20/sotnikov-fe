@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 
 // Miscellaneous
 import { useParams } from "react-router-dom";
+import { Dialog, Transition } from "@headlessui/react";
+import { Icon } from "@iconify/react";
 
 // Api
 import albumApi from "../albumPage/api/album.api";
@@ -17,7 +19,6 @@ const PhotoPage = () => {
   const getPhotosByAlbumId = async (id) => {
     try {
       const res = await albumApi.getPhotosByAlbumId(id);
-      console.log("RES>>>", res?.data);
       setData(res?.data);
     } catch (err) {
       console.log(err);
@@ -28,6 +29,10 @@ const PhotoPage = () => {
     getPhotosByAlbumId(id);
   }, []);
 
+  // Toggle modal
+  const [isOpen, setIsOpen] = useState(false);
+  const [selected, setSelected] = useState(null);
+
   return (
     <section className="px-longer py-shorter2">
       <h2>Photos from album {id}</h2>
@@ -36,6 +41,10 @@ const PhotoPage = () => {
           <div
             key={i}
             className={`relative flex flex-col gap-y-2 text-custom-cream shadow-lg animate300 bg-gray-900 rounded-t-xl hover:shadow-[2px_2px_16px_gray] overflow-hidden cursor-pointer`}
+            onClick={() => {
+              setIsOpen(!isOpen);
+              console.log("ISOPEN >>", isOpen);
+            }}
           >
             <img
               src={photo?.thumbnailUrl}
@@ -48,6 +57,38 @@ const PhotoPage = () => {
           </div>
         ))}
       </div>
+      <Transition
+        show={isOpen}
+        enter="transition duration-100 ease-out"
+        enterFrom="transform scale-95 opacity-0"
+        enterTo="transform scale-100 opacity-100"
+        leave="transition duration-75 ease-out"
+        leaveFrom="transform scale-100 opacity-100"
+        leaveTo="transform scale-95 opacity-0"
+        as={Fragment}
+      >
+        <Dialog
+          onClose={() => setIsOpen(false)}
+          className="fixed bg-black/90 inset-20 inset-x-80 z-20 text-white rounded-xl"
+        >
+          <Icon
+            icon="zondicons:close-solid"
+            color="darkred"
+            className="absolute bg-white text-black rounded-full -right-5 -top-5 text-5xl cursor-pointer"
+            onClick={() => setIsOpen(false)}
+          />
+          <Dialog.Panel className="w-full h-full flex flex-col items-center gap-5 p-normal">
+            <Dialog.Description className="w-[30rem]">
+              <img
+                src="https://via.placeholder.com/150/92c952"
+                alt=""
+                className="object-cover w-full h-full rounded-xl"
+              />
+            </Dialog.Description>
+            <Dialog.Title className="pBigger2">Name</Dialog.Title>
+          </Dialog.Panel>
+        </Dialog>
+      </Transition>
     </section>
   );
 };
