@@ -9,18 +9,10 @@ import commentApi from "./api/comment.api";
 import { Icon } from "@iconify/react";
 
 // Constants
-import {
-  CommentEditIcons,
-  FavoriteDeleteIcons,
-  ConfirmCancelEditIcons,
-} from "./constants";
+import { CommentEditIcons, ConfirmCancelEditIcons } from "./constants";
 
 // Utils
-import {
-  capitalizeFirstLetter,
-  getPostAmount,
-  getFavorites,
-} from "../../../utils";
+import { capitalizeFirstLetter, getPostAmount } from "../../../utils";
 
 // Components
 import CustomInput from "../../components/CustomInput";
@@ -97,7 +89,7 @@ const PostPage = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [dataEdit, setDataEdit] = useState({});
 
-  const handleEditPost = (e) => {
+  const handleChangeEditPost = (e) => {
     const { name, value } = e.target;
     if (name === "name") {
       setDataEdit({ ...dataEdit, user: { ...dataEdit?.user, [name]: value } });
@@ -110,10 +102,11 @@ const PostPage = () => {
     try {
       if (dataEdit) {
         const res = await postApi.editPostById(id, body);
-        // console.log(">>>>", res?.data);
-        const updatedData = data.map((post) =>
+        console.log("CHECKKKK>>>", res?.data);
+        const updatedData = data?.map((post) =>
           post.id === id ? { ...post, ...res?.data } : post
         );
+        console.log("UPDATED>>>>>>", updatedData);
         setData(updatedData);
       }
     } catch (err) {
@@ -140,20 +133,11 @@ const PostPage = () => {
   }, [selected, data]);
 
   // FAVORITES
-  const [favoritePosts, setFavoritePosts] = useState([]);
-
   const handleClickFavorite = (postId) => {
     const updatedData = data.map((post) => {
       if (post.id === postId) {
         const updatedPost = { ...post, isFavorite: !post.isFavorite };
         localStorage.setItem(`post-${postId}`, JSON.stringify(updatedPost));
-        getFavorites(postId);
-        if (updatedPost.isFavorite) {
-          setFavoritePosts((prev) => [...prev, postId]); // add post ID to favoritePosts array
-        } else {
-          setFavoritePosts((prev) => prev.filter((id) => id !== postId)); // remove post ID from favoritePosts array
-          setIsChecked({});
-        }
         return updatedPost;
       }
       return post;
@@ -164,6 +148,7 @@ const PostPage = () => {
   // DELETE post by Id
   const [postIdToDelete, setPostIdToDelete] = useState(null);
   const [deleteModalConfirmation, setDeleteModalConfirmation] = useState(false);
+  const [deletedPostAmount, setDeletedPostAmount] = useState(0);
 
   const handleDeletePost = (postId) => {
     setPostIdToDelete(postId);
@@ -172,18 +157,17 @@ const PostPage = () => {
 
   const confirmDeletePost = async () => {
     try {
-      const res = await postApi.deletePostById(postIdToDelete);
-      console.log("RES>>>>", res);
+      await postApi.deletePostById(postIdToDelete);
       const updatedData = data.filter((post) => post.id !== postIdToDelete);
       setData(updatedData);
       setSelectedPostAmount((prev) => prev - 1);
+      setDeletedPostAmount((prev) => prev + 1);
     } catch (err) {
       console.log(err);
     }
     setPostIdToDelete(null);
     setDeleteModalConfirmation(false);
   };
-
   const cancelDeletePost = () => {
     setPostIdToDelete(null);
     setDeleteModalConfirmation(false);
@@ -201,14 +185,12 @@ const PostPage = () => {
         >
           {postAmount.map((e, i) => (
             <option key={i} value={e}>
-              {e}
+              {e - deletedPostAmount}
             </option>
           ))}
         </select>
       </div>
-      <div
-        className={`mt-3 grid md:grid-cols-2 xl:grid-cols-3 gap-5 ${isCommentActive}`}
-      >
+      <div className={`mt-3 grid md:grid-cols-2 xl:grid-cols-3 gap-5`}>
         <CustomModal
           cancelDeletePost={cancelDeletePost}
           confirmDeletePost={confirmDeletePost}
@@ -282,19 +264,19 @@ const PostPage = () => {
                         label="Title"
                         value={dataEdit?.title}
                         name="title"
-                        onChange={handleEditPost}
+                        onChange={handleChangeEditPost}
                       />
                       <CustomInput
                         label="Made by"
                         value={dataEdit?.user?.name}
                         name="name"
-                        onChange={handleEditPost}
+                        onChange={handleChangeEditPost}
                       />
                       <CustomInput
                         label="Post"
                         value={dataEdit?.body}
                         name="body"
-                        onChange={handleEditPost}
+                        onChange={handleChangeEditPost}
                       />
                       {/* CONFIRM EDIT / CANCEL BUTTONS START  */}
                       <div className="flex gap-5 justify-center">
@@ -302,7 +284,7 @@ const PostPage = () => {
                           <Icon
                             key={i}
                             icon={e.icon}
-                            className="text-4xl hover:cursor-pointer"
+                            className="text-4xl hover:cursor-pointer hover:scale-110 animate500"
                             color={e.color}
                             onClick={() => {
                               if (e.name === "Confirm") {
@@ -350,9 +332,11 @@ const PostPage = () => {
                     key={i}
                     className="flex gap-1 items-center"
                     onClick={() => {
-                      social.name === "Comment" &&
+                      if (social.name === "Comment") {
                         handleClickComment(dataInfo?.id);
-                      social.name === "Edit" && handleClickEdit(dataInfo?.id);
+                      } else if (social.name === "Edit") {
+                        handleClickEdit(dataInfo?.id);
+                      }
                     }}
                   >
                     <Icon icon={social.icon} className="pBigger" />
@@ -365,7 +349,7 @@ const PostPage = () => {
               {selected === dataInfo?.id && isCommentActive && (
                 <div className="bg-gray-400 overflow-y-scroll scrollbar-thumb-gray-500 h-[30rem] space-y-5 scrollbar-thin">
                   {comments?.map((comment, i) => (
-                    <React.Fragment key={i}>
+                    <Fragment key={i}>
                       <div
                         className={`flex flex-col md:px-shorter2 lg:px-shorter3 border-b border-gray-500 p-5 ${
                           i === comments.length - 1 && "border-b-0"
@@ -377,7 +361,7 @@ const PostPage = () => {
                         <p className="pSmaller">{comment?.email}</p>
                         <p className="pSmaller2">{comment?.body}</p>
                       </div>
-                    </React.Fragment>
+                    </Fragment>
                   ))}
                 </div>
               )}

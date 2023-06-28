@@ -18,7 +18,6 @@ export default class postApi {
 
   // Delete Post by Id
   static async deletePostById(id) {
-    console.log("DELETED>>>", id);
     return await api.delete(`/posts/${id}`);
   }
 }
