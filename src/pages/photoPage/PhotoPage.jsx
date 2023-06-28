@@ -86,17 +86,14 @@ const PhotoPage = () => {
 
   const confirmDeleteAlbum = async () => {
     try {
-      const res = await albumApi.deleteAlbumById(albumIdToDelete);
-      console.log("RES>>>>", res);
+      await albumApi.deleteAlbumById(albumIdToDelete);
       const updatedData = data?.filter(
         (album) => album?.id !== albumIdToDelete
       );
       setData(updatedData);
       setSelectedAlbumAmount((prev) => prev - 1);
       setDeleteAlbumAmount((prev) => prev + 1);
-      if (isEdit) {
-        // setIsEdit(false);
-      }
+      setIsEdit(false);
     } catch (err) {
       console.log(err);
     }
