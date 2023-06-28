@@ -118,15 +118,15 @@ const PhotoPage = () => {
     }
   };
 
-  useEffect(() => {
-    console.log("DATA EDIT>>>", dataEdit);
-  }, [dataEdit]);
-
   const editAlbum = async (id, body) => {
     try {
       if (dataEdit) {
         const res = await albumApi.editAlbumById(id, body);
-        console.log("editAlbum FUNC >>", res?.data);
+        const updatedData = data?.map((album) =>
+          album?.id === id ? { ...album, ...res?.data } : album
+        );
+        setData(updatedData);
+        setIsEdit(!isEdit);
       }
     } catch (err) {
       console.log(err);
@@ -134,7 +134,6 @@ const PhotoPage = () => {
   };
 
   const handleClickEdit = (albumId) => {
-    console.log("albumId >>", albumId);
     if (selected === albumId) {
       const updatedAlbum = [...data];
       setDataEdit(updatedAlbum[albumId]);
@@ -198,8 +197,20 @@ const PhotoPage = () => {
                   {/* MORE BUTTON START */}
                   {selected === i && isEdit ? (
                     <div className="flex gap-2">
-                      <button>Confirm</button>
-                      <button onClick={() => setIsEdit(false)}>Cancel</button>
+                      <button
+                        className="px-3 py-1 bg-custom-blue-1 text-white font-medium rounded-lg hover:bg-custom-blue-2 active:bg-custom-blue-1"
+                        onClick={() => {
+                          editAlbum(dataInfo?.id, dataEdit);
+                        }}
+                      >
+                        Confirm
+                      </button>
+                      <button
+                        className="px-3 py-1 bg-transparent text-black border font-medium border-black rounded-lg hover:opacity-60 active:bg-custom-blue-1"
+                        onClick={() => setIsEdit(false)}
+                      >
+                        Cancel
+                      </button>
                     </div>
                   ) : (
                     <Icon
@@ -232,7 +243,6 @@ const PhotoPage = () => {
                               setIsMenuOpen(!isMenuOpen);
                             } else if (e?.name === "Edit") {
                               if (selected === i) {
-                                console.log("TRIGGER HE");
                                 handleClickEdit(i);
                                 setIsMenuOpen(false);
                               } else {
