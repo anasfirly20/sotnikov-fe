@@ -53,8 +53,6 @@ const PhotoPage = () => {
             className={`relative flex flex-col gap-y-2 text-custom-cream shadow-lg animate300 bg-gray-900 rounded-t-xl hover:shadow-[2px_2px_16px_gray] overflow-hidden cursor-pointer`}
             onClick={() => {
               setIsOpen(!isOpen);
-              // setSelectedId(photo?.id);
-              console.log("PHOTO ID>>", photo?.id);
               getPhotoById(photo?.id);
             }}
           >
@@ -81,7 +79,7 @@ const PhotoPage = () => {
       >
         <Dialog
           onClose={() => setIsOpen(false)}
-          className="fixed bg-black/90 inset-20 inset-x-80 z-20 text-white rounded-xl"
+          className="fixed bg-black/90 max-lg:top-[50%] max-lg:left-[50%] max-lg:-translate-x-[50%] max-lg:-translate-y-[50%] lg:inset-20 lg:inset-x-80 z-20 text-white rounded-xl"
         >
           <Icon
             icon="zondicons:close-solid"
@@ -90,7 +88,7 @@ const PhotoPage = () => {
             onClick={() => setIsOpen(false)}
           />
           <Dialog.Panel className="w-full h-full flex flex-col items-center gap-5 p-normal">
-            <Dialog.Description className="w-[30rem]">
+            <Dialog.Description className="w-[15rem] md:w-[30rem]">
               <img
                 src={selectedPhoto?.thumbnailUrl}
                 alt={selectedPhoto?.title}

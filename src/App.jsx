@@ -29,8 +29,8 @@ function App() {
             <Route path="*" element={<Navigate to="/" />} />
             <Route path="/" element={<PostPage />} />
             <Route path="/album" element={<AlbumPage />} />
-            <Route path="/task" element={<TaskPage />} />
             <Route path="/album/:id" element={<PhotoPage />} />
+            <Route path="/task" element={<TaskPage />} />
           </Routes>
         </Suspense>
       </BrowserRouter>
