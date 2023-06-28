@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useEffect, useState, Fragment, useRef } from "react";
 
 // Api
 import userApi from "../postPage/api/user.api";
@@ -6,7 +6,6 @@ import albumApi from "./api/album.api";
 
 // Miscellaneous
 import { Icon } from "@iconify/react";
-import { Menu } from "@headlessui/react";
 import imageNy from "../../assets/ny-photo.avif";
 
 // Constants
@@ -53,14 +52,26 @@ const PhotoPage = () => {
     }
   };
 
-  console.log("CHECK DATA ALB>>", data);
-
   useEffect(() => {
     getAllAlbums();
   }, []);
 
   // TOGGLE MENU
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // FAVORITES
+  const handleClickFavorite = (albumId) => {
+    const updatedData = data?.map((album) => {
+      if (album?.id === albumId) {
+        const updatedAlbum = { ...album, isFavorite: !album?.isFavorite };
+        localStorage.setItem(`album-${albumId}`, JSON.stringify(updatedAlbum));
+        return updatedAlbum;
+      }
+      return album;
+    });
+    setData(updatedData);
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   return (
     <section className="px-longer py-shorter2">
@@ -75,10 +86,7 @@ const PhotoPage = () => {
           <div
             key={i}
             className={`relative flex flex-col aspect-square gap-y-2 text-custom-black shadow-lg animate300 bg-transparent rounded-t-xl hover:shadow-[2px_2px_16px_gray]
-            ${
-              dataInfo?.isFavorite &&
-              "bg-blue-400 shadow-[3px_3px_18px_gray] -translate-y-3"
-            }
+            ${dataInfo?.isFavorite && " shadow-[2px_2px_16px_gray]"}
             `}
           >
             <img
@@ -89,7 +97,11 @@ const PhotoPage = () => {
             {dataInfo?.isFavorite && (
               <Icon
                 icon="material-symbols:favorite"
-                className="absolute text-red-500 text-3xl -z-10 right-5 top-5"
+                className="absolute text-red-500 text-3xl cursor-pointer z-10 right-5 top-5 hover:scale-150 animate500 active:scale-0"
+                onClick={() => {
+                  setSelected(dataInfo?.id);
+                  handleClickFavorite(dataInfo?.id);
+                }}
               />
             )}
             <div className="p-shorter4">
@@ -111,12 +123,14 @@ const PhotoPage = () => {
                     }}
                   />
                   {selected === i && isMenuOpen && (
-                    <div className="absolute flex flex-col bg-custom-black/50 top-[100%] left-[50%] translate-x-[-50%] translate-y-[2%] divide-y-2 divide-custom-cream rounded-b-xl z-10">
+                    <div className="absolute flex flex-col bg-custom-black/50 top-[100%] left-[50%] translate-x-[-50%] translate-y-[2%] divide-y-2 divide-custom-cream rounded-b-xl z-30">
                       {menuItems.map((e) => (
                         <div
                           className="flex text-custom-cream items-center cursor-pointer gap-3 px-4 py-2 group"
                           onClick={() => {
-                            setIsMenuOpen(!isMenuOpen);
+                            if (e?.name === "Favorite") {
+                              handleClickFavorite(dataInfo?.id);
+                            }
                           }}
                         >
                           <Icon
