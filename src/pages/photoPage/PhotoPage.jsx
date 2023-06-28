@@ -136,8 +136,11 @@ const PhotoPage = () => {
   const handleClickEdit = (albumId) => {
     console.log("albumId >>", albumId);
     if (selected === albumId) {
+      const updatedAlbum = [...data];
+      setDataEdit(updatedAlbum[albumId]);
       setIsEdit(!isEdit);
     } else {
+      setSelected(albumId);
       setIsEdit(!isEdit);
     }
   };
@@ -198,11 +201,10 @@ const PhotoPage = () => {
                     className="text-4xl rounded-full border border-black p-1 hover:cursor-pointer hover:opacity-50"
                     onClick={() => {
                       if (selected === i) {
-                        console.log("TRIGGERED IF");
+                        console.log("IFF");
                         setIsMenuOpen(!isMenuOpen);
-                        setSelected(i);
                       } else {
-                        console.log("TRIGGERED ELSE");
+                        console.log("ELSE");
                         setIsMenuOpen(true);
                         setSelected(i);
                       }
@@ -229,9 +231,6 @@ const PhotoPage = () => {
                               } else {
                                 setIsMenuOpen(false);
                               }
-                              // setSelected(i);
-                              // console.log("dataInfo>>>", dataInfo?.id);
-                              // console.log("index>>>", i);
                             }
                           }}
                         >
