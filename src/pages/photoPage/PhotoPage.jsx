@@ -100,11 +100,21 @@ const PhotoPage = () => {
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                   />
                   {isMenuOpen && (
-                    <div className="absolute flex flex-col bg-custom-blue-1/90 text-custom-cream top-[100%] left-[50%] translate-x-[-50%] translate-y-[5%] divide-y-2">
+                    <div className="absolute flex flex-col bg-custom-black/50 top-[100%] left-[50%] translate-x-[-50%] translate-y-[2%] divide-y-2 divide-custom-cream rounded-b-xl">
                       {menuItems.map((e) => (
-                        <div className="flex items-center cursor-pointer gap-3 px-4 py-2">
-                          <Icon icon={e.icon} />
-                          <p className="pSmaller">{e.name}</p>
+                        <div
+                          className="flex text-custom-cream items-center cursor-pointer gap-3 px-4 py-2 group"
+                          onClick={() => {
+                            setIsMenuOpen(!isMenuOpen);
+                          }}
+                        >
+                          <Icon
+                            icon={e.icon}
+                            className="group-hover:opacity-70 text-lg"
+                          />
+                          <p className="pSmaller group-hover:opacity-70">
+                            {e.name}
+                          </p>
                         </div>
                       ))}
                     </div>
