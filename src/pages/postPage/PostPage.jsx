@@ -26,6 +26,8 @@ import {
 import CustomInput from "../../components/CustomInput";
 import CustomModal from "../../components/CustomModal";
 import CustomFilter from "../../components/CustomFilter";
+import ButtonDelete from "../../components/ButtonDelete";
+import ButtonFavorite from "../../components/ButtonFavorite";
 
 const PostPage = () => {
   const [data, setData] = useState([]);
@@ -242,60 +244,32 @@ const PostPage = () => {
                   <div className="flex gap-3">
                     {isChecked[i] && (
                       <>
-                        <button
-                          className="flex gap-1 items-center"
+                        <ButtonFavorite
                           onClick={() => {
                             setSelected(dataInfo?.id);
                             handleClickFavorite(dataInfo?.id);
                           }}
-                        >
-                          <Icon
-                            icon={
-                              FavoriteDeleteIcons.find(
-                                (e) => e?.name === "Favorite"
-                              )?.icon
-                            }
-                            className={`pBigger animate300 ${
-                              dataInfo?.isFavorite
-                                ? "text-red-500 scale-150"
-                                : ""
-                            }`}
-                          />
-                        </button>
-                        <button
-                          className="flex gap-1 items-center"
+                          className={`pBigger animate300 ${
+                            dataInfo?.isFavorite ? "text-red-500 scale-150" : ""
+                          }`}
+                        />
+                        <ButtonDelete
                           onClick={() => {
                             handleDeletePost(dataInfo?.id);
+                            setIsChecked(!isChecked[i]);
                           }}
-                        >
-                          <Icon
-                            icon={
-                              FavoriteDeleteIcons.find(
-                                (e) => e?.name === "Delete"
-                              )?.icon
-                            }
-                            className={`pBigger`}
-                          />
-                        </button>
+                          className={`pBigger`}
+                        />
                       </>
                     )}
                     {!isChecked[i] && dataInfo?.isFavorite && (
-                      <button
-                        className="flex gap-1 items-center"
+                      <ButtonFavorite
                         onClick={() => {
                           setSelected(dataInfo?.id);
                           handleClickFavorite(dataInfo?.id);
                         }}
-                      >
-                        <Icon
-                          icon={
-                            FavoriteDeleteIcons.find(
-                              (e) => e?.name === "Favorite"
-                            )?.icon
-                          }
-                          className={`pBigger animate300 text-red-500 scale-150`}
-                        />
-                      </button>
+                        className={`pBigger animate300 text-red-500 scale-150`}
+                      />
                     )}
                   </div>
                 </div>
