@@ -85,14 +85,14 @@ const PhotoPage = () => {
         {data?.slice(0, selectedAlbumAmount)?.map((dataInfo, i) => (
           <div
             key={i}
-            className={`relative flex flex-col aspect-square gap-y-2 text-custom-black shadow-lg animate300 bg-transparent rounded-t-xl hover:shadow-[2px_2px_16px_gray]
+            className={`relative flex flex-col gap-y-2 text-custom-black shadow-lg animate300 bg-transparent rounded-t-xl hover:shadow-[2px_2px_16px_gray]
             ${dataInfo?.isFavorite && " shadow-[2px_2px_16px_gray]"}
             `}
           >
             <img
               src={imageNy}
               alt="New York Image"
-              className="bg-cover w-full h-full rounded-t-xl -z-10"
+              className="bg-cover w-full h-full rounded-t-xl -z-10 aspect-square"
             />
             {dataInfo?.isFavorite && (
               <Icon
