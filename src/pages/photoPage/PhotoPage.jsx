@@ -98,7 +98,9 @@ const PhotoPage = () => {
               />
             </Dialog.Description>
             <Dialog.Title className="pBigger2">
-              {capitalizeFirstLetter(selectedPhoto?.title)}
+              {(selectedPhoto?.title &&
+                capitalizeFirstLetter(selectedPhoto?.title)) ||
+                ""}
             </Dialog.Title>
           </Dialog.Panel>
         </Dialog>
