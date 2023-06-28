@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect, useState, Fragment } from "react";
 
 const PhotoPage = () => {
   return (
-    <div>
+    <section className="px-longer py-shorter2">
       <h1>PHOTO PAGE</h1>
-    </div>
+    </section>
   );
 };
 

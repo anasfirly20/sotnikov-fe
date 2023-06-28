@@ -18,6 +18,7 @@ import { capitalizeFirstLetter, getPostAmount } from "../../../utils";
 import CustomInput from "../../components/CustomInput";
 import CustomModal from "../../components/CustomModal";
 import CustomFilter from "../../components/CustomFilter";
+import CustomSelect from "../../components/CustomSelect";
 import ButtonDelete from "../../components/ButtonDelete";
 import ButtonFavorite from "../../components/ButtonFavorite";
 
@@ -174,21 +175,16 @@ const PostPage = () => {
   };
 
   return (
-    <section className="px-longer py-shorter2 ">
+    <section className="px-longer py-shorter2">
       <CustomFilter />
       <div className="flex items-center">
         <h3 className="hover:underline">Post displayed:</h3>
-        <select
+        <CustomSelect
           value={selectedPostAmount}
           onChange={handleSelectChange}
-          className="w-fit px-3 bg-transparent outline-none"
-        >
-          {postAmount.map((e, i) => (
-            <option key={i} value={e}>
-              {e - deletedPostAmount}
-            </option>
-          ))}
-        </select>
+          dataToMap={postAmount}
+          deletedAmount={deletedPostAmount}
+        />
       </div>
       <div className={`mt-3 grid md:grid-cols-2 xl:grid-cols-3 gap-5`}>
         <CustomModal
