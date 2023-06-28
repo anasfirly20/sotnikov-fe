@@ -1,4 +1,4 @@
-// GET POST FROM LOCAL STORAGE
+// GET POSTS FROM LOCAL STORAGE
 export const getPostAmount = () => {
   const postAmount = localStorage.getItem("displayedPost");
   if (!postAmount) return;
@@ -11,10 +11,11 @@ export const getFavorites = (postId) => {
   return JSON.parse(favorite);
 };
 
-export const getTelephone = () => {
-  const telephone = localStorage.getItem("telephone");
-  if (!telephone) return;
-  return telephone;
+// GET PHOTOS FROM LOCAL STORAGE
+export const getAlbumDisplayed = () => {
+  const albumDisplayed = localStorage.getItem("displayedAlbum");
+  if (!albumDisplayed) return;
+  return JSON.parse(albumDisplayed);
 };
 
 export function getRole() {

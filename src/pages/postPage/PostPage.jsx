@@ -9,11 +9,7 @@ import commentApi from "./api/comment.api";
 import { Icon } from "@iconify/react";
 
 // Constants
-import {
-  CommentEditIcons,
-  ConfirmCancelEditIcons,
-  postAmount,
-} from "./constants";
+import { CommentEditIcons, ConfirmCancelEditIcons } from "./constants";
 
 // Utils
 import { capitalizeFirstLetter, getPostAmount } from "../../../utils";
@@ -181,15 +177,12 @@ const PostPage = () => {
   return (
     <section className="px-longer py-shorter2">
       <CustomFilter />
-      <div className="flex items-center">
-        <h3 className="hover:underline">Post displayed:</h3>
-        <CustomSelect
-          value={selectedPostAmount}
-          onChange={handleSelectChange}
-          dataToMap={postAmount}
-          deletedAmount={deletedPostAmount}
-        />
-      </div>
+      <CustomSelect
+        label="Post displayed:"
+        value={selectedPostAmount}
+        onChange={handleSelectChange}
+        deletedAmount={deletedPostAmount}
+      />
       <div className={`mt-3 grid md:grid-cols-2 xl:grid-cols-3 gap-5`}>
         <CustomModal
           cancelDeletePost={cancelDeletePost}
