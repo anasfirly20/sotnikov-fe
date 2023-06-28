@@ -31,7 +31,17 @@ const PhotoPage = () => {
 
   // Toggle modal
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState(null);
+  const [selectedPhoto, setSelectedPhoto] = useState({});
+
+  // Get photos by Id
+  const getPhotoById = async (id) => {
+    try {
+      const res = await albumApi.getPhotoById(id);
+      setSelectedPhoto(res?.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <section className="px-longer py-shorter2">
@@ -43,7 +53,9 @@ const PhotoPage = () => {
             className={`relative flex flex-col gap-y-2 text-custom-cream shadow-lg animate300 bg-gray-900 rounded-t-xl hover:shadow-[2px_2px_16px_gray] overflow-hidden cursor-pointer`}
             onClick={() => {
               setIsOpen(!isOpen);
-              console.log("ISOPEN >>", isOpen);
+              // setSelectedId(photo?.id);
+              console.log("PHOTO ID>>", photo?.id);
+              getPhotoById(photo?.id);
             }}
           >
             <img
@@ -80,12 +92,14 @@ const PhotoPage = () => {
           <Dialog.Panel className="w-full h-full flex flex-col items-center gap-5 p-normal">
             <Dialog.Description className="w-[30rem]">
               <img
-                src="https://via.placeholder.com/150/92c952"
-                alt=""
+                src={selectedPhoto?.thumbnailUrl}
+                alt={selectedPhoto?.title}
                 className="object-cover w-full h-full rounded-xl"
               />
             </Dialog.Description>
-            <Dialog.Title className="pBigger2">Name</Dialog.Title>
+            <Dialog.Title className="pBigger2">
+              {capitalizeFirstLetter(selectedPhoto?.title)}
+            </Dialog.Title>
           </Dialog.Panel>
         </Dialog>
       </Transition>

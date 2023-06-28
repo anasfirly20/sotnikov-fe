@@ -20,4 +20,9 @@ export default class albumApi {
   static async getPhotosByAlbumId(id) {
     return await api.get(`albums/${id}/photos`);
   }
+
+  // GET photos by id
+  static async getPhotoById(id) {
+    return await api.get(`/photos/${id}`);
+  }
 }
