@@ -239,40 +239,65 @@ const PostPage = () => {
                       });
                     }}
                   />
-                  {isChecked[i] && (
-                    <div className="flex gap-3">
-                      {FavoriteDeleteIcons.map((e, i) =>
-                        e?.name === "Favorite" ? (
-                          <button
-                            key={i}
-                            className="flex gap-1 items-center"
-                            onClick={() => {
-                              setSelected(dataInfo?.id);
-                              handleClickFavorite(dataInfo?.id);
-                            }}
-                          >
-                            {" "}
-                            <Icon
-                              icon={e.icon}
-                              className={`pBigger animate300 ${
-                                dataInfo?.isFavorite && "text-red-500 scale-150"
-                              }`}
-                            />
-                          </button>
-                        ) : (
-                          <button
-                            key={i}
-                            className="flex gap-1 items-center"
-                            onClick={() => {
-                              handleDeletePost(dataInfo?.id);
-                            }}
-                          >
-                            <Icon icon={e.icon} className={`pBigger`} />
-                          </button>
-                        )
-                      )}
-                    </div>
-                  )}
+                  <div className="flex gap-3">
+                    {isChecked[i] && (
+                      <>
+                        <button
+                          className="flex gap-1 items-center"
+                          onClick={() => {
+                            setSelected(dataInfo?.id);
+                            handleClickFavorite(dataInfo?.id);
+                          }}
+                        >
+                          <Icon
+                            icon={
+                              FavoriteDeleteIcons.find(
+                                (e) => e?.name === "Favorite"
+                              )?.icon
+                            }
+                            className={`pBigger animate300 ${
+                              dataInfo?.isFavorite
+                                ? "text-red-500 scale-150"
+                                : ""
+                            }`}
+                          />
+                        </button>
+                        <button
+                          className="flex gap-1 items-center"
+                          onClick={() => {
+                            handleDeletePost(dataInfo?.id);
+                          }}
+                        >
+                          <Icon
+                            icon={
+                              FavoriteDeleteIcons.find(
+                                (e) => e?.name === "Delete"
+                              )?.icon
+                            }
+                            className={`pBigger`}
+                          />
+                        </button>
+                      </>
+                    )}
+                    {!isChecked[i] && dataInfo?.isFavorite && (
+                      <button
+                        className="flex gap-1 items-center"
+                        onClick={() => {
+                          setSelected(dataInfo?.id);
+                          handleClickFavorite(dataInfo?.id);
+                        }}
+                      >
+                        <Icon
+                          icon={
+                            FavoriteDeleteIcons.find(
+                              (e) => e?.name === "Favorite"
+                            )?.icon
+                          }
+                          className={`pBigger animate300 text-red-500 scale-150`}
+                        />
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 {selected === dataInfo?.id && isEdit ? (
