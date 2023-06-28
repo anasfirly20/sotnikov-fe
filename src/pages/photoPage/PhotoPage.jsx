@@ -196,20 +196,27 @@ const PhotoPage = () => {
                 )}
                 <div className="relative">
                   {/* MORE BUTTON START */}
-                  <Icon
-                    icon="ri:more-fill"
-                    className="text-4xl rounded-full border border-black p-1 hover:cursor-pointer hover:opacity-50"
-                    onClick={() => {
-                      if (selected === i) {
-                        console.log("IFF");
-                        setIsMenuOpen(!isMenuOpen);
-                      } else {
-                        console.log("ELSE");
-                        setIsMenuOpen(true);
-                        setSelected(i);
-                      }
-                    }}
-                  />
+                  {selected === i && isEdit ? (
+                    <div className="flex gap-2">
+                      <button>Confirm</button>
+                      <button onClick={() => setIsEdit(false)}>Cancel</button>
+                    </div>
+                  ) : (
+                    <Icon
+                      icon="ri:more-fill"
+                      className="text-4xl rounded-full border border-black p-1 hover:cursor-pointer hover:opacity-50"
+                      onClick={() => {
+                        if (selected === i) {
+                          console.log("IFF");
+                          setIsMenuOpen(!isMenuOpen);
+                        } else {
+                          console.log("ELSE");
+                          setIsMenuOpen(true);
+                          setSelected(i);
+                        }
+                      }}
+                    />
+                  )}
                   {/* MORE BUTTON END */}
                   {selected === i && isMenuOpen && (
                     <div className="absolute flex flex-col bg-custom-black/50 top-[100%] left-[50%] translate-x-[-50%] translate-y-[2%] divide-y-2 divide-custom-cream rounded-b-xl z-30">
