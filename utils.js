@@ -1,5 +1,6 @@
+// GET POST FROM LOCAL STORAGE
 export const getPostAmount = () => {
-  const postAmount = localStorage.getItem("amountOfPost");
+  const postAmount = localStorage.getItem("displayedPost");
   if (!postAmount) return;
   return JSON.parse(postAmount);
 };

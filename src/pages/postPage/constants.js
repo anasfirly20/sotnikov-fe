@@ -1,3 +1,5 @@
+export const postAmount = [10, 20, 30, 40, 100];
+
 export const CommentEditIcons = [
   {
     name: "Comment",

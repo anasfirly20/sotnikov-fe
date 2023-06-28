@@ -9,7 +9,11 @@ import commentApi from "./api/comment.api";
 import { Icon } from "@iconify/react";
 
 // Constants
-import { CommentEditIcons, ConfirmCancelEditIcons } from "./constants";
+import {
+  CommentEditIcons,
+  ConfirmCancelEditIcons,
+  postAmount,
+} from "./constants";
 
 // Utils
 import { capitalizeFirstLetter, getPostAmount } from "../../../utils";
@@ -29,13 +33,13 @@ const PostPage = () => {
 
   // Amount of Posts
   const postAmountSelected = getPostAmount();
-  const postAmount = [10, 20, 30, 40, 100];
-  const [selectedPostAmount, setSelectedPostAmount] =
-    useState(postAmountSelected);
+  const [selectedPostAmount, setSelectedPostAmount] = useState(
+    postAmountSelected || 10
+  );
 
   const handleSelectChange = (e) => {
     setSelectedPostAmount(e.target.value);
-    localStorage.setItem("amountOfPost", e.target.value);
+    localStorage.setItem("displayedPost", e.target.value);
   };
 
   // Comment Button Active
