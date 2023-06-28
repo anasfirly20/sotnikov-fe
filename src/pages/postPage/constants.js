@@ -34,3 +34,18 @@ export const ConfirmCancelEditIcons = [
     color: "red",
   },
 ];
+
+export const menuItems = [
+  {
+    name: "Add",
+    icon: "material-symbols:add",
+  },
+  {
+    name: "Edit",
+    icon: "bxs:edit",
+  },
+  {
+    name: "Delete",
+    icon: "material-symbols:delete",
+  },
+];

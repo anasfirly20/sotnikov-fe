@@ -260,7 +260,7 @@ const PostPage = () => {
                         onChange={handleChangeEditPost}
                       />
                       <CustomInput
-                        label="Made by"
+                        label="Post by"
                         value={dataEdit?.user?.name}
                         name="name"
                         onChange={handleChangeEditPost}
@@ -305,9 +305,9 @@ const PostPage = () => {
                     <h2 className="text-custom-blue-1">
                       {capitalizeFirstLetter(dataInfo?.title)}
                     </h2>
-                    <p className="pSmaller">
-                      Made by:{" "}
-                      <span className="text-gray-700 font-semibold pSmaller2">
+                    <p className="pSmaller2 text-gray-700">
+                      Post made by{" "}
+                      <span className="text-gray-700 font-semibold pSmaller2 hover:underline">
                         {capitalizeFirstLetter(dataInfo?.user?.name)}
                       </span>
                     </p>

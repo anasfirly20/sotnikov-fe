@@ -11,7 +11,7 @@ export const getFavorites = (postId) => {
   return JSON.parse(favorite);
 };
 
-// GET PHOTOS FROM LOCAL STORAGE
+// GET ALBUMS FROM LOCAL STORAGE
 export const getAlbumDisplayed = () => {
   const albumDisplayed = localStorage.getItem("displayedAlbum");
   if (!albumDisplayed) return;
