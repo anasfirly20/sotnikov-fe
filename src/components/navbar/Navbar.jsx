@@ -15,8 +15,8 @@ const Navbar = () => {
       path: "/",
     },
     {
-      item: "Photo",
-      path: "/photo",
+      item: "Album",
+      path: "/album",
     },
     {
       item: "Task",

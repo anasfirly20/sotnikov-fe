@@ -11,8 +11,13 @@ export default class albumApi {
     return await api.delete(`/albums/${id}`);
   }
 
-  //   EDIT album by Id
+  // EDIT album by Id
   static async editAlbumById(id, body) {
     return await api.put(`albums/${id}`, body);
+  }
+
+  // GET photos by albumId
+  static async getPhotosByAlbumId(id) {
+    return await api.get(`albums/${id}/photos`);
   }
 }

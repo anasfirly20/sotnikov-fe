@@ -5,8 +5,9 @@ import Navbar from "./components/navbar/Navbar";
 
 // Pages
 const PostPage = lazy(() => import("./pages/postPage/PostPage"));
-const PhotoPage = lazy(() => import("./pages/photoPage/PhotoPage"));
+const AlbumPage = lazy(() => import("./pages/albumPage/AlbumPage"));
 const TaskPage = lazy(() => import("./pages/taskPage/TaskPage"));
+const PhotoPage = lazy(() => import("./pages/photoPage/PhotoPage"));
 
 // Miscellaneous
 import { RingLoader } from "react-spinners";
@@ -27,8 +28,9 @@ function App() {
           <Routes>
             <Route path="*" element={<Navigate to="/" />} />
             <Route path="/" element={<PostPage />} />
-            <Route path="/photo" element={<PhotoPage />} />
+            <Route path="/album" element={<AlbumPage />} />
             <Route path="/task" element={<TaskPage />} />
+            <Route path="/photo/:id" element={<PhotoPage />} />
           </Routes>
         </Suspense>
       </BrowserRouter>
