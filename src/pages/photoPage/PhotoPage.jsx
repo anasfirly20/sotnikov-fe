@@ -16,6 +16,7 @@ import { getAlbumDisplayed, capitalizeFirstLetter } from "../../../utils";
 
 // Components
 import CustomSelect from "../../components/CustomSelect";
+import CustomModal from "../../components/CustomModal";
 
 const PhotoPage = () => {
   const [selected, setSelected] = useState();
@@ -73,15 +74,53 @@ const PhotoPage = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  // DELETE
+  const [albumIdToDelete, setAlbumIdToDelete] = useState(null);
+  const [deleteModalConfirmation, setDeleteModalConfirmation] = useState(false);
+  const [deleteAlbumAmount, setDeleteAlbumAmount] = useState(0);
+
+  const handleDeleteAlbum = (albumId) => {
+    setAlbumIdToDelete(albumId);
+    setDeleteModalConfirmation(true);
+  };
+
+  const confirmDeleteAlbum = async () => {
+    try {
+      const res = await albumApi.deleteAlbumById(albumIdToDelete);
+      console.log("RES>>>>", res);
+      const updatedData = data?.filter(
+        (album) => album?.id !== albumIdToDelete
+      );
+      setData(updatedData);
+      setSelectedAlbumAmount((prev) => prev - 1);
+      setDeleteAlbumAmount((prev) => prev + 1);
+    } catch (err) {
+      console.log(err);
+    }
+    setAlbumIdToDelete(null);
+    setDeleteModalConfirmation(false);
+  };
+
+  const cancelDeleteAlbum = () => {
+    setPostIdToDelete(null);
+    setDeleteModalConfirmation(false);
+  };
+
   return (
     <section className="px-longer py-shorter2">
       <CustomSelect
         label="Album displayed:"
         value={selectedAlbumAmount}
         onChange={handleSelectChange}
-        // deletedAmount={deletedPostAmount}
+        deletedAmount={deleteAlbumAmount}
       />
       <div className={`mt-3 grid md:grid-cols-2 xl:grid-cols-3 gap-5`}>
+        <CustomModal
+          cancelDeletePost={cancelDeleteAlbum}
+          confirmDeletePost={confirmDeleteAlbum}
+          show={deleteModalConfirmation}
+          post={selected ? data.find((album) => album.id === selected) : null}
+        />
         {data?.slice(0, selectedAlbumAmount)?.map((dataInfo, i) => (
           <div
             key={i}
@@ -130,6 +169,9 @@ const PhotoPage = () => {
                           onClick={() => {
                             if (e?.name === "Favorite") {
                               handleClickFavorite(dataInfo?.id);
+                            } else if (e?.name === "Delete") {
+                              handleDeleteAlbum(dataInfo?.id);
+                              setIsMenuOpen(!isMenuOpen);
                             }
                           }}
                         >

@@ -169,6 +169,7 @@ const PostPage = () => {
     setPostIdToDelete(null);
     setDeleteModalConfirmation(false);
   };
+
   const cancelDeletePost = () => {
     setPostIdToDelete(null);
     setDeleteModalConfirmation(false);
