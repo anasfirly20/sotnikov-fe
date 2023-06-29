@@ -25,11 +25,12 @@ export const getTasksDisplayed = () => {
   return JSON.parse(taskDisplayed);
 };
 
-export function getRole() {
-  const role = localStorage.getItem("role");
-  if (!role) return;
-  return role;
-}
+// GET TASKS FROM LOCAL STORAGE
+export const getTasks = () => {
+  const tasks = localStorage.getItem("tasks");
+  if (!tasks) return;
+  return JSON.parse(tasks);
+};
 
 export const LoadToTop = () => {
   window.scrollTo({

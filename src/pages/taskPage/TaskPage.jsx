@@ -8,7 +8,11 @@ import { toast } from "react-hot-toast";
 import todoApi from "./api/task.api";
 
 // Utils
-import { capitalizeFirstLetter, getTasksDisplayed } from "../../../utils";
+import {
+  capitalizeFirstLetter,
+  getTasksDisplayed,
+  getTasks,
+} from "../../../utils";
 
 // Components
 import CustomSelect from "../../components/CustomSelect";
@@ -18,6 +22,8 @@ import ModalAddTask from "../../components/ModalAddTask";
 import ButtonComponent from "../../components/ButtonComponent";
 
 const TaskPage = () => {
+  const tasks = getTasks();
+
   const [selected, setSelected] = useState();
 
   const taskAmountDisplayed = getTasksDisplayed();
@@ -31,19 +37,24 @@ const TaskPage = () => {
   };
 
   // GET All todos
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(tasks || []);
 
   const getAllTodos = async () => {
     try {
       const responseTodo = await todoApi.getAllTodo();
-      const todoFalse = responseTodo?.data
-        ?.filter((todo) => todo.completed === false)
-        .slice(0, 5);
-      const todoTrue = responseTodo?.data
-        ?.filter((todo) => todo.completed === true)
-        .slice(0, 5);
+      const todoFalse = responseTodo?.data?.filter(
+        (todo) => todo.completed === false
+      );
+      // .slice(0, 5);
+      const todoTrue = responseTodo?.data?.filter(
+        (todo) => todo.completed === true
+      );
+      // .slice(0, 5);
       const filteredTodo = [...todoFalse, ...todoTrue];
-      setData(filteredTodo);
+      if (data.length === 0) {
+        console.log("TRIGGRED");
+        setData(filteredTodo);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -166,11 +177,10 @@ const TaskPage = () => {
   };
 
   // EDIT TASK STATUS
-  const [isChecked, setIsChecked] = useState({});
-
   const handleChangeCheckBox = (e, i) => {
     const updateData = [...data];
     updateData[i].completed = e.target.checked;
+    localStorage.setItem("tasks", JSON.stringify(updateData));
     setData(updateData);
   };
 
