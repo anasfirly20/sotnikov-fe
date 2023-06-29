@@ -25,4 +25,9 @@ export default class albumApi {
   static async getPhotoById(id) {
     return await api.get(`/photos/${id}`);
   }
+
+  // ADD new album
+  static async addNewAlbum(body) {
+    return await api.post(`/albums`, body);
+  }
 }

@@ -175,6 +175,11 @@ const PostPage = () => {
     setDeleteModalConfirmation(false);
   };
 
+  // ADD NEW POST
+  const addNewPost = (body) => {
+    const updatedData = [...data];
+  };
+
   return (
     <section className="px-longer py-shorter2">
       <CustomFilter />

@@ -19,6 +19,7 @@ import { getAlbumDisplayed, capitalizeFirstLetter } from "../../../utils";
 import CustomSelect from "../../components/CustomSelect";
 import CustomModal from "../../components/CustomModal";
 import CustomInput from "../../components/CustomInput";
+import ModalAdd from "../../components/ModalAdd";
 
 const AlbumPage = () => {
   const navigate = useNavigate();
@@ -145,6 +146,31 @@ const AlbumPage = () => {
       setIsEdit(!isEdit);
     }
   };
+
+  // ADD NEW ALBUM
+  const [isOpenAddModal, setIsOpenAddModal] = useState(false);
+  const [newAlbumTitle, setNewAlbumTitle] = useState({});
+
+  const cancelAddAlbum = () => {
+    setIsOpenAddModal(false);
+  };
+
+  const addNewAlbum = async () => {
+    try {
+      const res = await albumApi.addNewAlbum(newAlbumTitle);
+      console.log("RES>>>", res);
+      // const updateData = [...data, ...res?.data];
+    } catch (err) {
+      console.log(err);
+    }
+    setIsOpenAddModal(false);
+  };
+
+  const handleAddChange = (e) => {
+    const { name, value } = e.target;
+    setNewAlbumTitle({ ...newAlbumTitle, [name]: value });
+  };
+
   return (
     <section className="px-longer py-shorter2">
       <CustomSelect
@@ -154,7 +180,7 @@ const AlbumPage = () => {
         deletedAmount={deleteAlbumAmount}
         labelButton="Add Album"
         onClick={() => {
-          console.log("ADD");
+          setIsOpenAddModal(true);
         }}
       />
       <div className={`mt-3 grid md:grid-cols-2 xl:grid-cols-3 gap-5`}>
@@ -163,6 +189,15 @@ const AlbumPage = () => {
           confirmDeletePost={confirmDeleteAlbum}
           show={deleteModalConfirmation}
           post={selected ? data.find((album) => album.id === selected) : null}
+        />
+        <ModalAdd
+          cancelAdd={cancelAddAlbum}
+          q
+          confirmAdd={addNewAlbum}
+          show={isOpenAddModal}
+          name="title"
+          value={newAlbumTitle?.title || ""}
+          handleChange={handleAddChange}
         />
         {data?.slice(0, selectedAlbumAmount)?.map((dataInfo, i) => (
           <div
