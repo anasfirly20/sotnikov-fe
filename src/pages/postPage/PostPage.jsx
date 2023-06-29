@@ -176,8 +176,12 @@ const PostPage = () => {
   };
 
   // ADD NEW POST
-  const addNewPost = (body) => {
-    const updatedData = [...data];
+  const addNewPost = async () => {
+    try {
+      const res = await postApi.addNewPost(body);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

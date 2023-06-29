@@ -12,12 +12,19 @@ const PhotoPage = lazy(() => import("./pages/photoPage/PhotoPage"));
 // Miscellaneous
 import { RingLoader } from "react-spinners";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Navbar />
+        <Toaster
+          containerClassName="font-medium text-customText2"
+          toastOptions={{
+            duration: 2500,
+          }}
+        />
         <Suspense
           fallback={
             <section className="flex flex-col items-center justify-center min-h-screen">

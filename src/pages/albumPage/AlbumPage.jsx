@@ -8,6 +8,7 @@ import albumApi from "./api/album.api";
 import { Icon } from "@iconify/react";
 import imageNy from "../../assets/ny-photo.avif";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 // Constants
 import { menuItems } from "../postPage/constants";
@@ -163,10 +164,13 @@ const AlbumPage = () => {
 
   const addNewAlbum = async () => {
     try {
-      const res = await albumApi.addNewAlbum(newAlbumTitle);
-      const updateData = [res?.data, ...data];
-      console.log("UPDATED>>>", updateData);
-      setData(updateData);
+      if (newAlbumTitle?.title) {
+        const res = await albumApi.addNewAlbum(newAlbumTitle);
+        const updateData = [res?.data, ...data];
+        setData(updateData);
+      } else {
+        toast.error("Cannot leave the field blank");
+      }
     } catch (err) {
       console.log(err);
     }

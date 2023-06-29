@@ -1,9 +1,6 @@
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
-// Utils
-import { capitalizeFirstLetter } from "../../utils";
-
 // Components
 import CustomInput from "./CustomInput";
 
@@ -73,14 +70,14 @@ const CustomModal = ({
                 <div className="mt-4 flex justify-end space-x-2">
                   <button
                     type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-700 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500"
+                    className="inline-flex justify-center px-4 py-2 text-sm font-medium bg-transparent border border-custom-blue-1 hover:opacity-60 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 text-custom-blue-1"
                     onClick={cancelAdd}
                   >
                     Cancel
                   </button>
                   <button
                     type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500"
+                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-custom-blue-1 border border-transparent rounded-md hover:bg-custom-blue-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                     onClick={confirmAdd}
                   >
                     Add New

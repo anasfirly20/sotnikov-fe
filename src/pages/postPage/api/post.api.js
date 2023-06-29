@@ -20,4 +20,10 @@ export default class postApi {
   static async deletePostById(id) {
     return await api.delete(`/posts/${id}`);
   }
+
+  // ADD new post
+  static async addNewPost(body) {
+    console.log("ADDED ORIGIN POST>>", body);
+    return await api.post(`/posts`, body);
+  }
 }
