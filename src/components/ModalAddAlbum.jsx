@@ -4,7 +4,7 @@ import { Dialog, Transition } from "@headlessui/react";
 // Components
 import CustomInput from "./CustomInput";
 
-const CustomModal = ({
+const ModalAddAlbum = ({
   confirmAdd,
   cancelAdd,
   show,
@@ -92,4 +92,4 @@ const CustomModal = ({
   );
 };
 
-export default CustomModal;
+export default ModalAddAlbum;

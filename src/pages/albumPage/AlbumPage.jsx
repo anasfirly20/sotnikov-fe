@@ -20,7 +20,7 @@ import { getAlbumDisplayed, capitalizeFirstLetter } from "../../../utils";
 import CustomSelect from "../../components/CustomSelect";
 import CustomModal from "../../components/CustomModal";
 import CustomInput from "../../components/CustomInput";
-import ModalAdd from "../../components/ModalAdd";
+import ModalAddAlbum from "../../components/ModalAddAlbum";
 
 const AlbumPage = () => {
   const navigate = useNavigate();
@@ -204,7 +204,7 @@ const AlbumPage = () => {
           show={deleteModalConfirmation}
           post={selected ? data.find((album) => album.id === selected) : null}
         />
-        <ModalAdd
+        <ModalAddAlbum
           cancelAdd={cancelAddAlbum}
           q
           confirmAdd={addNewAlbum}
