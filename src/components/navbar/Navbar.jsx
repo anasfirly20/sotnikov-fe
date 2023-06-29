@@ -15,7 +15,7 @@ const Navbar = () => {
       path: "/",
     },
     {
-      item: "Album",
+      item: "Photo",
       path: "/album",
     },
     {
