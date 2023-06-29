@@ -9,8 +9,10 @@ const ModalAddAlbum = ({
   cancelAdd,
   show,
   handleChange,
-  name,
-  value,
+  nameAlbum,
+  valueAlbum,
+  nameAuthor,
+  valueAuthor,
 }) => {
   return (
     <>
@@ -59,10 +61,17 @@ const ModalAddAlbum = ({
                 <form className="mt-6 flex flex-col gap-6">
                   <CustomInput
                     type="text"
+                    label="Author:"
+                    onChange={handleChange}
+                    name={nameAuthor}
+                    value={valueAuthor}
+                  />
+                  <CustomInput
+                    type="text"
                     label="Album Title:"
                     onChange={handleChange}
-                    name={name}
-                    value={value}
+                    name={nameAlbum}
+                    value={valueAlbum}
                   />
                 </form>
 

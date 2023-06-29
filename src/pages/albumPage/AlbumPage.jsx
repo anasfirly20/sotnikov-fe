@@ -151,10 +151,9 @@ const AlbumPage = () => {
   // ADD NEW ALBUM
   const [isOpenAddModal, setIsOpenAddModal] = useState(false);
   const [newAlbumTitle, setNewAlbumTitle] = useState({
-    userId: 1,
     title: "",
     user: {
-      name: "new user",
+      name: "",
     },
   });
 
@@ -182,7 +181,14 @@ const AlbumPage = () => {
 
   const handleAddChange = (e) => {
     const { name, value } = e.target;
-    setNewAlbumTitle({ ...newAlbumTitle, [name]: value });
+    if (name === "name") {
+      setNewAlbumTitle({
+        ...newAlbumTitle,
+        user: { ...newAlbumTitle?.user, [name]: value },
+      });
+    } else {
+      setNewAlbumTitle({ ...newAlbumTitle, [name]: value });
+    }
   };
 
   return (
@@ -209,8 +215,10 @@ const AlbumPage = () => {
           confirmAdd={addNewAlbum}
           show={isOpenAddModal}
           handleChange={handleAddChange}
-          name="title"
-          value={newAlbumTitle?.title}
+          nameAlbum="title"
+          valueAlbum={newAlbumTitle?.title}
+          nameAuthor="name"
+          valueAuthor={newAlbumTitle?.user?.name}
         />
         {data?.slice(0, selectedAlbumAmount)?.map((dataInfo, i) => (
           <div
