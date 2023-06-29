@@ -22,10 +22,9 @@ import ModalAddTask from "../../components/ModalAddTask";
 import ButtonComponent from "../../components/ButtonComponent";
 
 const TaskPage = () => {
-  const tasks = getTasks();
-
   const [selected, setSelected] = useState();
 
+  const tasks = getTasks();
   const taskAmountDisplayed = getTasksDisplayed();
   const [selectedTaskAmount, setSelectedTaskAmount] = useState(
     taskAmountDisplayed || 10
