@@ -1,13 +1,10 @@
 import React, { useState, useEffect, Fragment } from "react";
 
 // Miscellaneous
-import { useParams } from "react-router-dom";
-import { Dialog, Transition } from "@headlessui/react";
 import { Icon } from "@iconify/react";
 import { toast } from "react-hot-toast";
 
 // Api
-import userApi from "../postPage/api/user.api";
 import todoApi from "./api/task.api";
 
 // Utils
@@ -17,7 +14,6 @@ import { capitalizeFirstLetter, getTasksDisplayed } from "../../../utils";
 import CustomSelect from "../../components/CustomSelect";
 import CustomModal from "../../components/CustomModal";
 import CustomInput from "../../components/CustomInput";
-import CustomButton from "../../components/CustomButton";
 import ModalAddTask from "../../components/ModalAddTask";
 import ButtonComponent from "../../components/ButtonComponent";
 
@@ -168,6 +164,8 @@ const TaskPage = () => {
   const cancelDeleteTodo = () => {
     setDeleteModalConfirmation(false);
   };
+
+  // EDIT TASK STATUS
 
   return (
     <section className="px-longer py-shorter2">
