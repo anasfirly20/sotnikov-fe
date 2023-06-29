@@ -2,9 +2,9 @@ import React from "react";
 
 const TaskPage = () => {
   return (
-    <div>
+    <section className="px-longer py-shorter2">
       <h1>TASK</h1>
-    </div>
+    </section>
   );
 };
 
