@@ -19,6 +19,7 @@ import CustomModal from "../../components/CustomModal";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import ModalAddTask from "../../components/ModalAddTask";
+import ButtonConfirm from "../../components/ButtonConfirm";
 
 const TaskPage = () => {
   const [selected, setSelected] = useState();
@@ -154,25 +155,41 @@ const TaskPage = () => {
                   {dataInfo?.completed ? "Completed" : "Not completed"}
                 </span>
               </p>
-              <div className="flex justify-end">
-                <Icon
-                  icon="bxs:edit"
-                  className="text-3xl bottom-3 right-3 cursor-pointer"
-                  onClick={() => {
-                    if (isEdit) {
-                      setSelected(i);
-                      setIsEdit(true);
-                    } else {
-                      setIsEdit(!isEdit);
-                      setSelected(i);
-                    }
-                  }}
-                />
-                <Icon
-                  icon="material-symbols:delete"
-                  color="darkred"
-                  className="text-3xl bottom-3 right-3 cursor-pointer"
-                />
+              <div className="flex justify-end gap-2 mt-1">
+                {selected === i && isEdit ? (
+                  <>
+                    <ButtonConfirm
+                      label="Confirm"
+                      className="bg-custom-blue-1 text-white hover:bg-custom-blue-2 active:bg-custom-blue-1"
+                    />
+                    <ButtonConfirm
+                      label="Cancel"
+                      className="bg-transparent text-black border border-black hover:opacity-60"
+                      onClick={() => setIsEdit(false)}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <Icon
+                      icon="bxs:edit"
+                      className="text-3xl bottom-3 right-3 cursor-pointer"
+                      onClick={() => {
+                        if (isEdit) {
+                          setSelected(i);
+                          setIsEdit(true);
+                        } else {
+                          setIsEdit(!isEdit);
+                          setSelected(i);
+                        }
+                      }}
+                    />
+                    <Icon
+                      icon="material-symbols:delete"
+                      color="darkred"
+                      className="text-3xl bottom-3 right-3 cursor-pointer"
+                    />
+                  </>
+                )}
               </div>
             </div>
           </div>
