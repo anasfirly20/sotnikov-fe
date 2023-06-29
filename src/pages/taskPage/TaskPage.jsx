@@ -91,11 +91,6 @@ const TaskPage = () => {
     setNewTask({ ...newTask, [name]: value });
   };
 
-  useEffect(() => {
-    console.log("SELECTED >>", selected);
-    // console.log("data>>", data);
-  }, [selected]);
-
   // EDIT TASK
   const [isEdit, setIsEdit] = useState(false);
   const [dataEdit, setDataEdit] = useState({});
@@ -146,17 +141,51 @@ const TaskPage = () => {
     }
   };
 
+  // DELETE TASK
+  const [todoIdToDelete, setTodoIdToDelete] = useState(null);
+  const [deleteModalConfirmation, setDeleteModalConfirmation] = useState(false);
+  const [deleteTodoAmount, setDeleteTodoAmount] = useState(0);
+
+  const handleDeleteTodo = (todoId) => {
+    setTodoIdToDelete(todoId);
+    setDeleteModalConfirmation(true);
+  };
+
+  const confirmDeleteTodo = async () => {
+    try {
+      await todoApi.deleteTodoById(todoIdToDelete);
+      const updateData = data?.filter((todo) => todo?.id !== todoIdToDelete);
+      setData(updateData);
+      setSelectedTaskAmount((prev) => prev - 1);
+      setDeleteTodoAmount((prev) => prev + 1);
+    } catch (err) {
+      console.log(err);
+    }
+    setTodoIdToDelete(null);
+    setDeleteModalConfirmation(false);
+  };
+
+  const cancelDeleteTodo = () => {
+    setDeleteModalConfirmation(false);
+  };
+
   return (
     <section className="px-longer py-shorter2">
       <CustomSelect
         label="Tasks displayed:"
         value={selectedTaskAmount}
         onChange={handleSelectChange}
-        // deletedAmount={deleteAlbumAmount}
+        deletedAmount={deleteTodoAmount}
         labelButton="Add Task"
         onClick={() => {
           setIsOpenAddModal(true);
         }}
+      />
+      <CustomModal
+        cancelDeletePost={cancelDeleteTodo}
+        confirmDeletePost={confirmDeleteTodo}
+        show={deleteModalConfirmation}
+        post={selected ? data.find((album) => album.id === selected) : null}
       />
       <ModalAddTask
         cancelAdd={cancelAddTask}
@@ -232,6 +261,9 @@ const TaskPage = () => {
                       icon="material-symbols:delete"
                       color="darkred"
                       className="text-3xl bottom-3 right-3 cursor-pointer"
+                      onClick={() => {
+                        handleDeleteTodo(dataInfo?.id);
+                      }}
                     />
                   </>
                 )}

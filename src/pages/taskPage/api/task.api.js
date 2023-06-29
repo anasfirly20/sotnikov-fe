@@ -20,4 +20,9 @@ export default class todoApi {
   static async editTodoById(id, body) {
     return await api.put(`/todos/${id}`, body);
   }
+
+  // DELETE todo by Id
+  static async deleteTodoById(id) {
+    return await api.delete(`/todos/${id}`);
+  }
 }
