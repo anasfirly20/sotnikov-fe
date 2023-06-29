@@ -154,7 +154,7 @@ const AlbumPage = () => {
     userId: 1,
     title: "",
     user: {
-      name: "TESTER",
+      name: "new user",
     },
   });
 
@@ -169,7 +169,7 @@ const AlbumPage = () => {
         const updateData = [res?.data, ...data];
         setData(updateData);
       } else {
-        toast.error("Cannot leave the field blank");
+        toast.error("Cannot leave the field empty");
       }
     } catch (err) {
       console.log(err);
