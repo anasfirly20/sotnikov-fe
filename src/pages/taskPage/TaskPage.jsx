@@ -88,6 +88,10 @@ const TaskPage = () => {
                 {dataInfo?.completed ? "Completed" : "Not completed"}
               </span>
             </p>
+            <Icon
+              icon="bxs:edit"
+              className="text-3xl absolute bottom-3 right-3 cursor-pointer"
+            />
           </div>
         ))}
       </div>
