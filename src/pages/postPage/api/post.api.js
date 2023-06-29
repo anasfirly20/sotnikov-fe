@@ -23,7 +23,6 @@ export default class postApi {
 
   // ADD new post
   static async addNewPost(body) {
-    console.log("ADDED ORIGIN POST>>", body);
     return await api.post(`/posts`, body);
   }
 }

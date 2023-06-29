@@ -71,7 +71,6 @@ const TaskPage = () => {
     try {
       if (newTask?.title) {
         const res = await todoApi.addNewTodo(newTask);
-        console.log("RES>>>", res);
         const updateData = [res?.data, ...data];
         setData(updateData);
       } else {
