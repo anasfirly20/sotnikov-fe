@@ -183,6 +183,10 @@ const PostPage = () => {
         value={selectedPostAmount}
         onChange={handleSelectChange}
         deletedAmount={deletedPostAmount}
+        labelButton="Add Post"
+        onClick={() => {
+          console.log("ADD");
+        }}
       />
       <div className={`mt-3 grid md:grid-cols-2 xl:grid-cols-3 gap-5`}>
         <CustomModal
