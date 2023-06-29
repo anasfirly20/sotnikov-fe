@@ -10,4 +10,9 @@ export default class todoApi {
   static async addNewTodo(body) {
     return await api.post(`/todos`, body);
   }
+
+  // EDIT todo by Id
+  static async editTodoById(id, body) {
+    return await api.put(`/todos/${id}`, body);
+  }
 }

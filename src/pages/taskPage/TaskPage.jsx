@@ -91,9 +91,21 @@ const TaskPage = () => {
   };
 
   useEffect(() => {
-    // console.log("SELECTED >>", selected);
-    console.log("data>>", data);
+    console.log("SELECTED >>", selected);
+    // console.log("data>>", data);
   }, [selected]);
+
+  // EDIT TASK
+  const [isEdit, setIsEdit] = useState(false);
+
+  const editTodoById = async (id, body) => {
+    try {
+      const res = await todoApi.editTodoById(id, body);
+      console.log("RES>>>", res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <section className="px-longer py-shorter2">
@@ -124,9 +136,13 @@ const TaskPage = () => {
             className={`relative flex flex-col justify-between gap-y-28 lg:gap-y-20 xl:gap-y-10 text-custom-black shadow-lg animate300 bg-yellow-50 rounded-xl hover:shadow-[2px_2px_16px_gray] p-5
             `}
           >
-            <h2 className={`${dataInfo?.completed ? "line-through" : ""}`}>
-              {dataInfo?.title && capitalizeFirstLetter(dataInfo?.title)}
-            </h2>
+            {selected === i && isEdit ? (
+              "ENTAR"
+            ) : (
+              <h2 className={`${dataInfo?.completed ? "line-through" : ""}`}>
+                {dataInfo?.title && capitalizeFirstLetter(dataInfo?.title)}
+              </h2>
+            )}
             <div className="flex flex-col">
               <p className="">
                 Status:{" "}
@@ -143,7 +159,13 @@ const TaskPage = () => {
                   icon="bxs:edit"
                   className="text-3xl bottom-3 right-3 cursor-pointer"
                   onClick={() => {
-                    setSelected(i);
+                    if (isEdit) {
+                      setSelected(i);
+                      setIsEdit(true);
+                    } else {
+                      setIsEdit(!isEdit);
+                      setSelected(i);
+                    }
                   }}
                 />
                 <Icon
