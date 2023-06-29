@@ -67,7 +67,7 @@ const TaskPage = () => {
         }}
       />
       <div
-        className={`mt-3 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5`}
+        className={`mt-3 sm:mt-6 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5`}
       >
         {data?.slice(0, selectedTaskAmount)?.map((dataInfo, i) => (
           <div

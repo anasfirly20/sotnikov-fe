@@ -8,7 +8,6 @@ const ModalAddAlbum = ({
   confirmAdd,
   cancelAdd,
   show,
-  post,
   handleChange,
   name,
   value,
@@ -80,7 +79,7 @@ const ModalAddAlbum = ({
                     className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-custom-blue-1 border border-transparent rounded-md hover:bg-custom-blue-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                     onClick={confirmAdd}
                   >
-                    Add New
+                    Add
                   </button>
                 </div>
               </div>

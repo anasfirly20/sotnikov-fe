@@ -197,7 +197,7 @@ const AlbumPage = () => {
           setIsOpenAddModal(true);
         }}
       />
-      <div className={`mt-3 grid md:grid-cols-2 xl:grid-cols-3 gap-5`}>
+      <div className={`mt-3 sm:mt-6 grid md:grid-cols-2 xl:grid-cols-3 gap-5`}>
         <CustomModal
           cancelDeletePost={cancelDeleteAlbum}
           confirmDeletePost={confirmDeleteAlbum}
@@ -206,7 +206,6 @@ const AlbumPage = () => {
         />
         <ModalAddAlbum
           cancelAdd={cancelAddAlbum}
-          q
           confirmAdd={addNewAlbum}
           show={isOpenAddModal}
           handleChange={handleAddChange}

@@ -7,6 +7,7 @@ import commentApi from "./api/comment.api";
 
 // Miscellaneous
 import { Icon } from "@iconify/react";
+import { toast } from "react-hot-toast";
 
 // Constants
 import { CommentEditIcons, ConfirmCancelEditIcons } from "./constants";
@@ -21,6 +22,7 @@ import CustomFilter from "../../components/CustomFilter";
 import CustomSelect from "../../components/CustomSelect";
 import ButtonDelete from "../../components/ButtonDelete";
 import ButtonFavorite from "../../components/ButtonFavorite";
+import ModalAddPost from "../../components/ModalAddPost";
 
 const PostPage = () => {
   const [data, setData] = useState([]);
@@ -176,13 +178,46 @@ const PostPage = () => {
   };
 
   // ADD NEW POST
+  const [isOpenAddModal, setIsOpenAddModal] = useState(false);
+  const [newPost, setNewPost] = useState({
+    title: "",
+    body: "",
+    user: {
+      name: "New User",
+    },
+  });
+
+  const cancelAddPost = () => {
+    setIsOpenAddModal(false);
+  };
+
   const addNewPost = async () => {
     try {
-      const res = await postApi.addNewPost(body);
+      if (newPost?.title && newPost?.body) {
+        const res = await postApi.addNewPost(newPost);
+        const updateData = [res?.data, ...data];
+        setData(updateData);
+      } else {
+        toast.error("Failed to add, all fields are required");
+      }
     } catch (err) {
       console.log(err);
     }
+    setIsOpenAddModal(false);
+    setNewPost({
+      title: "",
+      body: "",
+    });
   };
+
+  const handleAddChange = (e) => {
+    const { name, value } = e.target;
+    setNewPost({ ...newPost, [name]: value });
+  };
+
+  useEffect(() => {
+    console.log("NEW POST TO ADD>>", newPost);
+  }, [newPost]);
 
   return (
     <section className="px-longer py-shorter2">
@@ -194,15 +229,25 @@ const PostPage = () => {
         deletedAmount={deletedPostAmount}
         labelButton="Add Post"
         onClick={() => {
-          console.log("ADD");
+          setIsOpenAddModal(true);
         }}
       />
-      <div className={`mt-3 grid md:grid-cols-2 xl:grid-cols-3 gap-5`}>
+      <div className={`mt-3 sm:mt-6 grid md:grid-cols-2 xl:grid-cols-3 gap-5`}>
         <CustomModal
           cancelDeletePost={cancelDeletePost}
           confirmDeletePost={confirmDeletePost}
           show={deleteModalConfirmation}
           post={selected ? data.find((post) => post.id === selected) : null}
+        />
+        <ModalAddPost
+          cancelAdd={cancelAddPost}
+          confirmAdd={addNewPost}
+          show={isOpenAddModal}
+          handleChange={handleAddChange}
+          nameTitle="title"
+          valueTitle={newPost?.title}
+          namePost="body"
+          valuePost={newPost?.body}
         />
         {data?.slice(0, selectedPostAmount)?.map((dataInfo, i) => (
           <div
