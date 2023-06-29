@@ -102,11 +102,21 @@ const TaskPage = () => {
 
   const editTodoById = async (id, body) => {
     try {
-      const res = await todoApi.editTodoById(id, body);
-      console.log("RES>>>", res);
+      if (dataEdit?.title) {
+        const res = await todoApi.editTodoById(id, body);
+        console.log("RES>>>", res?.data);
+        const updateData = data?.map((task) =>
+          task?.id === id ? { ...task, ...res?.data } : task
+        );
+        setData(updateData);
+        console.log("updated data>>", updateData);
+      } else {
+        toast.error("Cannot leave the field empty");
+      }
     } catch (err) {
       console.log(err);
     }
+    setIsEdit(false);
   };
 
   const handleChangeEdit = (e) => {
@@ -188,6 +198,7 @@ const TaskPage = () => {
                     <ButtonComponent
                       label="Confirm"
                       className="bg-custom-blue-1 text-white hover:bg-custom-blue-2 active:bg-custom-blue-1"
+                      onClick={() => editTodoById(dataInfo?.id, dataEdit)}
                     />
                     <ButtonComponent
                       label="Cancel"
