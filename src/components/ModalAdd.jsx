@@ -60,7 +60,7 @@ const CustomModal = ({
                 >
                   Add New Album
                 </Dialog.Title>
-                <form className="mt-6">
+                <form className="mt-6 flex flex-col gap-6">
                   <CustomInput
                     type="text"
                     label="Album Title:"

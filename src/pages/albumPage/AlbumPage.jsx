@@ -150,9 +150,11 @@ const AlbumPage = () => {
   // ADD NEW ALBUM
   const [isOpenAddModal, setIsOpenAddModal] = useState(false);
   const [newAlbumTitle, setNewAlbumTitle] = useState({
-    id: 101,
-    userId: 11,
+    userId: 1,
     title: "",
+    user: {
+      name: "TESTER",
+    },
   });
 
   const cancelAddAlbum = () => {
@@ -162,14 +164,16 @@ const AlbumPage = () => {
   const addNewAlbum = async () => {
     try {
       const res = await albumApi.addNewAlbum(newAlbumTitle);
-      const updateData = [...data, res?.data];
-      // console.log("RES>>>", res?.data);
+      const updateData = [res?.data, ...data];
       console.log("UPDATED>>>", updateData);
       setData(updateData);
     } catch (err) {
       console.log(err);
     }
     setIsOpenAddModal(false);
+    setNewAlbumTitle({
+      title: "",
+    });
   };
 
   const handleAddChange = (e) => {
@@ -201,9 +205,9 @@ const AlbumPage = () => {
           q
           confirmAdd={addNewAlbum}
           show={isOpenAddModal}
+          handleChange={handleAddChange}
           name="title"
           value={newAlbumTitle?.title}
-          handleChange={handleAddChange}
         />
         {data?.slice(0, selectedAlbumAmount)?.map((dataInfo, i) => (
           <div
@@ -271,10 +275,8 @@ const AlbumPage = () => {
                       className="text-4xl rounded-full border border-black p-1 hover:cursor-pointer hover:opacity-50"
                       onClick={() => {
                         if (selected === i) {
-                          console.log("IFF");
                           setIsMenuOpen(!isMenuOpen);
                         } else {
-                          console.log("ELSE");
                           setIsMenuOpen(true);
                           setSelected(i);
                         }
