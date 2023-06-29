@@ -183,7 +183,7 @@ const PostPage = () => {
     title: "",
     body: "",
     user: {
-      name: "New User",
+      name: "",
     },
   });
 
@@ -212,7 +212,11 @@ const PostPage = () => {
 
   const handleAddChange = (e) => {
     const { name, value } = e.target;
-    setNewPost({ ...newPost, [name]: value });
+    if (name === "name") {
+      setNewPost({ ...newPost, user: { ...newPost?.user, [name]: value } });
+    } else {
+      setNewPost({ ...newPost, [name]: value });
+    }
   };
 
   return (
@@ -244,6 +248,8 @@ const PostPage = () => {
           valueTitle={newPost?.title}
           namePost="body"
           valuePost={newPost?.body}
+          nameAuthor="name"
+          valueAuthor={newPost?.user?.name}
         />
         {data?.slice(0, selectedPostAmount)?.map((dataInfo, i) => (
           <div

@@ -13,6 +13,8 @@ const ModalAddPost = ({
   valueTitle,
   namePost,
   valuePost,
+  nameAuthor,
+  valueAuthor,
 }) => {
   return (
     <>
@@ -59,6 +61,13 @@ const ModalAddPost = ({
                   Add New Post
                 </Dialog.Title>
                 <form className="mt-6 flex flex-col gap-6">
+                  <CustomInput
+                    type="text"
+                    label="Author:"
+                    onChange={handleChange}
+                    name={nameAuthor}
+                    value={valueAuthor}
+                  />
                   <CustomInput
                     type="text"
                     label="Post Title:"
