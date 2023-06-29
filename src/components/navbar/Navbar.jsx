@@ -52,7 +52,10 @@ const Navbar = () => {
   return (
     <nav
       className={`z-20 sticky top-0 p-shorter4 px-longer bg-custom-dim-gray/10
-     ${windowY > 0 && "bg-custom-blue-1/60 backdrop-blur-sm shadow-md"}
+     ${
+       windowY > 0 &&
+       "bg-custom-blue-1/60 backdrop-blur-sm shadow-md animate300"
+     }
     `}
     >
       <section className="flex justify-between items-center">

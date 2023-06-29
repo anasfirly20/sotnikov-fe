@@ -21,7 +21,7 @@ import CustomButton from "../../components/CustomButton";
 import ModalAddTask from "../../components/ModalAddTask";
 
 const TaskPage = () => {
-  const [selectedId, setSelectedId] = useState();
+  const [selected, setSelected] = useState();
 
   const taskAmountDisplayed = getTasksDisplayed();
   const [selectedTaskAmount, setSelectedTaskAmount] = useState(
@@ -90,6 +90,11 @@ const TaskPage = () => {
     setNewTask({ ...newTask, [name]: value });
   };
 
+  useEffect(() => {
+    // console.log("SELECTED >>", selected);
+    console.log("data>>", data);
+  }, [selected]);
+
   return (
     <section className="px-longer py-shorter2">
       <CustomSelect
@@ -116,26 +121,38 @@ const TaskPage = () => {
         {data?.slice(0, selectedTaskAmount)?.map((dataInfo, i) => (
           <div
             key={i}
-            className={`relative flex flex-col gap-y-2 text-custom-black shadow-lg animate300 bg-yellow-50 rounded-xl hover:shadow-[2px_2px_16px_gray] p-5
+            className={`relative flex flex-col justify-between gap-y-28 lg:gap-y-20 xl:gap-y-10 text-custom-black shadow-lg animate300 bg-yellow-50 rounded-xl hover:shadow-[2px_2px_16px_gray] p-5
             `}
           >
             <h2 className={`${dataInfo?.completed ? "line-through" : ""}`}>
               {dataInfo?.title && capitalizeFirstLetter(dataInfo?.title)}
             </h2>
-            <p className="">
-              Status:{" "}
-              <span
-                className={`font-semibold ${
-                  dataInfo?.completed ? "text-green-500" : "text-red-500"
-                }`}
-              >
-                {dataInfo?.completed ? "Completed" : "Not completed"}
-              </span>
-            </p>
-            <Icon
-              icon="bxs:edit"
-              className="text-3xl absolute bottom-3 right-3 cursor-pointer"
-            />
+            <div className="flex flex-col">
+              <p className="">
+                Status:{" "}
+                <span
+                  className={`font-semibold ${
+                    dataInfo?.completed ? "text-green-500" : "text-red-500"
+                  }`}
+                >
+                  {dataInfo?.completed ? "Completed" : "Not completed"}
+                </span>
+              </p>
+              <div className="flex justify-end">
+                <Icon
+                  icon="bxs:edit"
+                  className="text-3xl bottom-3 right-3 cursor-pointer"
+                  onClick={() => {
+                    setSelected(i);
+                  }}
+                />
+                <Icon
+                  icon="material-symbols:delete"
+                  color="darkred"
+                  className="text-3xl bottom-3 right-3 cursor-pointer"
+                />
+              </div>
+            </div>
           </div>
         ))}
       </div>
