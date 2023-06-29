@@ -18,6 +18,13 @@ export const getAlbumDisplayed = () => {
   return JSON.parse(albumDisplayed);
 };
 
+// GET ALBUMS FROM LOCAL STORAGE
+export const getTasksDisplayed = () => {
+  const taskDisplayed = localStorage.getItem("displayedTask");
+  if (!taskDisplayed) return;
+  return JSON.parse(taskDisplayed);
+};
+
 export function getRole() {
   const role = localStorage.getItem("role");
   if (!role) return;
