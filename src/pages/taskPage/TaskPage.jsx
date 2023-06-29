@@ -4,6 +4,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import { useParams } from "react-router-dom";
 import { Dialog, Transition } from "@headlessui/react";
 import { Icon } from "@iconify/react";
+import { toast } from "react-hot-toast";
 
 // Api
 import userApi from "../postPage/api/user.api";
@@ -17,6 +18,7 @@ import CustomSelect from "../../components/CustomSelect";
 import CustomModal from "../../components/CustomModal";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
+import ModalAddTask from "../../components/ModalAddTask";
 
 const TaskPage = () => {
   const [selectedId, setSelectedId] = useState();
@@ -54,6 +56,41 @@ const TaskPage = () => {
     getAllTodos();
   }, []);
 
+  // ADD NEW TASK
+  const [isOpenAddModal, setIsOpenAddModal] = useState(false);
+  const [newTask, setNewTask] = useState({
+    title: "",
+    completed: false,
+  });
+
+  const cancelAddTask = () => {
+    setIsOpenAddModal(false);
+  };
+
+  const addNewTodo = async () => {
+    try {
+      if (newTask?.title) {
+        const res = await todoApi.addNewTodo(newTask);
+        console.log("RES>>>", res);
+        const updateData = [res?.data, ...data];
+        setData(updateData);
+      } else {
+        toast.error("Failed to add, cannot leave field empty");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    setIsOpenAddModal(false);
+    setNewTask({
+      title: "",
+    });
+  };
+
+  const handleAddChange = (e) => {
+    const { name, value } = e.target;
+    setNewTask({ ...newTask, [name]: value });
+  };
+
   return (
     <section className="px-longer py-shorter2">
       <CustomSelect
@@ -63,8 +100,16 @@ const TaskPage = () => {
         // deletedAmount={deleteAlbumAmount}
         labelButton="Add Task"
         onClick={() => {
-          console.log("ADD");
+          setIsOpenAddModal(true);
         }}
+      />
+      <ModalAddTask
+        cancelAdd={cancelAddTask}
+        confirmAdd={addNewTodo}
+        show={isOpenAddModal}
+        handleChange={handleAddChange}
+        nameTitle="title"
+        valueTitle={newTask?.title}
       />
       <div
         className={`mt-3 sm:mt-6 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5`}
