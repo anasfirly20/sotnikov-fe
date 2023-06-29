@@ -215,10 +215,6 @@ const PostPage = () => {
     setNewPost({ ...newPost, [name]: value });
   };
 
-  useEffect(() => {
-    console.log("NEW POST TO ADD>>", newPost);
-  }, [newPost]);
-
   return (
     <section className="px-longer py-shorter2">
       <CustomFilter />
