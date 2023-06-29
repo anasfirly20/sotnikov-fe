@@ -46,7 +46,7 @@ const PhotoPage = () => {
   return (
     <section className="px-longer py-shorter2">
       <h2>Photos from album {id}</h2>
-      <div className="mt-3 grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
+      <div className="mt-3 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
         {data?.map((photo, i) => (
           <div
             key={i}
