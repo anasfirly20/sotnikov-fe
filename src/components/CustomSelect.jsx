@@ -1,6 +1,6 @@
 import React from "react";
 
-const postAmount = [10, 20, 30, 40, 100];
+const postAmount = [10, 20, 30, 40, 100, 200];
 
 const CustomSelect = ({ value, onChange, className, deletedAmount, label }) => {
   return (
