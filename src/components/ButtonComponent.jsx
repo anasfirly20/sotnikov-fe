@@ -1,6 +1,6 @@
 import React from "react";
 
-const ButtonConfirm = ({ onClick, className, label }) => {
+const ButtonComponent = ({ onClick, className, label }) => {
   return (
     <button
       className={`px-3 py-1 font-medium rounded-lg ${className}`}
@@ -11,4 +11,4 @@ const ButtonConfirm = ({ onClick, className, label }) => {
   );
 };
 
-export default ButtonConfirm;
+export default ButtonComponent;

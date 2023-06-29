@@ -19,7 +19,7 @@ import CustomModal from "../../components/CustomModal";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import ModalAddTask from "../../components/ModalAddTask";
-import ButtonConfirm from "../../components/ButtonConfirm";
+import ButtonComponent from "../../components/ButtonComponent";
 
 const TaskPage = () => {
   const [selected, setSelected] = useState();
@@ -98,6 +98,7 @@ const TaskPage = () => {
 
   // EDIT TASK
   const [isEdit, setIsEdit] = useState(false);
+  const [dataEdit, setDataEdit] = useState({});
 
   const editTodoById = async (id, body) => {
     try {
@@ -105,6 +106,23 @@ const TaskPage = () => {
       console.log("RES>>>", res);
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const handleChangeEdit = (e) => {
+    const { name, value } = e.target;
+    setDataEdit({ ...dataEdit, [name]: value });
+  };
+
+  const handleClickIsEdit = (index) => {
+    if (isEdit) {
+      const updateData = [...data];
+      setDataEdit(updateData[index]);
+      setSelected(index);
+      setIsEdit(true);
+    } else {
+      setIsEdit(!isEdit);
+      setSelected(index);
     }
   };
 
@@ -138,7 +156,16 @@ const TaskPage = () => {
             `}
           >
             {selected === i && isEdit ? (
-              "ENTAR"
+              <>
+                <CustomInput
+                  type="text"
+                  label="Task:"
+                  className=""
+                  onChange={handleChangeEdit}
+                  name="title"
+                  value={dataEdit?.title || ""}
+                />
+              </>
             ) : (
               <h2 className={`${dataInfo?.completed ? "line-through" : ""}`}>
                 {dataInfo?.title && capitalizeFirstLetter(dataInfo?.title)}
@@ -158,11 +185,11 @@ const TaskPage = () => {
               <div className="flex justify-end gap-2 mt-1">
                 {selected === i && isEdit ? (
                   <>
-                    <ButtonConfirm
+                    <ButtonComponent
                       label="Confirm"
                       className="bg-custom-blue-1 text-white hover:bg-custom-blue-2 active:bg-custom-blue-1"
                     />
-                    <ButtonConfirm
+                    <ButtonComponent
                       label="Cancel"
                       className="bg-transparent text-black border border-black hover:opacity-60"
                       onClick={() => setIsEdit(false)}
@@ -173,15 +200,7 @@ const TaskPage = () => {
                     <Icon
                       icon="bxs:edit"
                       className="text-3xl bottom-3 right-3 cursor-pointer"
-                      onClick={() => {
-                        if (isEdit) {
-                          setSelected(i);
-                          setIsEdit(true);
-                        } else {
-                          setIsEdit(!isEdit);
-                          setSelected(i);
-                        }
-                      }}
+                      onClick={() => handleClickIsEdit(i)}
                     />
                     <Icon
                       icon="material-symbols:delete"
