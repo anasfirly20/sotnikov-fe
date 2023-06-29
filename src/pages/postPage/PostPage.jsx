@@ -251,10 +251,7 @@ const PostPage = () => {
             className={`pt-shorter2 lg:pt-shorter3 flex flex-col justify-between gap-y-5 rounded-t-md bg-custom-blue-3 text-custom-black shadow-lg animate300 ${
               selected === dataInfo?.id && isCommentActive && "row-span-2"
             }
-            ${
-              dataInfo?.isFavorite &&
-              "bg-blue-400 shadow-[3px_3px_18px_gray] -translate-y-3"
-            }
+            ${dataInfo?.isFavorite && "bg-blue-400 shadow-[3px_3px_18px_gray]"}
             `}
           >
             <div className="space-y-3 px-normal md:px-shorter2 lg:px-shorter3 col-">

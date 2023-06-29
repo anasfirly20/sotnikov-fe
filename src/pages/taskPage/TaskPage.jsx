@@ -166,6 +166,13 @@ const TaskPage = () => {
   };
 
   // EDIT TASK STATUS
+  const [isChecked, setIsChecked] = useState({});
+
+  const handleChangeCheckBox = (e, i) => {
+    const updateData = [...data];
+    updateData[i].completed = e.target.checked;
+    setData(updateData);
+  };
 
   return (
     <section className="px-longer py-shorter2">
@@ -214,9 +221,19 @@ const TaskPage = () => {
                 />
               </>
             ) : (
-              <h2 className={`${dataInfo?.completed ? "line-through" : ""}`}>
-                {dataInfo?.title && capitalizeFirstLetter(dataInfo?.title)}
-              </h2>
+              <div className="flex gap-3">
+                <CustomInput
+                  type="checkbox"
+                  checked={dataInfo?.completed}
+                  className="accent-custom-cream w-5 h-5 rounded-md mt-1"
+                  onChange={(e) => {
+                    handleChangeCheckBox(e, i);
+                  }}
+                />
+                <h2 className={`${dataInfo?.completed ? "line-through" : ""}`}>
+                  {dataInfo?.title && capitalizeFirstLetter(dataInfo?.title)}
+                </h2>
+              </div>
             )}
             <div>
               <p className="">
