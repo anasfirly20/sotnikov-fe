@@ -180,6 +180,7 @@ const TaskPage = () => {
     const updateData = [...data];
     updateData[i].completed = e.target.checked;
     localStorage.setItem("tasks", JSON.stringify(updateData));
+    console.log("UPDATED>>>", updateData);
     setData(updateData);
   };
 
@@ -215,7 +216,9 @@ const TaskPage = () => {
         {data?.slice(0, selectedTaskAmount)?.map((dataInfo, i) => (
           <div
             key={i}
-            className={`relative flex flex-col justify-between gap-y-28 lg:gap-y-20 xl:gap-y-10 text-custom-black shadow-lg animate300 bg-yellow-50 rounded-xl hover:shadow-[2px_2px_16px_gray] p-5
+            className={`relative flex flex-col justify-between gap-y-28 lg:gap-y-20 xl:gap-y-10 text-custom-black shadow-lg animate300 rounded-xl hover:shadow-[2px_2px_16px_gray] p-5 animate500 ${
+              dataInfo?.completed ? "order-last bg-[#c9f9cd]" : "bg-yellow-50"
+            }
             `}
           >
             {selected === i && isEdit ? (
