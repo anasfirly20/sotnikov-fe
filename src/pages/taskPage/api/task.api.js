@@ -6,6 +6,11 @@ export default class todoApi {
     return await api.get(`/todos`);
   }
 
+  // GET todo by Id
+  static async getTodoById(id) {
+    return await api.get(`/todos/${id}`);
+  }
+
   // ADD new todo
   static async addNewTodo(body) {
     return await api.post(`/todos`, body);

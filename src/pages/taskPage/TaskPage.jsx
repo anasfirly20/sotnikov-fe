@@ -40,12 +40,12 @@ const TaskPage = () => {
   const getAllTodos = async () => {
     try {
       const responseTodo = await todoApi.getAllTodo();
-      const todoFalse = responseTodo?.data?.filter(
-        (todo) => todo.completed === false
-      );
-      const todoTrue = responseTodo?.data?.filter(
-        (todo) => todo.completed === true
-      );
+      const todoFalse = responseTodo?.data
+        ?.filter((todo) => todo.completed === false)
+        .slice(0, 5);
+      const todoTrue = responseTodo?.data
+        ?.filter((todo) => todo.completed === true)
+        .slice(0, 5);
       const filteredTodo = [...todoFalse, ...todoTrue];
       setData(filteredTodo);
     } catch (err) {
@@ -136,6 +136,16 @@ const TaskPage = () => {
     }
   };
 
+  // GET todo by id
+  const getTodoById = async (id) => {
+    try {
+      const res = await todoApi.getTodoById(id);
+      setDataEdit(res?.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <section className="px-longer py-shorter2">
       <CustomSelect
@@ -181,7 +191,7 @@ const TaskPage = () => {
                 {dataInfo?.title && capitalizeFirstLetter(dataInfo?.title)}
               </h2>
             )}
-            <div className="flex flex-col">
+            <div>
               <p className="">
                 Status:{" "}
                 <span
@@ -198,7 +208,9 @@ const TaskPage = () => {
                     <ButtonComponent
                       label="Confirm"
                       className="bg-custom-blue-1 text-white hover:bg-custom-blue-2 active:bg-custom-blue-1"
-                      onClick={() => editTodoById(dataInfo?.id, dataEdit)}
+                      onClick={() => {
+                        editTodoById(dataInfo?.id, dataEdit);
+                      }}
                     />
                     <ButtonComponent
                       label="Cancel"
@@ -211,7 +223,10 @@ const TaskPage = () => {
                     <Icon
                       icon="bxs:edit"
                       className="text-3xl bottom-3 right-3 cursor-pointer"
-                      onClick={() => handleClickIsEdit(i)}
+                      onClick={() => {
+                        handleClickIsEdit(i);
+                        getTodoById(dataInfo?.id);
+                      }}
                     />
                     <Icon
                       icon="material-symbols:delete"
