@@ -26,8 +26,9 @@ export default class albumApi {
     return await api.get(`/photos/${id}`);
   }
 
-  // ADD new album
+  // ADD new album>
   static async addNewAlbum(body) {
+    console.log("ADDED ORIGIN >>", body);
     return await api.post(`/albums`, body);
   }
 }

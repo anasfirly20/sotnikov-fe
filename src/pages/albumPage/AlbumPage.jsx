@@ -149,7 +149,11 @@ const AlbumPage = () => {
 
   // ADD NEW ALBUM
   const [isOpenAddModal, setIsOpenAddModal] = useState(false);
-  const [newAlbumTitle, setNewAlbumTitle] = useState({});
+  const [newAlbumTitle, setNewAlbumTitle] = useState({
+    id: 101,
+    userId: 11,
+    title: "",
+  });
 
   const cancelAddAlbum = () => {
     setIsOpenAddModal(false);
@@ -158,8 +162,10 @@ const AlbumPage = () => {
   const addNewAlbum = async () => {
     try {
       const res = await albumApi.addNewAlbum(newAlbumTitle);
-      console.log("RES>>>", res);
-      // const updateData = [...data, ...res?.data];
+      const updateData = [...data, res?.data];
+      // console.log("RES>>>", res?.data);
+      console.log("UPDATED>>>", updateData);
+      setData(updateData);
     } catch (err) {
       console.log(err);
     }
@@ -196,7 +202,7 @@ const AlbumPage = () => {
           confirmAdd={addNewAlbum}
           show={isOpenAddModal}
           name="title"
-          value={newAlbumTitle?.title || ""}
+          value={newAlbumTitle?.title}
           handleChange={handleAddChange}
         />
         {data?.slice(0, selectedAlbumAmount)?.map((dataInfo, i) => (
@@ -235,7 +241,9 @@ const AlbumPage = () => {
                       navigate(`/album/${dataInfo?.id}`);
                     }}
                   >
-                    {capitalizeFirstLetter(dataInfo?.title)}
+                    {(dataInfo?.title &&
+                      capitalizeFirstLetter(dataInfo?.title)) ||
+                      ""}
                   </h3>
                 )}
                 <div className="relative">
@@ -318,7 +326,10 @@ const AlbumPage = () => {
                 />
               ) : (
                 <p className="text-gray-600 pSmaller">
-                  By {capitalizeFirstLetter(dataInfo?.user?.name)}
+                  By{" "}
+                  {(dataInfo?.user?.name &&
+                    capitalizeFirstLetter(dataInfo?.user?.name)) ||
+                    ""}
                 </p>
               )}
             </div>
