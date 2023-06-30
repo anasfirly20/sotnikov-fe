@@ -20,6 +20,7 @@ import { getAlbumDisplayed, capitalizeFirstLetter } from "../../../utils";
 import CustomSelect from "../../components/CustomSelect";
 import CustomModal from "../../components/CustomModal";
 import CustomInput from "../../components/CustomInput";
+import CustomFilter from "../../components/CustomFilter";
 import ModalAddAlbum from "../../components/ModalAddAlbum";
 
 const AlbumPage = () => {
@@ -191,8 +192,38 @@ const AlbumPage = () => {
     }
   };
 
+  // FILTER
+  const [selectedItemsAntd, setSelectedItemsAntd] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const filteredOptionsAntd = data?.filter(
+    (e) => !selectedItemsAntd.includes(e)
+  );
+
+  const getAlbumByIdFilter = async (ids) => {
+    try {
+      const promises = ids.map((id) => albumApi.getAlbumById(id));
+      const responses = await Promise.all(promises);
+      const albums = responses.map((res) => res.data);
+      setFilteredData(albums);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getAlbumByIdFilter(selectedItemsAntd);
+  }, [selectedItemsAntd]);
+
+  const dataToMap = filteredData.length > 0 ? filteredData : data;
+
   return (
     <section className="px-longer py-shorter2">
+      <CustomFilter
+        label="album"
+        value={selectedItemsAntd}
+        onChange={setSelectedItemsAntd}
+        dataToMap={filteredOptionsAntd}
+      />
       <CustomSelect
         label="Album displayed:"
         value={selectedAlbumAmount}
@@ -220,7 +251,7 @@ const AlbumPage = () => {
           nameAuthor="name"
           valueAuthor={newAlbumTitle?.user?.name}
         />
-        {data?.slice(0, selectedAlbumAmount)?.map((dataInfo, i) => (
+        {dataToMap?.slice(0, selectedAlbumAmount)?.map((dataInfo, i) => (
           <div
             key={i}
             className={`relative flex flex-col gap-y-2 text-custom-black shadow-lg animate300 bg-transparent rounded-t-xl hover:shadow-[2px_2px_16px_gray]

@@ -6,6 +6,11 @@ export default class albumApi {
     return await api.get(`/albums`);
   }
 
+  // GET All albums
+  static async getAlbumById(id) {
+    return await api.get(`/albums/${id}`);
+  }
+
   // DELETE album by Id
   static async deleteAlbumById(id) {
     return await api.delete(`/albums/${id}`);

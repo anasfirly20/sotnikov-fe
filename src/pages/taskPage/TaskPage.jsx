@@ -212,6 +212,7 @@ const TaskPage = () => {
   return (
     <section className="px-longer py-shorter2">
       <CustomFilter
+        label="task"
         value={selectedItemsAntd}
         onChange={setSelectedItemsAntd}
         dataToMap={filteredOptionsAntd}

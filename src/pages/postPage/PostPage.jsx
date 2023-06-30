@@ -247,6 +247,7 @@ const PostPage = () => {
   return (
     <section className="px-longer py-shorter2">
       <CustomFilter
+        label="post"
         value={selectedItemsAntd}
         onChange={setSelectedItemsAntd}
         dataToMap={filteredOptionsAntd}
