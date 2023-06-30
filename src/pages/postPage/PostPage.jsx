@@ -239,7 +239,6 @@ const PostPage = () => {
   };
 
   useEffect(() => {
-    console.log("TRIGGERED EFFECT");
     getTodoByIdFilters(selectedItemsAntd);
   }, [selectedItemsAntd]);
 

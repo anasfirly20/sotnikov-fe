@@ -19,6 +19,7 @@ import {
 import CustomSelect from "../../components/CustomSelect";
 import CustomModal from "../../components/CustomModal";
 import CustomInput from "../../components/CustomInput";
+import CustomFilter from "../../components/CustomFilter";
 import ModalAddTask from "../../components/ModalAddTask";
 import ButtonComponent from "../../components/ButtonComponent";
 
@@ -203,7 +204,6 @@ const TaskPage = () => {
   };
 
   useEffect(() => {
-    console.log("TRIGGERED EFFECT");
     getTodoByIdFilters(selectedItemsAntd);
   }, [selectedItemsAntd]);
 
@@ -211,22 +211,11 @@ const TaskPage = () => {
 
   return (
     <section className="px-longer py-shorter2">
-      <div className="flex flex-col mb-6">
-        <h3>Filter tasks by title</h3>
-        <Select
-          mode="multiple"
-          placeholder="Filter by title"
-          value={selectedItemsAntd}
-          onChange={setSelectedItemsAntd}
-          style={{
-            width: "100%",
-          }}
-          options={filteredOptionsAntd.map((item) => ({
-            value: item?.id,
-            label: item?.title,
-          }))}
-        />
-      </div>
+      <CustomFilter
+        value={selectedItemsAntd}
+        onChange={setSelectedItemsAntd}
+        dataToMap={filteredOptionsAntd}
+      />
       <CustomSelect
         label="Tasks displayed:"
         value={selectedTaskAmount}
