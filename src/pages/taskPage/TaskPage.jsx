@@ -224,16 +224,11 @@ const TaskPage = () => {
     (e) => !selectedItemsAntd.includes(e)
   );
 
-  useEffect(() => {
-    console.log("SELECTED>>", selectedItemsAntd);
-  }, [selectedItemsAntd]);
-
   const getTodoByIdFilters = async (ids) => {
     try {
       const promises = ids.map((id) => todoApi.getTodoById(id));
       const responses = await Promise.all(promises);
       const todos = responses.map((res) => res.data);
-      console.log("TODOS>>", todos);
       setFilteredData(todos);
     } catch (err) {
       console.log(err);
@@ -249,8 +244,8 @@ const TaskPage = () => {
 
   return (
     <section className="px-longer py-shorter2">
-      <div className="flex flex-col mb-3">
-        <h3>FILTER</h3>
+      <div className="flex flex-col mb-6">
+        <h3>Filter tasks by title</h3>
         <Select
           mode="multiple"
           placeholder="Filter by title"
