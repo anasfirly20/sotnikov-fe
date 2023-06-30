@@ -8,6 +8,7 @@ import commentApi from "./api/comment.api";
 // Miscellaneous
 import { Icon } from "@iconify/react";
 import { toast } from "react-hot-toast";
+import { Select } from "antd";
 
 // Constants
 import { CommentEditIcons, ConfirmCancelEditIcons } from "./constants";
@@ -219,9 +220,49 @@ const PostPage = () => {
     }
   };
 
+  // FILTER
+  const [selectedItemsAntd, setSelectedItemsAntd] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const filteredOptionsAntd = data?.filter(
+    (e) => !selectedItemsAntd.includes(e)
+  );
+
+  const getTodoByIdFilters = async (ids) => {
+    try {
+      const promises = ids.map((id) => postApi.getPostById(id));
+      const responses = await Promise.all(promises);
+      const posts = responses.map((res) => res.data);
+      setFilteredData(posts);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    console.log("TRIGGERED EFFECT");
+    getTodoByIdFilters(selectedItemsAntd);
+  }, [selectedItemsAntd]);
+
+  const dataToMap = filteredData.length > 0 ? filteredData : data;
+
   return (
     <section className="px-longer py-shorter2">
-      <CustomFilter />
+      <div className="flex flex-col mb-6">
+        <h3>Filter tasks by title</h3>
+        <Select
+          mode="multiple"
+          placeholder="Filter by title"
+          value={selectedItemsAntd}
+          onChange={setSelectedItemsAntd}
+          style={{
+            width: "100%",
+          }}
+          options={filteredOptionsAntd.map((item) => ({
+            value: item?.id,
+            label: item?.title,
+          }))}
+        />
+      </div>
       <CustomSelect
         label="Post displayed:"
         value={selectedPostAmount}
@@ -251,7 +292,7 @@ const PostPage = () => {
           nameAuthor="name"
           valueAuthor={newPost?.user?.name}
         />
-        {data?.slice(0, selectedPostAmount)?.map((dataInfo, i) => (
+        {dataToMap?.slice(0, selectedPostAmount)?.map((dataInfo, i) => (
           <div
             key={i}
             className={`pt-shorter2 lg:pt-shorter3 flex flex-col justify-between gap-y-5 rounded-t-md bg-custom-blue-3 text-custom-black shadow-lg animate300 ${
@@ -361,12 +402,14 @@ const PostPage = () => {
                 ) : (
                   <>
                     <h2 className="text-custom-blue-1">
-                      {capitalizeFirstLetter(dataInfo?.title)}
+                      {dataInfo?.title &&
+                        capitalizeFirstLetter(dataInfo?.title)}
                     </h2>
                     <p className="pSmaller2 text-gray-700">
                       Post made by{" "}
                       <span className="text-gray-700 font-semibold pSmaller2 hover:underline">
-                        {capitalizeFirstLetter(dataInfo?.user?.name)}
+                        {dataInfo?.user?.name &&
+                          capitalizeFirstLetter(dataInfo?.user?.name)}
                       </span>
                     </p>
                     <p className="pSmaller">{dataInfo?.body}</p>

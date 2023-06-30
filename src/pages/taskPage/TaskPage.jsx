@@ -59,39 +59,6 @@ const TaskPage = () => {
     }
   };
 
-  // const getAllTodos = async () => {
-  //   try {
-  //     const responseTodo = await todoApi.getAllTodo();
-  //     const todoFalse = responseTodo?.data?.filter(
-  //       (todo) => todo.completed === false
-  //     );
-  //     const todoTrue = responseTodo?.data?.filter(
-  //       (todo) => todo.completed === true
-  //     );
-  //     const filteredTodo = [...todoFalse, ...todoTrue].sort((a, b) => {
-  //       if (selectedItemsAntd.includes("completed")) {
-  //         if (a.completed && !b.completed) {
-  //           return 1;
-  //         } else if (!a.completed && b.completed) {
-  //           return -1;
-  //         }
-  //       }
-  //       if (selectedItemsAntd.includes("title")) {
-  //         const comparison = a.title.localeCompare(b.title);
-  //         if (comparison !== 0) {
-  //           return comparison;
-  //         }
-  //       }
-  //       return 0;
-  //     });
-  //     if (data.length === 0) {
-  //       setData(filteredTodo);
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
   useEffect(() => {
     getAllTodos();
   }, []);
