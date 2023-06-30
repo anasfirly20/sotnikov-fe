@@ -3,7 +3,6 @@ import React, { useState, useEffect, Fragment } from "react";
 // Miscellaneous
 import { Icon } from "@iconify/react";
 import { toast } from "react-hot-toast";
-import { Select } from "antd";
 
 // Api
 import todoApi from "./api/task.api";
@@ -335,4 +334,3 @@ const TaskPage = () => {
 };
 
 export default TaskPage;
-//
