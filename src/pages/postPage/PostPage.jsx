@@ -8,7 +8,6 @@ import commentApi from "./api/comment.api";
 // Miscellaneous
 import { Icon } from "@iconify/react";
 import { toast } from "react-hot-toast";
-import { Select } from "antd";
 
 // Constants
 import { CommentEditIcons, ConfirmCancelEditIcons } from "./constants";
