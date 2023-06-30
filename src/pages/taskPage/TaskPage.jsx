@@ -3,6 +3,7 @@ import React, { useState, useEffect, Fragment } from "react";
 // Miscellaneous
 import { Icon } from "@iconify/react";
 import { toast } from "react-hot-toast";
+import { Select } from "antd";
 
 // Api
 import todoApi from "./api/task.api";
@@ -44,20 +45,52 @@ const TaskPage = () => {
       const todoFalse = responseTodo?.data?.filter(
         (todo) => todo.completed === false
       );
-      // .slice(0, 5);
       const todoTrue = responseTodo?.data?.filter(
         (todo) => todo.completed === true
       );
-      // .slice(0, 5);
       const filteredTodo = [...todoFalse, ...todoTrue];
       if (data.length === 0) {
         console.log("TRIGGRED");
         setData(filteredTodo);
       }
+      setData(filteredTodo);
     } catch (err) {
       console.log(err);
     }
   };
+
+  // const getAllTodos = async () => {
+  //   try {
+  //     const responseTodo = await todoApi.getAllTodo();
+  //     const todoFalse = responseTodo?.data?.filter(
+  //       (todo) => todo.completed === false
+  //     );
+  //     const todoTrue = responseTodo?.data?.filter(
+  //       (todo) => todo.completed === true
+  //     );
+  //     const filteredTodo = [...todoFalse, ...todoTrue].sort((a, b) => {
+  //       if (selectedItemsAntd.includes("completed")) {
+  //         if (a.completed && !b.completed) {
+  //           return 1;
+  //         } else if (!a.completed && b.completed) {
+  //           return -1;
+  //         }
+  //       }
+  //       if (selectedItemsAntd.includes("title")) {
+  //         const comparison = a.title.localeCompare(b.title);
+  //         if (comparison !== 0) {
+  //           return comparison;
+  //         }
+  //       }
+  //       return 0;
+  //     });
+  //     if (data.length === 0) {
+  //       setData(filteredTodo);
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   useEffect(() => {
     getAllTodos();
@@ -76,6 +109,7 @@ const TaskPage = () => {
 
   const addNewTodo = async () => {
     try {
+      console.log("ADD TRIGGERED");
       if (newTask?.title) {
         const res = await todoApi.addNewTodo(newTask);
         const updateData = [res?.data, ...data];
@@ -184,8 +218,34 @@ const TaskPage = () => {
     setData(updateData);
   };
 
+  // FILTER
+  const [selectedItemsAntd, setSelectedItemsAntd] = useState([]);
+  const filteredOptionsAntd = data?.filter(
+    (e) => !selectedItemsAntd.includes(e)
+  );
+
+  useEffect(() => {
+    console.log("SELECTED>>", selectedItemsAntd);
+  }, [selectedItemsAntd]);
+
   return (
     <section className="px-longer py-shorter2">
+      <div className="flex flex-col mb-3">
+        <h3>FILTER</h3>
+        <Select
+          mode="multiple"
+          placeholder="Filter by title"
+          value={selectedItemsAntd}
+          onChange={setSelectedItemsAntd}
+          style={{
+            width: "100%",
+          }}
+          options={filteredOptionsAntd.map((item) => ({
+            value: item?.id,
+            label: item?.title,
+          }))}
+        />
+      </div>
       <CustomSelect
         label="Tasks displayed:"
         value={selectedTaskAmount}
