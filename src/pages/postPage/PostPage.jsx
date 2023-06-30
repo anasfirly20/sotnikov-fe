@@ -247,22 +247,11 @@ const PostPage = () => {
 
   return (
     <section className="px-longer py-shorter2">
-      <div className="flex flex-col mb-6">
-        <h3>Filter tasks by title</h3>
-        <Select
-          mode="multiple"
-          placeholder="Filter by title"
-          value={selectedItemsAntd}
-          onChange={setSelectedItemsAntd}
-          style={{
-            width: "100%",
-          }}
-          options={filteredOptionsAntd.map((item) => ({
-            value: item?.id,
-            label: item?.title,
-          }))}
-        />
-      </div>
+      <CustomFilter
+        value={selectedItemsAntd}
+        onChange={setSelectedItemsAntd}
+        dataToMap={filteredOptionsAntd}
+      />
       <CustomSelect
         label="Post displayed:"
         value={selectedPostAmount}
